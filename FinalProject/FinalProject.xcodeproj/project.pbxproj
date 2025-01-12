@@ -24,6 +24,7 @@
 		18361FA72D33F8CF000236B1 /* AuthDataResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18361FA62D33F8CF000236B1 /* AuthDataResultModel.swift */; };
 		18361FA92D33F8EE000236B1 /* EventType.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18361FA82D33F8EE000236B1 /* EventType.swift */; };
 		18361FAB2D33F919000236B1 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18361FAA2D33F918000236B1 /* ColorExtension.swift */; };
+		18361FAD2D33F9E2000236B1 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18361FAC2D33F9E2000236B1 /* TabBarController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -46,6 +47,7 @@
 		18361FA62D33F8CF000236B1 /* AuthDataResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDataResultModel.swift; sourceTree = "<group>"; };
 		18361FA82D33F8EE000236B1 /* EventType.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventType.swift; sourceTree = "<group>"; };
 		18361FAA2D33F918000236B1 /* ColorExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorExtension.swift; sourceTree = "<group>"; };
+		18361FAC2D33F9E2000236B1 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -94,6 +96,7 @@
 			children = (
 				18361F7C2D33F70B000236B1 /* AppDelegate.swift */,
 				18361F812D33F70B000236B1 /* SceneDelegate.swift */,
+				18361FAC2D33F9E2000236B1 /* TabBarController.swift */,
 			);
 			path = App;
 			sourceTree = "<group>";
@@ -254,6 +257,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				18361FA92D33F8EE000236B1 /* EventType.swift in Sources */,
+				18361FAD2D33F9E2000236B1 /* TabBarController.swift in Sources */,
 				18361F8F2D33F78D000236B1 /* LanguageManager.swift in Sources */,
 				18361F832D33F70B000236B1 /* AppDelegate.swift in Sources */,
 				18361F9D2D33F844000236B1 /* SearcPageViewModel.swift in Sources */,
