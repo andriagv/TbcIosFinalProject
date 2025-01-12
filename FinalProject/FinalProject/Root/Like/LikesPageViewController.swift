@@ -7,7 +7,7 @@
 
 import UIKit
 
-class LikesPageViewController: UIViewController {
+final class LikesPageViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()

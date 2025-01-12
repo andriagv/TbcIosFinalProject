@@ -8,7 +8,7 @@
 import Foundation
 import SwiftUI
 
-class LanguageManager: ObservableObject {
+final class LanguageManager: ObservableObject {
     static let shared = LanguageManager()
 
     @Published var selectedLanguage: String = "en" {
@@ -70,6 +70,6 @@ extension Bundle {
 
 extension String {
     func localized() -> String {
-        return Bundle.localizedString(forKey: self, value: nil, table: nil)
+        Bundle.localizedString(forKey: self, value: nil, table: nil)
     }
 }
