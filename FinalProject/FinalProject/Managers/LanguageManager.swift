@@ -8,31 +8,40 @@
 import Foundation
 import SwiftUI
 
-final class LanguageManager: ObservableObject {
+protocol LanguageManaging {
+    var selectedLanguage: String { get set }
+    var supportedLanguages: [String] { get }
+    func setLanguage(_ language: String)
+    func languageDisplayName(for languageCode: String) -> String
+}
+
+final class LanguageManager: ObservableObject, LanguageManaging {
     static let shared = LanguageManager()
 
-    @Published var selectedLanguage: String = "en" {
+    @Published var selectedLanguage: String {
         didSet {
+            saveLanguageToUserDefaults(selectedLanguage)
             updateLanguage(to: selectedLanguage)
         }
     }
-    
+
     init() {
-        if let savedLanguage = UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first {
-            selectedLanguage = savedLanguage
-            updateLanguage(to: savedLanguage)
-        }
+        let savedLanguage = UserDefaults.standard.string(forKey: "AppSelectedLanguage") ?? "en"
+        self.selectedLanguage = savedLanguage
+        updateLanguage(to: savedLanguage)
     }
 
     func setLanguage(_ language: String) {
         selectedLanguage = language
-        updateLanguage(to: language)
     }
 
     private func updateLanguage(to language: String) {
-        UserDefaults.standard.set([language], forKey: "AppleLanguages")
-        UserDefaults.standard.synchronize()
         Bundle.setLanguage(language)
+    }
+
+    private func saveLanguageToUserDefaults(_ language: String) {
+        UserDefaults.standard.set(language, forKey: "AppSelectedLanguage")
+        UserDefaults.standard.synchronize()
     }
 
     var supportedLanguages: [String] {
@@ -70,6 +79,6 @@ extension Bundle {
 
 extension String {
     func localized() -> String {
-        Bundle.localizedString(forKey: self, value: nil, table: nil)
+        return Bundle.localizedString(forKey: self, value: nil, table: nil)
     }
 }
