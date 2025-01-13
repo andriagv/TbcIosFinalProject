@@ -60,8 +60,6 @@ struct ProfileView: View {
             .padding(.horizontal)
         }
         .padding(.top)
-        
-        
     }
     
     private var languageSection: some View {

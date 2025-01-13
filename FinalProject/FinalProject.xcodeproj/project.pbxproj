@@ -26,6 +26,7 @@
 		18361FAB2D33F919000236B1 /* ColorExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18361FAA2D33F918000236B1 /* ColorExtension.swift */; };
 		18361FAD2D33F9E2000236B1 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18361FAC2D33F9E2000236B1 /* TabBarController.swift */; };
 		18361FB02D33FAD0000236B1 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 18361FAE2D33FAD0000236B1 /* Localizable.strings */; };
+		18E771052D35224600BE615B /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E771042D35224600BE615B /* StringExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		18361FAF2D33FAD0000236B1 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		18361FB12D33FAF7000236B1 /* ka */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ka; path = ka.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		18361FB22D33FAF7000236B1 /* ka */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ka; path = ka.lproj/Localizable.strings; sourceTree = "<group>"; };
+		18E771042D35224600BE615B /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -117,6 +119,7 @@
 		18361F8A2D33F73E000236B1 /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				18E771042D35224600BE615B /* StringExtension.swift */,
 				18361FAA2D33F918000236B1 /* ColorExtension.swift */,
 			);
 			path = Utilities;
@@ -274,6 +277,7 @@
 				18361F912D33F79F000236B1 /* DarkModeManager.swift in Sources */,
 				18361FA52D33F8A9000236B1 /* ProfileViewModel.swift in Sources */,
 				18361FAB2D33F919000236B1 /* ColorExtension.swift in Sources */,
+				18E771052D35224600BE615B /* StringExtension.swift in Sources */,
 				18361FA12D33F879000236B1 /* LikesPageViewModel.swift in Sources */,
 				18361F9F2D33F869000236B1 /* LikesPageViewController.swift in Sources */,
 				18361F972D33F800000236B1 /* HomePageViewController.swift in Sources */,

@@ -11,7 +11,6 @@ final class ProfileViewModel: ObservableObject {
     @Published var selectedTheme: AppTheme
     private let themeManager: ThemeManaging
     
-    
     init(themeManager: ThemeManaging = DarkModeManager.shared) {
         self.themeManager = themeManager
         self.selectedTheme = themeManager.currentTheme
