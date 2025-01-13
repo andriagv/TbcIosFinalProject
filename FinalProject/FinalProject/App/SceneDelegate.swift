@@ -18,6 +18,8 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         let tabBarController = TabBarController()
         window?.rootViewController = tabBarController
         window?.makeKeyAndVisible()
+
+        DarkModeManager().applyTheme(to: window)
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {

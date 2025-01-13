@@ -1,1 +1,9 @@
-"Hello word" = "გამარჯობა";
+//profile page
+"My Profile" = "ჩემი პროფილი";
+"Select Language" = "ენის არჩევა";
+"English" = "ინგლისური";
+"Georgian" = "ქართული";
+"Personal Notifications" = "ნოთიფიკაციები";
+"Dark Mode" = "ფონის ფერი";
+"Privacy Policy" = "უსაფრთხოება";
+"Logout" = "გასვლა";

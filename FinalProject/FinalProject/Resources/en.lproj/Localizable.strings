@@ -1,1 +1,9 @@
-"Hello word" = "Hello word";
+//profile page
+"My Profile" = "My Profile";
+"Select Language" = "Select Language";
+"English" = "English";
+"Georgian" = "Georgian";
+"Reserves" = "Reserves";
+"Dark Mode" = "Dark Mode";
+"Privacy Policy" = "Privacy Policy";
+"Logout" = "Logout";
