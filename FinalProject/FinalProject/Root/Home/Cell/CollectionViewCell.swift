@@ -11,12 +11,11 @@ final class CollectionViewCell: UICollectionViewCell {
     
     private let containerView: UIView = {
         let view = UIView()
-        view.backgroundColor = .white
-        view.layer.cornerRadius = 12
         view.layer.shadowColor = UIColor.black.cgColor
         view.layer.shadowOffset = CGSize(width: 0, height: 2)
-        view.layer.shadowRadius = 4
         view.layer.shadowOpacity = 0.1
+        view.layer.cornerRadius = 16
+        view.clipsToBounds = true
         return view
     }()
     
@@ -24,7 +23,7 @@ final class CollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        imageView.layer.cornerRadius = 12
+        //imageView.layer.cornerRadius = 12
         return imageView
     }()
     
@@ -76,8 +75,8 @@ final class CollectionViewCell: UICollectionViewCell {
     private lazy var locationLabel = createLabel(fontSize: 16)
     
     private lazy var timeLabel = createLabel(fontSize: 14)
-
-    private let infoButton: UIButton = {
+    
+    private let detailsButton: UIButton = {
         let button = UIButton()
         let config = UIImage.SymbolConfiguration(pointSize: 15, weight: .medium)
         let image = UIImage(systemName: "arrowshape.right.circle.fill", withConfiguration: config)
@@ -109,7 +108,7 @@ final class CollectionViewCell: UICollectionViewCell {
         contentView.addSubview(containerView)
         containerView.addSubview(imageView)
         containerView.addSubview(likeButton)
-        containerView.addSubview(infoButton)
+        containerView.addSubview(detailsButton)
         
         imageView.layer.insertSublayer(gradientLayer, at: 0)
         
@@ -119,7 +118,7 @@ final class CollectionViewCell: UICollectionViewCell {
         
         topRowStack.addArrangedSubview(locationLabel)
         topRowStack.addArrangedSubview(timeLabel)
-        topRowStack.addArrangedSubview(infoButton)
+        topRowStack.addArrangedSubview(detailsButton)
         
         containerStack.addArrangedSubview(topRowStack)
                 [
@@ -130,7 +129,7 @@ final class CollectionViewCell: UICollectionViewCell {
             containerStack,
             topRowStack,
             locationLabel,
-            infoButton,
+            detailsButton,
             timeLabel
         ].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
