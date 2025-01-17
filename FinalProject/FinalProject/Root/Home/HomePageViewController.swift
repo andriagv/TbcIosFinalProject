@@ -38,38 +38,21 @@ final class HomePageViewController: UIViewController {
         return imageView
     }()
     
-    private lazy var popularLabel = makeLabel(text: "Most popular places", fontSize: 18, weight: .semibold)
+    private lazy var popularLabel = makeLabel(text: "Most popular places", fontSize: 20, weight: .semibold)
     
     private let seeMoreButton: UIButton = {
         let button = UIButton(type: .system)
-        
         button.setTitle("See more", for: .normal)
-        button.setTitleColor(.white, for: .normal)
+        button.setTitleColor(.lableTint, for: .normal)
         button.titleLabel?.font = UIFont(name: "SourGummy-Bold", size: 16)
-        
-        button.backgroundColor = .systemGreen
-        
-        button.layer.cornerRadius = 8
-        button.clipsToBounds = true
-        
-        button.layer.shadowColor = UIColor.black.cgColor
-        button.layer.shadowOpacity = 0.2
-        button.layer.shadowOffset = CGSize(width: 2, height: 2)
-        button.layer.shadowRadius = 4
-        button.layer.masksToBounds = false
-        
-        button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.white.cgColor
-        
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
-
     
     private lazy var popularCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
-        layout.itemSize = CGSize(width: 290, height: 180)
+        layout.itemSize = CGSize(width: 290, height: 160)
         layout.minimumLineSpacing = 5
         
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
@@ -81,11 +64,12 @@ final class HomePageViewController: UIViewController {
     }()
     
     // MARK: - tableView elements
-    private lazy var forouLabel = makeLabel(text: "For You", fontSize: 20, weight: .bold, textColor: .blue)
+    private lazy var forouLabel = makeLabel(text: "For You", fontSize: 20, weight: .bold, textColor: .lableTint)
     
     private lazy var recommendedForYouTableView: UITableView = {
         let tb = UITableView()
         tb.translatesAutoresizingMaskIntoConstraints = false
+        tb.backgroundColor = .clear
         return tb
     }()
     
@@ -206,7 +190,7 @@ final class HomePageViewController: UIViewController {
         ])
     }
     
-    private func makeLabel(text: String?, fontSize: CGFloat, weight: UIFont.Weight, textColor: UIColor = .black, lines: Int = 1, fontName: String = "SourGummy-Bold") -> UILabel {
+    private func makeLabel(text: String?, fontSize: CGFloat, weight: UIFont.Weight, textColor: UIColor = .lableTint, lines: Int = 1, fontName: String = "SourGummy-Bold") -> UILabel {
         let label = UILabel()
         label.text = text
         label.font = UIFont(name: fontName, size: fontSize)
@@ -225,13 +209,16 @@ extension HomePageViewController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as? CollectionViewCell
         cell?.configure(event: viewModel.events[indexPath.row])
+        cell?.layer.shadowColor = UIColor.collectionShadow.cgColor
+        cell?.layer.shadowOffset = CGSize(width: 5, height: 5)
+        cell?.layer.shadowOpacity = 0.5
         return cell ?? UICollectionViewCell()
     }
 }
 
 extension HomePageViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        4
+        viewModel.events.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -239,7 +226,8 @@ extension HomePageViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         cell.backgroundColor = .clear
-        cell.configure(event: viewModel.events[indexPath.row])
+        let event: Event = viewModel.events[indexPath.row]
+        cell.configure(event: event)
         return cell
     }
 }

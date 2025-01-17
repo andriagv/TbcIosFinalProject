@@ -11,8 +11,8 @@ final class TableViewCell: UITableViewCell {
     private let containerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .systemGray5
-        view.layer.cornerRadius = 8
+        view.backgroundColor = .tableCellBackground
+        view.layer.cornerRadius = 16
         view.clipsToBounds = true
         return view
     }()
@@ -41,7 +41,7 @@ final class TableViewCell: UITableViewCell {
         let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
         let image = UIImage(systemName: "arrowshape.right.circle.fill", withConfiguration: config)
         button.setImage(image, for: .normal)
-        button.tintColor = .white
+        button.tintColor = .systemGray
         return button
     }()
     
@@ -108,7 +108,7 @@ final class TableViewCell: UITableViewCell {
         ])
     }
     
-    private func makeLabel(text: String?, fontSize: CGFloat, weight: UIFont.Weight, textColor: UIColor = .black, lines: Int = 1, fontName: String = "SourGummy-Bold") -> UILabel {
+    private func makeLabel(text: String?, fontSize: CGFloat, weight: UIFont.Weight, textColor: UIColor = .dateLabelTint, lines: Int = 1, fontName: String = "SourGummy-Bold") -> UILabel {
         let label = UILabel()
         label.text = text
         label.font = UIFont(name: fontName, size: fontSize)
