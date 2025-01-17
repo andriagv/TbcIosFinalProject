@@ -11,9 +11,6 @@ final class CollectionViewCell: UICollectionViewCell {
     
     private let containerView: UIView = {
         let view = UIView()
-        view.layer.shadowColor = UIColor.black.cgColor
-        view.layer.shadowOffset = CGSize(width: 0, height: 2)
-        view.layer.shadowOpacity = 0.1
         view.layer.cornerRadius = 16
         view.clipsToBounds = true
         return view
@@ -23,7 +20,6 @@ final class CollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
-        //imageView.layer.cornerRadius = 12
         return imageView
     }()
     
@@ -164,7 +160,7 @@ final class CollectionViewCell: UICollectionViewCell {
     
     private func createLabel(fontSize: CGFloat) -> UILabel {
         let label = UILabel()
-        label.font = UIFont(name: "SourGummy-ThinItalic", size: fontSize)
+        label.font = UIFont(name: "SourGummy-Bold", size: fontSize)
         label.textColor = .white
         return label
     }
