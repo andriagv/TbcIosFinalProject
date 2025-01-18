@@ -10,24 +10,36 @@ import SwiftUI
 struct SearchView: View {
     @StateObject var viewModel = SearchPageViewModel()
     @State private var isFilterSheetPresented = false
+    @State private var isSmalCardPresented = true
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 0) {
+            VStack() {
                 HStack {
-                    TextField("Search events...", text: $viewModel.searchText)
-                        .padding(10)
-                        .background(Color(.systemGray5))
-                        .cornerRadius(8)
+                    HStack {
+                        TextField("Search events...", text: $viewModel.searchText)
+                        Spacer()
+                        Button {
+                            isFilterSheetPresented.toggle()
+                        } label: {
+                            Image(systemName: "line.horizontal.3.decrease.circle")
+                                .font(.title2)
+                                .foregroundColor(.blue)
+                        }
+                    }
+                    .padding(10)
+                    .background(Color(.systemGray5))
+                    .cornerRadius(8)
                     // სასურველია, რომ ყოველ ცვლილებაზე მოვახდინოთ გადაფილტრვა
                     //                        .onChange(of: viewModel.searchText) { _ in
                     //                            viewModel.fetchAndFilterEvents()
                     //                        }
                     
+                    
                     Button {
-                        isFilterSheetPresented.toggle()
+                        isSmalCardPresented.toggle()
                     } label: {
-                        Image(systemName: "line.horizontal.3.decrease.circle")
+                        Image(systemName: isSmalCardPresented ? "lineweight" : "tablecells.fill")
                             .font(.title2)
                             .foregroundColor(.blue)
                     }
@@ -35,14 +47,25 @@ struct SearchView: View {
                 .padding(.horizontal)
                 .padding(.vertical, 10)
                 ScrollView {
-                    LazyVGrid(
-                        columns: [
-                            GridItem(.adaptive(minimum: 150, maximum: 200))
-                        ],
-                        spacing: 20
-                    ) {
-                        ForEach(viewModel.filteredEvents) { event in
-                            CartView(event: event)
+                    VStack(spacing: 20) {
+                        if isSmalCardPresented {
+                            LazyVGrid(
+                                columns: [
+                                    GridItem(.adaptive(minimum: 140, maximum: 200))
+                                ],
+                                spacing: 20
+                            ) {
+                                ForEach(viewModel.filteredEvents) { event in
+                                    CartSmallView(event: event)
+                                }
+                            }
+                        } else {
+                            LazyVStack(spacing: 140) {
+                                ForEach(viewModel.filteredEvents) { event in
+                                    CartBigView(event: event)
+                                }
+                            }
+                            .padding(.top, 50)
                         }
                     }
                     .padding(.horizontal)
@@ -60,5 +83,5 @@ struct SearchView: View {
 }
 
 #Preview {
-    TabBarController()
+    SearchView()
 }
