@@ -10,7 +10,7 @@ import SwiftUI
 struct SearchView: View {
     @StateObject var viewModel = SearchPageViewModel()
     @State private var isFilterSheetPresented = false
-    @State private var isSmalCardPresented = true
+    @State private var isSmalCardPresented = false
     
     var body: some View {
         NavigationView {
@@ -60,12 +60,12 @@ struct SearchView: View {
                                 }
                             }
                         } else {
-                            LazyVStack(spacing: 140) {
+                            LazyVStack(spacing: 30) {
                                 ForEach(viewModel.filteredEvents) { event in
                                     CartBigView(event: event)
                                 }
                             }
-                            .padding(.top, 50)
+                            .padding(.top, 10)
                         }
                     }
                     .padding(.horizontal)

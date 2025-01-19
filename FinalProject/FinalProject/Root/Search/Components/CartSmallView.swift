@@ -19,46 +19,71 @@ struct CartSmallView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            VStack {
+        VStack(spacing: 0) {
+            // Image Section
+            ZStack(alignment: .topTrailing) {
                 if let firstPhoto = event.photos.first {
                     Image(firstPhoto)
                         .resizable()
                         .scaledToFill()
-                        .frame(width: 150, height: 100)
-                        .cornerRadius(10)
-                        .clipped()
-                        .shadow(color: .collectionShadow.opacity(0.6), radius: 10, x: 0, y: 5)
+                        .frame(height: 100)
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                        .opacity(colorScheme == .dark ? 0.9 : 1)
                 } else {
                     Image(systemName: "photo")
+                        .font(.system(size: 40))
+                        .foregroundColor(.gray)
+                        .frame(height: 100)
+                        .frame(maxWidth: .infinity)
+                        .background(Color(.systemGray6))
+                        .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
+                }
+                
+                // Like Button (smaller size)
+                Button(action: { isLiked.toggle() }) {
+                    Circle()
+                        .fill(Color(.systemBackground))
+                        .frame(width: 30, height: 30)
+                        .overlay(
+                            Image(systemName: isLiked ? "heart.fill" : "heart")
+                                .font(.system(size: 12))
+                                .foregroundStyle(isLiked ? Color.red : Color.gray)
+                        )
+                        .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+                }
+                .padding(8)
+            }
+            VStack(spacing: 8) {
+                VStack(spacing: 6) {
+                    CompactDetailRow(
+                        icon: "mappin.circle.fill",
+                        iconColor: .red,
+                        text: event.name
+                    )
+                    CompactDetailRow(
+                        icon: "clock.fill",
+                        iconColor: .blue,
+                        text: event.date.startDate
+                    )
+                    CompactPriceRow(
+                        startPrice: event.price.startPrice,
+                        discountedPrice: event.price.discountedPrice
+                    )
                 }
             }
-            VStack(alignment: .leading, spacing: 4) {
-                HStack {
-                    Image(systemName: "mappin.circle")
-                    Text(event.name)
-                        .makeTextStyle(color: .primary, size: 14, font: "SourGummy-Bold")
-                }
-                HStack {
-                    Image(systemName: "clock")
-                    Text(event.date.startDate)
-                        .makeTextStyle(color: .primary, size: 14, font: "SourGummy-Bold")
-                }
-                HStack {
-                    Image(systemName: "dollarsign.circle")
-                    Text("price: \(event.price.startPrice, specifier: "%.2f")")
-                        .makeTextStyle(color: .primary, size: 14, font: "SourGummy-Bold")
-                }
-            }
-            .padding(.top, 8)
+            .padding(8)
+            .background(Color(.systemBackground))
         }
-        .frame(width: 160, height: 220)
-        .padding(.horizontal, 8)
-        .background(.tableCellBackground)
-        .cornerRadius(10)
-        .shadow(color: .collectionShadow.opacity(0.4), radius: 5, x: 0, y: 3)
+        .frame(width: 160)
+        .background(Color(.systemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 12))
+        .shadow(color: .collectionShadow.opacity(0.1), radius: 8, x: 0, y: 3)
     }
 }
+
+
+
+
 
 
 #Preview() {
@@ -66,7 +91,7 @@ struct CartSmallView: View {
         id: UUID().uuidString,
         name: "ulamazesi usba",
         type: .hiking,
-        price: Price(startPrice: 20.0, discountedPrice: nil),
+        price: Price(startPrice: 20.0, discountedPrice: 14),
         date: EventDate(startDate: "2025-03-05", endDate: nil, durationInDays: 1),
         location: Location(latitude: 41.7151, longitude: 44.8271, address: "Mtatsminda Park", city: "svaneti"),
         seats: Seats(total: 30, available: 15),
