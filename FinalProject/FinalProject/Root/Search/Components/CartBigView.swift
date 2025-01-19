@@ -19,61 +19,84 @@ struct CartBigView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20) {
-            VStack {
+        VStack(spacing: 0) {
+            ZStack(alignment: .topTrailing) {
                 Image(event.photos.first ?? "photo")
                     .resizable()
                     .scaledToFill()
-                    .frame(width: UIScreen.main.bounds.width - 64, height: (UIScreen.main.bounds.width - 64) * 0.75)
-                    .cornerRadius(20)
-                    .clipped()
+                    .frame(height: UIScreen.main.bounds.width * 0.6)
+                    .frame(width: UIScreen.main.bounds.width * 0.8)
+                    .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                     .opacity(colorScheme == .dark ? 0.9 : 1)
-                    .shadow(color: .collectionShadow.opacity(0.6), radius: 10, x: 0, y: 5)
+                Button(action: { isLiked.toggle() }) {
+                    Circle()
+                        .fill(Color(.systemBackground))
+                        .frame(width: 30, height: 30)
+                        .overlay(
+                            Image(systemName: isLiked ? "heart.fill" : "heart")
+                                .foregroundStyle(isLiked ? Color.red : Color.gray)
+                        )
+                        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+                }
+                .padding(16)
             }
-            VStack(alignment: .leading, spacing: 4) {
-                HStack {
-                    Image(systemName: "mappin.circle")
-                    Text(event.name)
-                        .makeTextStyle(color: .primary, size: 20, font: "SourGummy-Bold")
+            VStack(spacing: 10) {
+                HStack() {
+                    VStack(spacing: 12) {
+                        DetailRow(
+                            icon: "mappin.circle.fill",
+                            iconColor: .red,
+                            text: event.name
+                        )
+                        DetailRow(
+                            icon: "clock.fill",
+                            iconColor: .blue,
+                            text: DateFormatterManager.shared.formatDate(event.date.startDate)
+                        )
+                    }
+                    VStack(spacing: 12) {
+                        DetailRow(
+                            icon: "tent.2.circle.fill",
+                            iconColor: .red,
+                            text: "\(event.type)"
+                        )
+                        DetailRow(
+                            icon: "figure.walk.circle.fill",
+                            iconColor: .blue,
+                            text: "\(event.seats.available) / \(event.seats.total)")
+                    }
                 }
-                HStack {
-                    Image(systemName: "clock")
-                    Text(event.date.startDate)
-                        .makeTextStyle(color: .primary, size: 20, font: "SourGummy-Bold")
-                }
-                HStack {
-                    Image(systemName: "dollarsign.circle")
-                    Text("price: \(event.price.startPrice, specifier: "%.2f")")
-                        .makeTextStyle(color: .primary, size: 20, font: "SourGummy-Bold")
-                }
+                PriceDisplayView(
+                    startPrice: event.price.startPrice,
+                    discountedPrice: event.price.discountedPrice
+                )
             }
+            .padding()
+            .background(.pageBack)
+            .clipShape(RoundedRectangle(cornerRadius: 20))
+            .padding(.top)
+            .shadow(
+                color: .collectionShadow.opacity(0.5),
+                radius: 10,
+                x: 2,
+                y: 2
+            )
+            
         }
         .padding()
-        .background(.tableCellBackground)
-        .cornerRadius(16)
-        .shadow(color: .collectionShadow.opacity(0.4), radius: 5, x: 0, y: 3)
-        .frame(
-            width: UIScreen.main.bounds.width - 32,
-            height: (UIScreen.main.bounds.width - 32) * 0.75
+        .background(Color(.systemBackground))
+        .clipShape(RoundedRectangle(cornerRadius: 20))
+        .shadow(
+            color: .collectionShadow.opacity(0.3),
+            radius: 15,
+            x: 0,
+            y: 5
         )
-        
+        .padding(.horizontal, 16)
     }
 }
 
+
 #Preview() {
-    CartBigView(event: Event(
-        id: UUID().uuidString,
-        name: "ulamazesi usba",
-        type: .hiking,
-        price: Price(startPrice: 20.0, discountedPrice: nil),
-        date: EventDate(startDate: "2025-03-05", endDate: nil, durationInDays: 1),
-        location: Location(latitude: 41.7151, longitude: 44.8271, address: "Mtatsminda Park", city: "svaneti"),
-        seats: Seats(total: 30, available: 15),
-        photos: ["svaneti"],
-        organizerContact: "hikegeorgia@gmail.com",
-        requirements: ["Comfortable Shoes"],
-        tags: ["City", "Adventure"],
-        isFavorite: true,
-        description: "Experience the beauty of Tbilisi with a guided hiking tour."
-    ) )
+    SearchView()
 }
