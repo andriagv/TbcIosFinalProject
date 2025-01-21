@@ -91,7 +91,6 @@ struct EventDetailsView: View {
                 Text(event.name)
                     .font(.title)
                     .fontWeight(.bold)
-                    
                 
                 if let discountedPrice = event.price.discountedPrice {
                     HStack(alignment: .firstTextBaseline, spacing: 8) {
@@ -117,25 +116,23 @@ struct EventDetailsView: View {
                 InfoCard(icon: "mappin", title: "Location", value: formatLocation())
                 InfoCard(icon: "person.2.fill", title: "Availability", value: "\(event.seats.available) spots left")
                 InfoCard(icon: "clock", title: "Duration", value: formatDuration())
-                    
             }
-            
             VStack(alignment: .leading, spacing: 12) {
                 Text("About")
                     .font(.title3)
                     .fontWeight(.bold)
-                
                 Text(event.description)
                     .foregroundStyle(.secondary)
             }
             
-            if !event.tags!.isEmpty {
+            if !(event.tags?.isEmpty ?? true) {
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Tags")
                         .font(.title3)
                         .fontWeight(.bold)
                     
                     FlowLayout(spacing: 8) {
+                        //FIXME: - ! mark
                         ForEach(event.tags!, id: \.self) { tag in
                             Text(tag)
                                 .font(.footnote)
@@ -170,9 +167,7 @@ struct EventDetailsView: View {
                             .foregroundColor(.blue)
                     }
                 }
-                
                 Spacer()
-                
                 Button(action: {}) {
                     Text("Book now")
                         .fontWeight(.semibold)
@@ -185,7 +180,6 @@ struct EventDetailsView: View {
             }
             .padding()
         }
-        
         .overlay(
             Rectangle()
                 .frame(height: 1)
