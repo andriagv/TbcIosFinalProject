@@ -56,13 +56,17 @@ struct SearchView: View {
                                 spacing: 20
                             ) {
                                 ForEach(viewModel.filteredEvents) { event in
-                                    CartSmallView(event: event)
+                                    NavigationLink(destination: EventDetailsView(event: event)) {
+                                        CartSmallView(event: event)
+                                    }
                                 }
                             }
                         } else {
                             LazyVStack(spacing: 30) {
                                 ForEach(viewModel.filteredEvents) { event in
-                                    CartBigView(event: event)
+                                    NavigationLink(destination: EventDetailsView(event: event)) {
+                                        CartBigView(event: event)
+                                    }
                                 }
                             }
                             .padding(.top, 10)
