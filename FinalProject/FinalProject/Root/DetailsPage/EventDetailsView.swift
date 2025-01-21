@@ -30,6 +30,7 @@ struct EventDetailsView: View {
         }
         .ignoresSafeArea(edges: .top)
         .navigationBarBackButtonHidden(true)
+        .navigationBarHidden(true)
         .background(.pageBack)
     }
     
@@ -46,20 +47,20 @@ struct EventDetailsView: View {
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
             .frame(height: 400)
             
-            HStack {
-                Button(action: {
-                    presentationMode.wrappedValue.dismiss()
-                }) {
-                    SmallButtonView(imageSystemName: "arrow.left", fontSize: 20)
-                        .padding(.leading, 16)
-                }
-                Spacer()
-                Button(action: { isFavorite.toggle() }) {
-                    SmallButtonView(imageSystemName: isFavorite ? "heart.fill" : "heart", fontSize: 20)
-                        .padding(.trailing, 16)
-                }
-            }
-            .padding(.top, 64)
+                        HStack {
+                            Button(action: {
+                                presentationMode.wrappedValue.dismiss()
+                            }) {
+                                SmallButtonView(imageSystemName: "arrow.left", fontSize: 20)
+                                    .padding(.leading, 16)
+                            }
+                            Spacer()
+                            Button(action: { isFavorite.toggle() }) {
+                                SmallButtonView(imageSystemName: isFavorite ? "heart.fill" : "heart", fontSize: 20)
+                                    .padding(.trailing, 16)
+                            }
+                        }
+                        .padding(.top, 64)
         }
     }
     
