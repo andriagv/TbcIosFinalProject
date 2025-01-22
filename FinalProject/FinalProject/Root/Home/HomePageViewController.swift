@@ -48,7 +48,7 @@ final class HomePageViewController: UIViewController {
     
     private lazy var popularLabel: UILabel = {
         let label = UILabel()
-        label.text = "Most Popular Places"
+        label.text = "Most Popular places".localized()
         label.font = UIFont(name: "SourGummy-Bold", size: 20)
         label.textColor = .label
         return label
@@ -56,7 +56,7 @@ final class HomePageViewController: UIViewController {
     
     private lazy var seeMoreButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("See more", for: .normal)
+        button.setTitle("See more".localized(), for: .normal)
         button.setTitleColor(.systemGray, for: .normal)
         button.titleLabel?.font = UIFont(name: "SourGummy-ThinItalic", size: 16)
         return button
@@ -76,7 +76,7 @@ final class HomePageViewController: UIViewController {
     
     private lazy var forouLabel: UILabel = {
         let label = UILabel()
-        label.text = "For You"
+        label.text = "For you".localized()
         label.font = UIFont(name: "SourGummy-Bold", size: 20)
         return label
     }()
@@ -235,22 +235,18 @@ extension HomePageViewController: UICollectionViewDataSource, UICollectionViewDe
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView,
-                        didSelectItemAt indexPath: IndexPath
-    ) {
+    func collectionView(_ collectionView: UICollectionView,didSelectItemAt indexPath: IndexPath) {
+        
         let event = viewModel.events[indexPath.row]
         let detailsView = EventDetailsView(event: event)
         let hostingController = UIHostingController(rootView: detailsView)
-        hostingController.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(hostingController, animated: true)
     }
 }
 
 // MARK: - UITableViewDataSource, UITableViewDelegate
 extension HomePageViewController: UITableViewDataSource, UITableViewDelegate {
-    func tableView(_ tableView: UITableView,
-                   numberOfRowsInSection section: Int
-    ) -> Int {
+    func tableView(_ tableView: UITableView,numberOfRowsInSection section: Int) -> Int {
         viewModel.forYouEvents.count
     }
     
