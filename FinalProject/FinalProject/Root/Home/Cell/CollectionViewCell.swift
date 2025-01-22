@@ -9,6 +9,8 @@ import UIKit
 
 final class CollectionViewCell: UICollectionViewCell {
     
+    private var isFavorite: Bool
+    
     private let containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 16
@@ -36,8 +38,7 @@ final class CollectionViewCell: UICollectionViewCell {
     private let likeButton: UIButton = {
         let button = UIButton()
         let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)
-        let image = UIImage(systemName: "heart", withConfiguration: config)
-        button.setImage(image, for: .normal)
+        button.setImage(UIImage(systemName: "heart"), for: .normal)
         button.tintColor = .white
         button.backgroundColor = UIColor.black.withAlphaComponent(0.35)
         button.layer.cornerRadius = 15
@@ -68,20 +69,14 @@ final class CollectionViewCell: UICollectionViewCell {
         return stack
     }()
     
-    private lazy var locationLabel = createLabel(fontSize: 16)
+    private lazy var locationLabel = createLabel(fontSize: 16, fontName: "SourGummy-Light")
     
-    private lazy var timeLabel = createLabel(fontSize: 14)
+    private lazy var timeLabel = createLabel(fontSize: 15, fontName: "SourGummy-Light", tintColor: .red)
     
-    private let detailsButton: UIButton = {
-        let button = UIButton()
-        let config = UIImage.SymbolConfiguration(pointSize: 15, weight: .medium)
-        let image = UIImage(systemName: "arrowshape.right.circle.fill", withConfiguration: config)
-        button.setImage(image, for: .normal)
-        button.tintColor = .white
-        return button
-    }()
+    private lazy var prite = createLabel(fontSize: 14, fontName: "SourGummy-Bold")
     
     override init(frame: CGRect) {
+        isFavorite = true
         super.init(frame: frame)
         setupViews()
     }
@@ -89,7 +84,7 @@ final class CollectionViewCell: UICollectionViewCell {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
+    
     override func layoutSubviews() {
         super.layoutSubviews()
         containerView.layer.shadowPath = UIBezierPath(
@@ -104,7 +99,6 @@ final class CollectionViewCell: UICollectionViewCell {
         contentView.addSubview(containerView)
         containerView.addSubview(imageView)
         containerView.addSubview(likeButton)
-        containerView.addSubview(detailsButton)
         
         imageView.layer.insertSublayer(gradientLayer, at: 0)
         
@@ -114,10 +108,10 @@ final class CollectionViewCell: UICollectionViewCell {
         
         topRowStack.addArrangedSubview(locationLabel)
         topRowStack.addArrangedSubview(timeLabel)
-        topRowStack.addArrangedSubview(detailsButton)
+        topRowStack.addArrangedSubview(prite)
         
         containerStack.addArrangedSubview(topRowStack)
-                [
+        [
             containerView,
             imageView,
             likeButton,
@@ -125,7 +119,7 @@ final class CollectionViewCell: UICollectionViewCell {
             containerStack,
             topRowStack,
             locationLabel,
-            detailsButton,
+            prite,
             timeLabel
         ].forEach {
             $0.translatesAutoresizingMaskIntoConstraints = false
@@ -142,11 +136,6 @@ final class CollectionViewCell: UICollectionViewCell {
             imageView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor),
             imageView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
             
-            likeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 12),
-            likeButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
-            likeButton.widthAnchor.constraint(equalToConstant: 30),
-            likeButton.heightAnchor.constraint(equalToConstant: 30),
-            
             blackOverlayView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
             blackOverlayView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
             blackOverlayView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -12),
@@ -156,27 +145,75 @@ final class CollectionViewCell: UICollectionViewCell {
             containerStack.trailingAnchor.constraint(equalTo: blackOverlayView.trailingAnchor, constant: -8),
             containerStack.bottomAnchor.constraint(equalTo: blackOverlayView.bottomAnchor, constant: -8),
         ])
+        setupLikeButton()
     }
     
-    private func createLabel(fontSize: CGFloat) -> UILabel {
+    private func setupLikeButton() {
+        likeButton.setImage(UIImage(systemName: self.isFavorite ? "heart.fill" : "heart"), for: .normal)
+        likeButtonAction()
+        
+        NSLayoutConstraint.activate([
+            likeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 12),
+            likeButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
+            likeButton.widthAnchor.constraint(equalToConstant: 30),
+            likeButton.heightAnchor.constraint(equalToConstant: 30)
+        ])
+    }
+    
+    private func likeButtonAction() {
+        likeButton.removeTarget(nil, action: nil, for: .allEvents)
+        
+        likeButton.addAction(UIAction(handler: { [weak self] _ in
+            guard let self = self else { return }
+            
+            self.isFavorite.toggle()
+            
+            self.likeButton.setImage(
+                UIImage(systemName: self.isFavorite ? "heart.fill" : "heart"),
+                for: .normal
+            )
+            self.likeButton.tintColor = isFavorite ? .red : .white
+            
+            self.updateFavoriteStatusInDatabase(isFavorite: self.isFavorite)
+        }), for: .touchUpInside)
+    }
+    
+    private func updateFavoriteStatusInDatabase(isFavorite: Bool) {
+        //        let eventId = "event1" // შესაბამისი ივენთის ID
+        //        let databaseRef = Database.database().reference()
+        //        databaseRef.child("events").child(eventId).updateChildValues(["isFavorite": isFavorite]) { error, _ in
+        //            if let error = error {
+        //                print("Firebase update error: \(error.localizedDescription)")
+        //            } else {
+        //                print("Successfully updated isFavorite to \(isFavorite)")
+        //            }
+        //        }
+    }
+    
+    private func createLabel(fontSize: CGFloat, fontName: String, tintColor: UIColor = .white) -> UILabel {
         let label = UILabel()
-        label.font = UIFont(name: "SourGummy-Bold", size: fontSize)
+        label.font = UIFont(name: fontName, size: fontSize)
         label.textColor = .white
+        label.tintColor = tintColor
+        
         return label
     }
     
     func configure(event: Event) {
         locationLabel.text = event.location.city
         timeLabel.text = "\(event.date.startDate)"
+        prite.text = "\(Int(event.price.startPrice)) $"
         if let imageName = event.photos.first {
             imageView.image = UIImage(named: imageName)
         } else {
             imageView.image = nil
         }
+        isFavorite = event.isFavorite
+        
+        setupLikeButton()
     }
 }
 
 #Preview {
     HomePageViewController()
 }
-

@@ -8,6 +8,7 @@
 import UIKit
 
 final class TableViewCell: UITableViewCell {
+    
     private let containerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -17,11 +18,14 @@ final class TableViewCell: UITableViewCell {
         return view
     }()
     
-    private lazy var locationLabel = makeLabel(text: "ragaca", fontSize: 15, weight: .medium)
-    private lazy var locationIcon = maakeIcon(iconName: "mappin.and.ellipse.circle")
-        
+    private lazy var nameLabel = makeLabel(text: "ragaca", fontSize: 15, weight: .medium)
+    private lazy var nameIcon = maakeIcon(iconName: "mappin.and.ellipse.circle")
+    
     private lazy var dateLabel = makeLabel(text: "kaierti", fontSize: 15, weight: .medium)
     private lazy var dateIcon = maakeIcon(iconName: "calendar.badge.clock")
+    
+    private lazy var priceLabel = makeLabel(text: "kaierti", fontSize: 15, weight: .medium)
+    private lazy var priceIcon = maakeIcon(iconName: "dollarsign.circle")
     
     private let ImageView: UIImageView = {
         let ImageView = UIImageView()
@@ -36,14 +40,9 @@ final class TableViewCell: UITableViewCell {
     
     private lazy var detailStackView = makeStackView(axis: .vertical, alignment: .leading, spacing: 8)
     
-    private let detailsButton: UIButton = {
-        let button = UIButton()
-        let config = UIImage.SymbolConfiguration(pointSize: 30, weight: .medium)
-        let image = UIImage(systemName: "arrowshape.right.circle.fill", withConfiguration: config)
-        button.setImage(image, for: .normal)
-        button.tintColor = .systemGray
-        return button
-    }()
+    private lazy var nameTitleStackView = makeStackView(axis: .horizontal, alignment: .leading, spacing: 8)
+    
+    private lazy var priceAndDataStackView = makeStackView(axis: .horizontal, alignment: .center, distribution: .equalSpacing, spacing: 50)
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -70,10 +69,7 @@ final class TableViewCell: UITableViewCell {
             mainStackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 12),
             mainStackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 12),
             mainStackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
-            mainStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -12),
-            
-            detailsButton.widthAnchor.constraint(equalToConstant: 80),
-            detailsButton.heightAnchor.constraint(equalToConstant: 40)
+            mainStackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -12)
         ])
         
         setupMainstackView()
@@ -82,26 +78,33 @@ final class TableViewCell: UITableViewCell {
     private func setupMainstackView() {
         mainStackView.addArrangedSubview(ImageView)
         mainStackView.addArrangedSubview(detailStackView)
-        mainStackView.addArrangedSubview(detailsButton)
         
         setupDetailStackView()
     }
     
     private func setupDetailStackView() {
-        let locationStackView = makeStackView(axis: .horizontal, alignment: .center, spacing: 8)
-        locationStackView.addArrangedSubview(locationIcon)
-        locationStackView.addArrangedSubview(locationLabel)
+        let nameStackView = makeStackView(axis: .horizontal, alignment: .center, spacing: 8)
+        nameStackView.addArrangedSubview(nameIcon)
+        nameStackView.addArrangedSubview(nameLabel)
         
         let dateStackView = makeStackView(axis: .horizontal, alignment: .center, spacing: 8)
         dateStackView.addArrangedSubview(dateIcon)
         dateStackView.addArrangedSubview(dateLabel)
         
-        detailStackView.addArrangedSubview(locationStackView)
-        detailStackView.addArrangedSubview(dateStackView)
+        let priceStackView = makeStackView(axis: .horizontal, alignment: .center, spacing: 8)
+        priceStackView.addArrangedSubview(priceIcon)
+        priceStackView.addArrangedSubview(priceLabel)
+        
+        detailStackView.addArrangedSubview(nameTitleStackView)
+        detailStackView.addArrangedSubview(priceAndDataStackView)
+        
+        nameTitleStackView.addArrangedSubview(nameStackView)
+        priceAndDataStackView.addArrangedSubview(dateStackView)
+        priceAndDataStackView.addArrangedSubview(priceStackView)
         
         NSLayoutConstraint.activate([
-            locationIcon.widthAnchor.constraint(equalToConstant: 20),
-            locationIcon.heightAnchor.constraint(equalToConstant: 20),
+            nameIcon.widthAnchor.constraint(equalToConstant: 20),
+            nameIcon.heightAnchor.constraint(equalToConstant: 20),
             
             dateIcon.widthAnchor.constraint(equalToConstant: 20),
             dateIcon.heightAnchor.constraint(equalToConstant: 20)
@@ -137,8 +140,9 @@ final class TableViewCell: UITableViewCell {
     }
     
     func configure(event: Event) {
-        locationLabel.text = event.location.city
+        nameLabel.text = event.name
         dateLabel.text = event.date.startDate
+        priceLabel.text = "\(Int(event.price.startPrice))"
         if let imageName = event.photos.first {
             ImageView.image = UIImage(named: imageName)
         } else {
@@ -146,8 +150,6 @@ final class TableViewCell: UITableViewCell {
         }
     }
 }
-
-
 
 #Preview {
     HomePageViewController()
