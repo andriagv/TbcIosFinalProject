@@ -6,11 +6,21 @@
 //
 
 import UIKit
-import Firebase
+import SwiftUI
 
 final class HomePageViewController: UIViewController {
     
-    private let viewModel = HomePageViewModel()
+    private let viewModel: HomePageViewModelProtocol
+    
+    init(viewModel: HomePageViewModelProtocol = HomePageViewModel()) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    // MARK: - UI Elements
     
     private let scrollView: UIScrollView = {
         let sv = UIScrollView()
@@ -18,34 +28,37 @@ final class HomePageViewController: UIViewController {
         return sv
     }()
     
-    //MARK: - CollectionView elements
     private let contentView = UIView()
+    
+    private lazy var headerImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = UIImage(named: "logo")
+        imageView.contentMode = .scaleAspectFill
+        return imageView
+    }()
     
     private let underView: UIView = {
         let underView = UIView()
-        underView.backgroundColor = UIColor(named: "PageBackColor")
+        underView.backgroundColor = UIColor(named: "PageBackColor") ?? .systemBackground
         underView.layer.cornerRadius = 20
         underView.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
         underView.clipsToBounds = true
         return underView
     }()
     
-    private lazy var headerLabel = makeLabel(text: nil, fontSize: 28, weight: .bold, textColor: .black, lines: 2)
-    
-    private let headerImageView: UIImageView = {
-        let imageView = UIImageView()
-        imageView.image = UIImage(named: "logo")
-        return imageView
+    private lazy var popularLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Most Popular places".localized()
+        label.font = UIFont(name: "SourGummy-Bold", size: 20)
+        label.textColor = .label
+        return label
     }()
     
-    private lazy var popularLabel = makeLabel(text: "Most popular places", fontSize: 20, weight: .semibold)
-    
-    private let seeMoreButton: UIButton = {
+    private lazy var seeMoreButton: UIButton = {
         let button = UIButton(type: .system)
-        button.setTitle("See more", for: .normal)
-        button.setTitleColor(.lableTint, for: .normal)
-        button.titleLabel?.font = UIFont(name: "SourGummy-Bold", size: 16)
-        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setTitle("See more".localized(), for: .normal)
+        button.setTitleColor(.systemGray, for: .normal)
+        button.titleLabel?.font = UIFont(name: "SourGummy-ThinItalic", size: 16)
         return button
     }()
     
@@ -58,96 +71,94 @@ final class HomePageViewController: UIViewController {
         let cv = UICollectionView(frame: .zero, collectionViewLayout: layout)
         cv.backgroundColor = .clear
         cv.showsHorizontalScrollIndicator = false
-        cv.register(CollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
-        cv.dataSource = self
         return cv
     }()
     
-    // MARK: - tableView elements
-    private lazy var forouLabel = makeLabel(text: "For You", fontSize: 20, weight: .bold, textColor: .lableTint)
+    private lazy var forouLabel: UILabel = {
+        let label = UILabel()
+        label.text = "For you".localized()
+        label.font = UIFont(name: "SourGummy-Bold", size: 20)
+        return label
+    }()
     
     private lazy var recommendedForYouTableView: UITableView = {
         let tb = UITableView()
-        tb.translatesAutoresizingMaskIntoConstraints = false
         tb.backgroundColor = .clear
         return tb
     }()
     
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupViews()
+        
+        setupScrollAndContent()
+        setupHeaderView()
+        setupUnderView()
+        setupCollectionSection()
+        setupTableSection()
+        
+        viewModel.onDataLoaded = { [weak self] in
+            guard let self = self else { return }
+            self.popularCollectionView.reloadData()
+            self.recommendedForYouTableView.reloadData()
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
     }
-
+    
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         navigationController?.setNavigationBarHidden(false, animated: animated)
     }
-       
-    private func setupViews() {
+    
+    // MARK: - Setup Scroll & Content
+    private func setupScrollAndContent() {
         view.addSubview(scrollView)
-        scrollView.addSubview(contentView)
-        
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-        contentView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
-                scrollView.topAnchor.constraint(equalTo: view.topAnchor),
-                scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-                scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-                scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-                
-                contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
-                contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
-                contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
-                contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
-                contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
-            ])
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor),
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
+        ])
         
-        setupHeaderView()
-        setupUnderView()
-        popularView()
-        forYouView()
+        scrollView.addSubview(contentView)
+        contentView.translatesAutoresizingMaskIntoConstraints = false
+        NSLayoutConstraint.activate([
+            contentView.topAnchor.constraint(equalTo: scrollView.topAnchor),
+            contentView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor),
+            contentView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor),
+            contentView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor),
+            contentView.widthAnchor.constraint(equalTo: scrollView.widthAnchor)
+        ])
     }
     
     private func setupHeaderView() {
         contentView.addSubview(headerImageView)
-        headerImageView.addSubview(headerLabel)
-        
         headerImageView.translatesAutoresizingMaskIntoConstraints = false
-        headerLabel.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
-            headerImageView.topAnchor.constraint(equalTo: contentView.topAnchor), // contentView, არა view
+            headerImageView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: -50),
             headerImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             headerImageView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            headerImageView.heightAnchor.constraint(equalTo: headerImageView.widthAnchor, multiplier: 0.6),
-            
-            headerLabel.centerXAnchor.constraint(equalTo: headerImageView.centerXAnchor),
-            headerLabel.centerYAnchor.constraint(equalTo: headerImageView.centerYAnchor),
-            headerLabel.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            headerLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -16),
+            headerImageView.heightAnchor.constraint(equalTo: headerImageView.widthAnchor, multiplier: 0.5)
         ])
     }
     
     private func setupUnderView() {
         contentView.addSubview(underView)
         underView.translatesAutoresizingMaskIntoConstraints = false
-        
         NSLayoutConstraint.activate([
-            underView.topAnchor.constraint(equalTo: headerImageView.bottomAnchor, constant: -15),
+            underView.topAnchor.constraint(equalTo: headerImageView.bottomAnchor),
             underView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             underView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
-            underView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor),
-            underView.widthAnchor.constraint(equalTo: contentView.widthAnchor),
+            underView.bottomAnchor.constraint(equalTo: contentView.bottomAnchor)
         ])
     }
     
-    private func popularView() {
+    private func setupCollectionSection() {
         underView.addSubview(popularLabel)
         underView.addSubview(seeMoreButton)
         underView.addSubview(popularCollectionView)
@@ -157,81 +168,116 @@ final class HomePageViewController: UIViewController {
         popularCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            popularLabel.topAnchor.constraint(equalTo: underView.topAnchor, constant: 24),
+            popularLabel.topAnchor.constraint(equalTo: underView.topAnchor, constant: 32),
             popularLabel.leadingAnchor.constraint(equalTo: underView.leadingAnchor, constant: 16),
             
             seeMoreButton.centerYAnchor.constraint(equalTo: popularLabel.centerYAnchor),
             seeMoreButton.trailingAnchor.constraint(equalTo: underView.trailingAnchor, constant: -16),
             
-            popularCollectionView.topAnchor.constraint(equalTo: popularLabel.bottomAnchor, constant: 16),
-            popularCollectionView.leadingAnchor.constraint(equalTo: underView.leadingAnchor, constant: 5),
+            popularCollectionView.topAnchor.constraint(equalTo: popularLabel.bottomAnchor, constant: 8),
+            popularCollectionView.leadingAnchor.constraint(equalTo: underView.leadingAnchor, constant: 6),
             popularCollectionView.trailingAnchor.constraint(equalTo: underView.trailingAnchor),
             popularCollectionView.heightAnchor.constraint(equalToConstant: 160)
         ])
+        
+        popularCollectionView.dataSource = self
+        popularCollectionView.delegate = self
+        popularCollectionView.register(CollectionViewCell.self, forCellWithReuseIdentifier: "CollectionViewCell")
     }
     
-    private func forYouView() {
+    private func setupTableSection() {
         underView.addSubview(forouLabel)
         underView.addSubview(recommendedForYouTableView)
         
-        recommendedForYouTableView.dataSource = self
-        recommendedForYouTableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+        forouLabel.translatesAutoresizingMaskIntoConstraints = false
+        recommendedForYouTableView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             forouLabel.topAnchor.constraint(equalTo: popularCollectionView.bottomAnchor, constant: 16),
             forouLabel.leadingAnchor.constraint(equalTo: underView.leadingAnchor, constant: 16),
             forouLabel.trailingAnchor.constraint(equalTo: underView.trailingAnchor, constant: -16),
             
-            recommendedForYouTableView.topAnchor.constraint(equalTo: forouLabel.bottomAnchor, constant: 16),
+            recommendedForYouTableView.topAnchor.constraint(equalTo: forouLabel.bottomAnchor, constant: 8),
             recommendedForYouTableView.leadingAnchor.constraint(equalTo: underView.leadingAnchor, constant: 16),
             recommendedForYouTableView.trailingAnchor.constraint(equalTo: underView.trailingAnchor, constant: -16),
             recommendedForYouTableView.bottomAnchor.constraint(equalTo: underView.bottomAnchor),
-            recommendedForYouTableView.heightAnchor.constraint(equalToConstant: 300)
+            
+            recommendedForYouTableView.heightAnchor.constraint(equalToConstant: 600)
         ])
-    }
-    
-    private func makeLabel(text: String?, fontSize: CGFloat, weight: UIFont.Weight, textColor: UIColor = .lableTint, lines: Int = 1, fontName: String = "SourGummy-Bold") -> UILabel {
-        let label = UILabel()
-        label.text = text
-        label.font = UIFont(name: fontName, size: fontSize)
-        label.textColor = textColor
-        label.numberOfLines = lines
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
+        
+        recommendedForYouTableView.dataSource = self
+        recommendedForYouTableView.delegate = self
+        recommendedForYouTableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
     }
 }
 
-extension HomePageViewController: UICollectionViewDataSource {
+// MARK: - UICollectionViewDataSource, UICollectionViewDelegate
+extension HomePageViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         viewModel.events.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "CollectionViewCell", for: indexPath) as? CollectionViewCell
-        cell?.configure(event: viewModel.events[indexPath.row])
-        cell?.layer.shadowColor = UIColor.collectionShadow.cgColor
-        cell?.layer.shadowOffset = CGSize(width: 5, height: 5)
-        cell?.layer.shadowOpacity = 0.5
-        return cell ?? UICollectionViewCell()
+    func collectionView(_ collectionView: UICollectionView,
+                        cellForItemAt indexPath: IndexPath
+    ) -> UICollectionViewCell {
+        guard let cell = collectionView.dequeueReusableCell(
+            withReuseIdentifier: "CollectionViewCell",
+            for: indexPath
+        ) as? CollectionViewCell else {
+            fatalError("CollectionViewCell ვერ მოიძებნა")
+        }
+        let event = viewModel.events[indexPath.row]
+        cell.configure(event: event)
+        
+        cell.layer.shadowColor = UIColor.black.cgColor
+        cell.layer.shadowOffset = CGSize(width: 3, height: 3)
+        cell.layer.shadowOpacity = 0.3
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView,didSelectItemAt indexPath: IndexPath) {
+        
+        let event = viewModel.events[indexPath.row]
+        let detailsView = EventDetailsView(event: event)
+        let hostingController = UIHostingController(rootView: detailsView)
+        navigationController?.pushViewController(hostingController, animated: true)
     }
 }
 
-extension HomePageViewController: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        viewModel.events.count
+// MARK: - UITableViewDataSource, UITableViewDelegate
+extension HomePageViewController: UITableViewDataSource, UITableViewDelegate {
+    func tableView(_ tableView: UITableView,numberOfRowsInSection section: Int) -> Int {
+        viewModel.forYouEvents.count
     }
     
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard let cell = tableView.dequeueReusableCell(withIdentifier: "TableViewCell", for: indexPath) as? TableViewCell else {
+    func tableView(_ tableView: UITableView,
+                   cellForRowAt indexPath: IndexPath
+    ) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(
+            withIdentifier: "TableViewCell",
+            for: indexPath
+        ) as? TableViewCell else {
             return UITableViewCell()
         }
         cell.backgroundColor = .clear
-        let event: Event = viewModel.events[indexPath.row]
+        cell.selectionStyle = .none
+        
+        let event = viewModel.forYouEvents[indexPath.row]
         cell.configure(event: event)
         return cell
     }
+    
+    func tableView(_ tableView: UITableView,
+                   didSelectRowAt indexPath: IndexPath
+    ) {
+        let event = viewModel.forYouEvents[indexPath.row]
+        let detailsView = EventDetailsView(event: event)
+        let hostingController = UIHostingController(rootView: detailsView)
+        hostingController.hidesBottomBarWhenPushed = true
+        navigationController?.pushViewController(hostingController, animated: true)
+    }
 }
 
-#Preview {
+#Preview() {
     HomePageViewController()
 }
