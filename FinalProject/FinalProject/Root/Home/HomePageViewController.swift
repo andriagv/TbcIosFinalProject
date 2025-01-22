@@ -10,7 +10,7 @@ import SwiftUI
 
 final class HomePageViewController: UIViewController {
     
-    private let viewModel: HomePageViewModelProtocol
+    private var viewModel: HomePageViewModelProtocol
     
     init(viewModel: HomePageViewModelProtocol = HomePageViewModel()) {
         self.viewModel = viewModel

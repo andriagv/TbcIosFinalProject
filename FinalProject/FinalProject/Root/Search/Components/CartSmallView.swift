@@ -20,7 +20,6 @@ struct CartSmallView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            // Image Section
             ZStack(alignment: .topTrailing) {
                 if let firstPhoto = event.photos.first {
                     Image(firstPhoto)
@@ -38,8 +37,6 @@ struct CartSmallView: View {
                         .background(Color(.systemGray6))
                         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 }
-                
-                // Like Button (smaller size)
                 Button(action: { isLiked.toggle() }) {
                     Circle()
                         .fill(Color(.systemBackground))
@@ -72,19 +69,14 @@ struct CartSmallView: View {
                 }
             }
             .padding(8)
-            .background(Color(.systemBackground))
+            .background(Color(.filterSheetBackground))
         }
         .frame(width: 160)
-        .background(Color(.systemBackground))
+        .background(Color(.filterSheetBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(color: .collectionShadow.opacity(0.1), radius: 8, x: 0, y: 3)
     }
 }
-
-
-
-
-
 
 #Preview() {
     CartSmallView(event: Event(

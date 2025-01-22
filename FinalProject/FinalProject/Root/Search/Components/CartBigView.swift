@@ -71,31 +71,20 @@ struct CartBigView: View {
                     discountedPrice: event.price.discountedPrice
                 )
             }
-            .padding()
-            .background(.pageBack)
-            .clipShape(RoundedRectangle(cornerRadius: 20))
             .padding(.top)
-            .shadow(
-                color: .collectionShadow.opacity(0.5),
-                radius: 10,
-                x: 2,
-                y: 2
-            )
-            
         }
         .padding()
-        .background(Color(.systemBackground))
+        .background(Color(.filterSheetBackground))
         .clipShape(RoundedRectangle(cornerRadius: 20))
-        .shadow(
-            color: .collectionShadow.opacity(0.3),
-            radius: 15,
-            x: 0,
-            y: 5
-        )
         .padding(.horizontal, 16)
+        .shadow(
+            color: .collectionShadow.opacity(0.5),
+            radius: 10,
+            x: 2,
+            y: 2
+        )
     }
 }
-
 
 #Preview() {
     SearchView()

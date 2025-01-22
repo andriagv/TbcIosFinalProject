@@ -47,7 +47,6 @@ struct FlowLayout: Layout {
                 at: CGPoint(x: currentX, y: currentY),
                 proposal: ProposedViewSize(size)
             )
-            
             currentX += size.width + spacing
         }
     }
