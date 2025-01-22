@@ -1,0 +1,154 @@
+{
+  "events": [
+    {
+      "id": "1",
+      "name": "Mountain Camping",
+      "type": "camping",
+      "price": {
+        "startPrice": 100.0,
+        "discountedPrice": null
+      },
+      "date": {
+        "startDate": "2025-01-30",
+        "endDate": "2025-02-01",
+        "durationInDays": 3
+      },
+      "location": {
+        "latitude": 41.7151,
+        "longitude": 44.8271,
+        "address": "Gorgasali Street 10",
+        "city": "Tbilisi"
+      },
+      "seats": {
+        "total": 50,
+        "available": 40
+      },
+      "photos": ["banaki1", "banaki2"],
+      "organizerContact": "+995 555 55 55 55",
+      "requirements": ["Backpack", "Warm Clothes"],
+      "tags": ["Nature", "Mountains"],
+      "isFavorite": false,
+      "description": "Experience a relaxing getaway in the mountains, with stunning views."
+    },
+    {
+      "id": "2",
+      "name": "Kazbegi Hiking",
+      "type": "hiking",
+      "price": {
+        "startPrice": 150.0,
+        "discountedPrice": 120.0
+      },
+      "date": {
+        "startDate": "2025-02-10",
+        "endDate": "2025-02-12",
+        "durationInDays": 3
+      },
+      "location": {
+        "latitude": 42.6614,
+        "longitude": 44.6393,
+        "address": "Kazbegi Region",
+        "city": "Stepantsminda"
+      },
+      "seats": {
+        "total": 30,
+        "available": 10
+      },
+      "photos": ["banaki3", "banaki4"],
+      "organizerContact": "+995 577 77 77 77",
+      "requirements": ["Hiking Shoes", "Thermal Jacket"],
+      "tags": ["Adventure", "High-altitude"],
+      "isFavorite": false,
+      "description": "Join us for an unforgettable hike through Kazbegi's breathtaking trails."
+    },
+    {
+      "id": "3",
+      "name": "Wine Tour in Kakheti",
+      "type": "tour",
+      "price": {
+        "startPrice": 70.0,
+        "discountedPrice": 50.0
+      },
+      "date": {
+        "startDate": "2025-03-05",
+        "endDate": null,
+        "durationInDays": 1
+      },
+      "location": {
+        "latitude": 41.8690,
+        "longitude": 45.0450,
+        "address": "Kakheti Region",
+        "city": "Telavi"
+      },
+      "seats": {
+        "total": 20,
+        "available": 5
+      },
+      "photos": ["lashqroba1", "lashqroba2"],
+      "organizerContact": "+995 599 99 99 99",
+      "requirements": ["Valid ID", "Comfortable Clothing"],
+      "tags": ["Wine", "Culture", "Food"],
+      "isFavorite": false,
+      "description": "Discover the rich wine-making traditions of Kakheti with local experts."
+    },
+    {
+      "id": "4",
+      "name": "Svaneti Hiking",
+      "type": "hiking",
+      "price": {
+        "startPrice": 200.0,
+        "discountedPrice": null
+      },
+      "date": {
+        "startDate": "2025-04-15",
+        "endDate": "2025-04-20",
+        "durationInDays": 5
+      },
+      "location": {
+        "latitude": 43.0453,
+        "longitude": 42.7296,
+        "address": "Mestia",
+        "city": "Mestia"
+      },
+      "seats": {
+        "total": 15,
+        "available": 0
+      },
+      "photos": ["lashqroba3", "lashqroba4"],
+      "organizerContact": "+995 595 95 95 95",
+      "requirements": ["Hiking Shoes", "Tent", "Sleeping Bag"],
+      "tags": ["Adventure", "Mountains"],
+      "isFavorite": true,
+      "description": "Explore the remote and beautiful mountains of Svaneti."
+    },
+    {
+      "id": "5",
+      "name": "Seaside Camping at Ureki",
+      "type": "camping",
+      "price": {
+        "startPrice": 80.0,
+        "discountedPrice": 60.0
+      },
+      "date": {
+        "startDate": "2025-05-10",
+        "endDate": "2025-05-12",
+        "durationInDays": 3
+      },
+      "location": {
+        "latitude": 41.9995,
+        "longitude": 41.7795,
+        "address": "Ureki Beach",
+        "city": "Ureki"
+      },
+      "seats": {
+        "total": 25,
+        "available": 25
+      },
+      "photos": ["lashqroba5", "turi1", "turi2"],
+      "organizerContact": "+995 500 00 00 00",
+      "requirements": null,
+      "tags": ["Sea", "Relax"],
+      "isFavorite": false,
+      "description": "Enjoy the sunny beachside camping with black magnetic sands."
+    }
+  ]
+}

@@ -7,12 +7,7 @@
 		<string>SourGummy.ttf</string>
 		<string>SourGummy-Bold.ttf</string>
 		<string>SourGummy-ThinItalic.ttf</string>
-		<string>NotoSerifGeorgian.ttf</string>
 		<string>SourGummy-Light.ttf</string>
-		<string>PlusJakartaSans-Italic-VariableFont_wght.ttf</string>
-		<string>PlusJakartaSans-MediumItalic.ttf</string>
-		<string>PlusJakartaSans-BoldItalic.ttf</string>
-		<string>PlusJakartaSans-SemiBold.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

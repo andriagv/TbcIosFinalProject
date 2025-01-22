@@ -80,7 +80,7 @@ struct SearchView: View {
             .sheet(isPresented: $isFilterSheetPresented) {
                 FilterSheetView(isPresented: $isFilterSheetPresented)
                     .environmentObject(viewModel)
-                    .presentationDetents([.fraction(0.8)]) 
+                    .presentationDetents([.fraction(0.8)])
                     .presentationDragIndicator(.visible)
             }
             .background(.pageBack)
