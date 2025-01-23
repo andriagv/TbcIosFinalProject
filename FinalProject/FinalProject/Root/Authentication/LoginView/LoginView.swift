@@ -26,7 +26,7 @@ struct LoginView: View {
                 Image("darkLogo")
                     .resizable()
                     .renderingMode(.template)
-                   // .foregroundColor(.customBlue)
+                // .foregroundColor(.customBlue)
                     .scaledToFit()
                     .frame(width: 233)
                     .overlay {
@@ -46,7 +46,7 @@ struct LoginView: View {
                     InputView(text: $email,
                               title: "Email",
                               placeholder: "Your email address")
-                        .autocapitalization(.none)
+                    .autocapitalization(.none)
                     
                     InputView(text: $password,
                               title: "Password",
@@ -74,22 +74,22 @@ struct LoginView: View {
                 
                 VStack(spacing: 10) {
                     Button {
-//                        Task {
-//                            do {
-//                                try await viewModel.signInGoogle()
-//                                withAnimation {
-//                                    showToast = true
-//                                }
-//                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-//                                    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
-//                                       let window = windowScene.windows.first {
-//                                        window.rootViewController = UIHostingController(rootView: TabBarController())
-//                                    }
-//                                }
-//                            } catch {
-//                                print(error)
-//                            }
-//                        }
+                        Task {
+                            do {
+                                try await viewModel.signInGoogle()
+                                withAnimation {
+                                    showToast = true
+                                }
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                    if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                                       let window = windowScene.windows.first {
+                                        window.rootViewController = TabBarController()
+                                    }
+                                }
+                            } catch {
+                                print(error)
+                            }
+                        }
                     } label: {
                         HStack {
                             Image("Google")

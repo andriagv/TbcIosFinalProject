@@ -7,37 +7,39 @@
 
 
 import Foundation
-//import GoogleSignIn
-//import GoogleSignInSwift
+import GoogleSignIn
+import GoogleSignInSwift
 
-//struct GoogleSignInResultModel {
-//    let idToken: String
-//    let accessToken: String
-//}
+struct GoogleSignInResultModel {
+    let idToken: String
+    let accessToken: String
+}
 
 final class LoginViewModel: ObservableObject {
     private let authenticationManager: AuthenticationManagerProtocol
     private let userManager: UserManagerProtocol
     
-    init(authenticationManager: AuthenticationManagerProtocol = AuthenticationManager(),
-         userManager: UserManagerProtocol = UserManager()) {
+    init(
+        authenticationManager: AuthenticationManagerProtocol = AuthenticationManager(),
+        userManager: UserManagerProtocol = UserManager()
+    ) {
         self.authenticationManager = authenticationManager
         self.userManager = userManager
     }
     
-    //    func signInGoogle() async throws {
-    //        guard let topVC = await Utilities.shared.topViewController() else {
-    //            throw URLError(.cannotFindHost)
-    //        }
-    //        let gidSignInResult = try await GIDSignIn.sharedInstance.signIn(withPresenting: topVC)
-    //
-    //        guard let idToken = gidSignInResult.user.idToken?.tokenString else { return }
-    //        let accessToken = gidSignInResult.user.accessToken.tokenString
-    //
-    //        let tokens = GoogleSignInResultModel(idToken: idToken, accessToken: accessToken)
-    //        let _ = try await authenticationManager.signInWithGoogle(tokens: tokens)
-    //
-    //    }
+    func signInGoogle() async throws {
+        guard let topVC = await Utilities.shared.topViewController() else {
+            throw URLError(.cannotFindHost)
+        }
+        // ახალ ვერსიაში signIn(withPresenting:) წაიღებს Client ID–ს Info.plist–იდან
+        let gidSignInResult = try await GIDSignIn.sharedInstance.signIn(withPresenting: topVC)
+        
+        guard let idToken = gidSignInResult.user.idToken?.tokenString else { return }
+        let accessToken = gidSignInResult.user.accessToken.tokenString
+        
+        let tokens = GoogleSignInResultModel(idToken: idToken, accessToken: accessToken)
+        let _ = try await authenticationManager.signInWithGoogle(tokens: tokens)
+    }
     
     func signIn(email: String, password: String) async -> Bool {
         guard !email.isEmpty, !password.isEmpty else {
