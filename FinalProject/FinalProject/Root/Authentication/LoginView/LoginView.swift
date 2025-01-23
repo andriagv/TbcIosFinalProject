@@ -31,12 +31,24 @@ struct LoginView: View {
                     .overlay {
                         if showToast {
                             ToastView(message: "logged in successfully")
-                                .transition(.move(edge: .top).combined(with: .opacity))
+                                .transition(
+                                    .move(edge: .top)
+                                    .combined(with: .opacity)
+                                    .combined(with: .scale(scale: 0.8))
+                                )
+                                .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 5)
                                 .zIndex(1)
+                                .padding(.top, 10)
                         } else if showErrorToast {
                             ToastView(message: "email or pasword is wrong", bgColor: Color.red)
-                                .transition(.move(edge: .top).combined(with: .opacity))
+                                .transition(
+                                    .move(edge: .top)
+                                    .combined(with: .opacity)
+                                    .combined(with: .scale(scale: 0.8))
+                                )
+                                .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 5)
                                 .zIndex(1)
+                                .padding(.top, 10)
                         }
                     }
                 Spacer()

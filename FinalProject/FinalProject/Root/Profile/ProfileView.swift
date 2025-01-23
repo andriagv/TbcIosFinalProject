@@ -18,6 +18,8 @@ struct ProfileView: View {
     @State private var showTermsSheet = false
     @State private var showingDeleteAlert = false
     
+    @State private var showToast = false
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -47,6 +49,19 @@ struct ProfileView: View {
                 }
             }
             .navigationTitle("My Profile".localized())
+            .overlay(alignment: .top) {
+                if showToast {
+                    ToastView(message: "წაიშალა აქაუნთი")
+                        .transition(
+                            .move(edge: .top)
+                            .combined(with: .opacity)
+                            .combined(with: .scale(scale: 0.8))
+                        )
+                        .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 5)
+                        .zIndex(1)
+                        .padding(.top, 10)
+                }
+            }
         }
     }
     
@@ -111,7 +126,7 @@ struct ProfileView: View {
                     .foregroundColor(.gray)
             )
     }
-    
+
     private var languageSection: some View {
         Section(header: Text("Language".localized()).foregroundColor(.gray)) {
             VStack(spacing: 0) {
@@ -146,7 +161,7 @@ struct ProfileView: View {
         }
         .listRowBackground(Color.pageBack)
     }
-    
+
     private var notificationsSection: some View {
         Section {
             NavigationLink(destination: Text("Personal Notifications".localized())) {
@@ -159,7 +174,7 @@ struct ProfileView: View {
         }
         .listRowBackground(Color.pageBack)
     }
-    
+
     private var darkModeToggleSection: some View {
         Section {
             HStack {
@@ -184,7 +199,7 @@ struct ProfileView: View {
         }
         .listRowBackground(Color.pageBack)
     }
-    
+
     private var accountManagementSection: some View {
         Section(header: Text("Account Management".localized()).foregroundColor(.gray)) {
             NavigationLink(destination: EditProfileView(profileViewModel: viewModel)) {
@@ -204,16 +219,20 @@ struct ProfileView: View {
             }
             .alert("Delete Account?".localized(), isPresented: $showingDeleteAlert) {
                 Button("Delete", role: .destructive) {
+                    withAnimation {
+                        showToast = true
+                    }
                     Task {
                         await viewModel.deleteAccount()
                     }
                 }
                 Button("Cancel", role: .cancel) {}
             }
+            
         }
         .listRowBackground(Color.pageBack)
     }
-    
+
     private var helpAndSupportSection: some View {
         Section(header: Text("Help & Support".localized()).foregroundColor(.gray)) {
             Button(action: {
@@ -244,7 +263,7 @@ struct ProfileView: View {
         }
         .listRowBackground(Color.pageBack)
     }
-    
+
     private var appInfoSection: some View {
         Section(header: Text("App Info".localized()).foregroundColor(.gray)) {
             Button(action: {
@@ -282,7 +301,7 @@ struct ProfileView: View {
         }
         .listRowBackground(Color.pageBack)
     }
-    
+
     private var logoutButton: some View {
         Section {
             Button(action: {
