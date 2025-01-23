@@ -11,7 +11,7 @@ import SwiftUI
 
 extension Font {
     static func dateNumberFont(size: CGFloat) -> Font {
-        return Font.custom("PlusJakartaSans-MediumItalic", size: size)
+        return Font.custom("SourGummy-Bold", size: size)
     }
     
     static func dateNumberFontBold(size: CGFloat) -> Font {
@@ -19,7 +19,7 @@ extension Font {
     }
     
     static func titleFontBold(size: CGFloat) -> Font {
-        return Font.custom("PlusJakartaSans-SemiBold", size: size)
+        return Font.custom("SourGummy-Light", size: size)
     }
     
 }

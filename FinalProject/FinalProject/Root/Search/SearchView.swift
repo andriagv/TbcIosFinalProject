@@ -10,73 +10,71 @@ import SwiftUI
 struct SearchView: View {
     @StateObject var viewModel = SearchPageViewModel()
     @State private var isFilterSheetPresented = false
-    @State private var isSmalCardPresented = false
+    @State private var isSmalCardPresented = true
     
     var body: some View {
         NavigationView {
-            VStack() {
-                HStack {
+            ScrollView {
+                Text("Find a campsite easily")
+                    .opacity(0.5)
+                    .font(.custom("SourGummy-Bold", size: 30))
+                VStack(spacing: 20) {
                     HStack {
-                        TextField("Search events...", text: $viewModel.searchText)
-                        Spacer()
+                        HStack {
+                            TextField("Search events...", text: $viewModel.searchText)
+                            Spacer()
+                            Button {
+                                isFilterSheetPresented.toggle()
+                            } label: {
+                                Image(systemName: "line.horizontal.3.decrease.circle")
+                                    .font(.title2)
+                                    .foregroundColor(.blue)
+                            }
+                        }
+                        .padding(8)
+                        .background(Color(.systemGray5))
+                        .cornerRadius(8)
+                        
                         Button {
-                            isFilterSheetPresented.toggle()
+                            isSmalCardPresented.toggle()
                         } label: {
-                            Image(systemName: "line.horizontal.3.decrease.circle")
+                            Image(systemName: isSmalCardPresented ? "lineweight" : "tablecells.fill")
                                 .font(.title2)
                                 .foregroundColor(.blue)
                         }
                     }
-                    .padding(10)
-                    .background(Color(.systemGray5))
-                    .cornerRadius(8)
-                    // სასურველია, რომ ყოველ ცვლილებაზე მოვახდინოთ გადაფილტრვა
-                    //                        .onChange(of: viewModel.searchText) { _ in
-                    //                            viewModel.fetchAndFilterEvents()
-                    //                        }
+                    .padding(.horizontal)
+                    .padding(.vertical, 10)
                     
-                    
-                    Button {
-                        isSmalCardPresented.toggle()
-                    } label: {
-                        Image(systemName: isSmalCardPresented ? "lineweight" : "tablecells.fill")
-                            .font(.title2)
-                            .foregroundColor(.blue)
+                    if isSmalCardPresented {
+                        LazyVGrid(
+                            columns: [
+                                GridItem(.adaptive(minimum: 140, maximum: 200))
+                            ],
+                            spacing: 20
+                        ) {
+                            ForEach(viewModel.filteredEvents) { event in
+                                NavigationLink(destination: EventDetailsView(event: event)) {
+                                    CartSmallView(event: event)
+                                }
+                            }
+                        }
+                    } else {
+                        LazyVStack(spacing: 30) {
+                            ForEach(viewModel.filteredEvents) { event in
+                                NavigationLink(destination: EventDetailsView(event: event)) {
+                                    CartBigView(event: event)
+                                }
+                            }
+                        }
+                        .padding(.top, 10)
                     }
                 }
                 .padding(.horizontal)
-                .padding(.vertical, 10)
-                ScrollView {
-                    VStack(spacing: 20) {
-                        if isSmalCardPresented {
-                            LazyVGrid(
-                                columns: [
-                                    GridItem(.adaptive(minimum: 140, maximum: 200))
-                                ],
-                                spacing: 20
-                            ) {
-                                ForEach(viewModel.filteredEvents) { event in
-                                    NavigationLink(destination: EventDetailsView(event: event)) {
-                                        CartSmallView(event: event)
-                                    }
-                                }
-                            }
-                        } else {
-                            LazyVStack(spacing: 30) {
-                                ForEach(viewModel.filteredEvents) { event in
-                                    NavigationLink(destination: EventDetailsView(event: event)) {
-                                        CartBigView(event: event)
-                                    }
-                                }
-                            }
-                            .padding(.top, 10)
-                        }
-                    }
-                    .padding(.horizontal)
-                    .padding(.top, 10)
-                }
+                .padding(.top, 10)
             }
-            .navigationTitle("Search")
+            //.navigationTitle("Search")
+            .font(.custom("SourGummy-Bold", size: 20))
             .sheet(isPresented: $isFilterSheetPresented) {
                 FilterSheetView(isPresented: $isFilterSheetPresented)
                     .environmentObject(viewModel)
@@ -87,6 +85,7 @@ struct SearchView: View {
         }
     }
 }
+
 
 #Preview {
     SearchView()

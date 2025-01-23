@@ -13,13 +13,15 @@ struct SmallButtonView: View {
     var body: some View {
         Image(systemName: imageSystemName)
             .font(.system(size: fontSize))
-            .foregroundColor(.white)
-            .padding(12)
+            //.foregroundColor(.white)
+            .padding(8)
             .background(.ultraThinMaterial)
             .clipShape(Circle())
     }
 }
 
 #Preview {
-    SmallButtonView(imageSystemName: "person.fill", fontSize: 30)
+    //SmallButtonView(imageSystemName: "heart.fill", fontSize: 30)
+    SearchView()
 }
+

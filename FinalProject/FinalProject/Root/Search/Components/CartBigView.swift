@@ -25,18 +25,12 @@ struct CartBigView: View {
                     .resizable()
                     .scaledToFill()
                     .frame(height: UIScreen.main.bounds.width * 0.6)
-                    .frame(width: UIScreen.main.bounds.width * 0.8)
+                    .frame(width: UIScreen.main.bounds.width * 0.83)
                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                     .opacity(colorScheme == .dark ? 0.9 : 1)
                 Button(action: { isLiked.toggle() }) {
-                    Circle()
-                        .fill(Color(.systemBackground))
-                        .frame(width: 30, height: 30)
-                        .overlay(
-                            Image(systemName: isLiked ? "heart.fill" : "heart")
-                                .foregroundStyle(isLiked ? Color.red : Color.gray)
-                        )
-                        .shadow(color: Color.black.opacity(0.1), radius: 8, x: 0, y: 4)
+                    SmallButtonView(imageSystemName: isLiked ? "heart.fill" : "heart", fontSize: 20)
+                        .foregroundStyle(isLiked ? Color.red : Color.white)
                 }
                 .padding(16)
             }
@@ -44,24 +38,24 @@ struct CartBigView: View {
                 HStack() {
                     VStack(spacing: 12) {
                         DetailRow(
-                            icon: "mappin.circle.fill",
-                            iconColor: .red,
+                            icon: "mappin.circle",
+                            iconColor: .blue,
                             text: event.name
                         )
                         DetailRow(
-                            icon: "clock.fill",
+                            icon: "clock",
                             iconColor: .blue,
                             text: DateFormatterManager.shared.formatDate(event.date.startDate)
                         )
                     }
                     VStack(spacing: 12) {
                         DetailRow(
-                            icon: "tent.2.circle.fill",
-                            iconColor: .red,
+                            icon: "tent.2.circle",
+                            iconColor: .blue,
                             text: "\(event.type)"
                         )
                         DetailRow(
-                            icon: "figure.walk.circle.fill",
+                            icon: "figure.walk.circle",
                             iconColor: .blue,
                             text: "\(event.seats.available) / \(event.seats.total)")
                     }
