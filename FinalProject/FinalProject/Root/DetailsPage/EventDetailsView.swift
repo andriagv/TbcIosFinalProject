@@ -51,12 +51,15 @@ struct EventDetailsView: View {
                 Button(action: {
                     presentationMode.wrappedValue.dismiss()
                 }) {
-                    SmallButtonView(imageSystemName: "arrow.left", fontSize: 20)
+                    SmallButtonView(imageSystemName: "arrow.left", fontSize: 30)
                         .padding(.leading, 16)
+                        .foregroundStyle(.white)
+                        .opacity(0.8)
                 }
                 Spacer()
                 Button(action: { isFavorite.toggle() }) {
-                    SmallButtonView(imageSystemName: isFavorite ? "heart.fill" : "heart", fontSize: 20)
+                    SmallButtonView(imageSystemName: isFavorite ? "heart.fill" : "heart", fontSize: 30)
+                        .foregroundStyle(isFavorite ? Color.red : Color.white)
                         .padding(.trailing, 16)
                 }
             }
@@ -90,8 +93,7 @@ struct EventDetailsView: View {
         VStack(alignment: .leading, spacing: 24) {
             VStack(alignment: .leading, spacing: 8) {
                 Text(event.name)
-                    .font(.title)
-                    .fontWeight(.bold)
+                    .font(.dateNumberFont(size: 30))
                 
                 if let discountedPrice = event.price.discountedPrice {
                     HStack(alignment: .firstTextBaseline, spacing: 8) {
@@ -107,8 +109,7 @@ struct EventDetailsView: View {
                     }
                 } else {
                     Text("$\(event.price.startPrice, specifier: "%.2f")")
-                        .font(.title2)
-                        .fontWeight(.bold)
+                        .font(.dateNumberFont(size: 23))
                 }
             }
             
@@ -120,23 +121,21 @@ struct EventDetailsView: View {
             }
             VStack(alignment: .leading, spacing: 12) {
                 Text("About")
-                    .font(.title3)
-                    .fontWeight(.bold)
+                    .font(.dateNumberFont(size: 25))
                 Text(event.description)
                     .foregroundStyle(.secondary)
+                    .font(.titleFontBold(size: 20))
             }
             
-            if !(event.tags?.isEmpty ?? true) {
+            if let tags = event.tags, !tags.isEmpty {
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Tags")
-                        .font(.title3)
-                        .fontWeight(.bold)
+                        .font(.dateNumberFont(size: 25))
                     
                     FlowLayout(spacing: 8) {
-                        //FIXME: - ! mark
-                        ForEach(event.tags!, id: \.self) { tag in
+                        ForEach(tags, id: \.self) { tag in
                             Text(tag)
-                                .font(.footnote)
+                                .font(.titleFontBold(size: 15))
                                 .padding(.horizontal, 12)
                                 .padding(.vertical, 6)
                                 .background(.secondary.opacity(0.1))
@@ -158,20 +157,18 @@ struct EventDetailsView: View {
                             .strikethrough()
                             .foregroundColor(.secondary)
                         Text("$\(discountedPrice, specifier: "%.2f")")
-                            .font(.title2)
-                            .fontWeight(.bold)
+                            .font(.dateNumberFont(size: 25))
                             .foregroundColor(.blue)
                     } else {
                         Text("$\(event.price.startPrice, specifier: "%.2f")")
-                            .font(.title2)
-                            .fontWeight(.bold)
+                            .font(.dateNumberFont(size: 25))
                             .foregroundColor(.blue)
                     }
                 }
                 Spacer()
                 Button(action: {}) {
                     Text("Book now")
-                        .fontWeight(.semibold)
+                        .font(.dateNumberFont(size: 25))
                         .foregroundColor(.white)
                         .padding(.horizontal, 32)
                         .padding(.vertical, 12)
@@ -218,7 +215,7 @@ struct EventDetailsView: View {
         date: EventDate(startDate: "2025-03-05", endDate: "2025-03-05", durationInDays: 1),
         location: Location(latitude: 41.7151, longitude: 44.8271, address: "Mtatsminda Park", city: "svaneti"),
         seats: Seats(total: 30, available: 15),
-        photos: ["svaneti", "xevsureti"],
+        photos: ["banaki1"],
         organizerContact: "hikegeorgia@gmail.com",
         requirements: ["Comfortable Shoes"],
         tags: ["City", "Adventure"],

@@ -19,13 +19,12 @@ struct InfoCard: View {
                 Image(systemName: icon)
                     .foregroundStyle(.blue)
                 Text(title)
-                    .font(.subheadline)
+                    .font(.titleFontBold(size: 18))
                     .foregroundStyle(.secondary)
             }
             
             Text(value)
-                .font(.subheadline)
-                .fontWeight(.medium)
+                .font(.titleFontBold(size: 20))
         }
         .padding()
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -36,7 +35,7 @@ struct InfoCard: View {
 
 #Preview() {
     LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-        InfoCard(icon: "calendar", title: "Date", value: "formatDateRange()formatDateRange())formatDateRange()")
+        InfoCard(icon: "calendar", title: "Date", value: "14-23-2025")
         InfoCard(icon: "mappin", title: "Location", value: "formatLocation()")
         InfoCard(icon: "person.2.fill", title: "Availability", value: " spots left")
         InfoCard(icon: "clock", title: "Duration", value: "formatDuration()formatDuration()formatDuration()")

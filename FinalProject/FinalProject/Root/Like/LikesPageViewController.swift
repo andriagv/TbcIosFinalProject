@@ -144,4 +144,3 @@ final class LikePageTableViewCell: UITableViewCell {
         return label
     }
 }
-

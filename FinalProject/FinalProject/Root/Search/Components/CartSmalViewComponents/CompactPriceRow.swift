@@ -13,8 +13,8 @@ struct CompactPriceRow: View {
     
     var body: some View {
         HStack(spacing: 6) {
-            Image(systemName: "dollarsign.circle.fill")
-                .foregroundStyle(Color.green)
+            Image(systemName: "dollarsign.circle")
+                .foregroundStyle(Color.blue)
                 .font(.system(size: 12))
             
             if let discountedPrice = discountedPrice {

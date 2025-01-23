@@ -57,7 +57,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		18361F642D33F6D8000236B1 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; name = FinalProject.app; path = "/Users/apple/Desktop/TbcIosFinalProject/FinalProject/build/Debug-iphoneos/FinalProject.app"; sourceTree = "<absolute>"; };
 		18361F7C2D33F70B000236B1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18361F7D2D33F70B000236B1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18361F7E2D33F70B000236B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -108,6 +107,7 @@
 		1837A75B2D418733005B1785 /* ContactUsViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactUsViewControllerRepresentable.swift; sourceTree = "<group>"; };
 		1837A75D2D418B10005B1785 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		1837A75F2D418FBF005B1785 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		1837A7632D41A276005B1785 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		18E771042D35224600BE615B /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -126,6 +126,7 @@
 			isa = PBXGroup;
 			children = (
 				18361F822D33F70B000236B1 /* FinalProject */,
+				1837A7632D41A276005B1785 /* FinalProject.app */,
 			);
 			sourceTree = "<group>";
 		};
@@ -348,7 +349,7 @@
 			packageProductDependencies = (
 			);
 			productName = FinalProject;
-			productReference = 18361F642D33F6D8000236B1 /* FinalProject.app */;
+			productReference = 1837A7632D41A276005B1785 /* FinalProject.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */

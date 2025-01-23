@@ -39,7 +39,7 @@ struct FilterSheetView: View {
     private var headerView: some View {
         HStack {
             Text("Filters")
-                .font(.system(size: 24, weight: .semibold))
+                .font(.dateNumberFont(size: 26))
                 .foregroundColor(.primary)
             Spacer()
             Button(action: {
@@ -51,6 +51,7 @@ struct FilterSheetView: View {
                     .padding(.vertical, 6)
                     .background(Color(.systemGray5))
                     .cornerRadius(16)
+                    .font(.titleFontBold(size: 20))
             }
         }
         .padding(.top)
@@ -59,15 +60,15 @@ struct FilterSheetView: View {
     
     private var matchingEventsView: some View {
         Text("Matching events: \(viewModel.filteredEvents.count)")
-            .font(.system(size: 16, weight: .medium))
             .foregroundColor(.secondary)
             .padding(.horizontal, 16)
+            .font(.titleFontBold(size: 20))
     }
     
     private var categoryPickerView: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Category")
-                .font(.headline)
+                .font(.dateNumberFont(size: 22))
                 .foregroundColor(.primary)
             
             Picker("Category", selection: $viewModel.selectedCategory) {
@@ -89,14 +90,16 @@ struct FilterSheetView: View {
     private var dateRangeView: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Date Range")
-                .font(.headline)
                 .foregroundColor(.primary)
+                .font(.dateNumberFont(size: 22))
             
             DatePicker("Start Date", selection: $viewModel.startDate, displayedComponents: [.date])
                 .datePickerStyle(.compact)
+                .font(.titleFontBold(size: 20))
             Divider()
             DatePicker("End Date", selection: $viewModel.endDate, displayedComponents: [.date])
                 .datePickerStyle(.compact)
+                .font(.titleFontBold(size: 20))
         }
         .padding()
         .background(Color(UIColor.secondarySystemBackground))
@@ -108,7 +111,7 @@ struct FilterSheetView: View {
     private var sortingPickerView: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Sort by Price")
-                .font(.headline)
+                .font(.dateNumberFont(size: 22))
                 .foregroundColor(.primary)
             
             Picker("Sort Option", selection: $viewModel.sortOption) {
@@ -130,7 +133,7 @@ struct FilterSheetView: View {
             //viewModel.clearFilters()
         }) {
             Text("Clear Filters")
-                .font(.system(size: 16, weight: .semibold))
+                .font(.titleFontBold(size: 20))
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity, minHeight: 44)
                 .background(Color.red)

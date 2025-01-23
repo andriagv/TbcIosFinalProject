@@ -29,7 +29,7 @@ struct CartSmallView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                         .opacity(colorScheme == .dark ? 0.9 : 1)
                 } else {
-                    Image(systemName: "photo")
+                    Image(systemName: "photo.fill")
                         .font(.system(size: 40))
                         .foregroundColor(.gray)
                         .frame(height: 100)
@@ -38,27 +38,20 @@ struct CartSmallView: View {
                         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 }
                 Button(action: { isLiked.toggle() }) {
-                    Circle()
-                        .fill(Color(.systemBackground))
-                        .frame(width: 30, height: 30)
-                        .overlay(
-                            Image(systemName: isLiked ? "heart.fill" : "heart")
-                                .font(.system(size: 12))
-                                .foregroundStyle(isLiked ? Color.red : Color.gray)
-                        )
-                        .shadow(color: Color.black.opacity(0.1), radius: 4, x: 0, y: 2)
+                    SmallButtonView(imageSystemName: isLiked ? "heart.fill" : "heart", fontSize: 15)
+                        .foregroundStyle(isLiked ? Color.red : Color.white)
                 }
                 .padding(8)
             }
             VStack(spacing: 8) {
                 VStack(spacing: 6) {
                     CompactDetailRow(
-                        icon: "mappin.circle.fill",
-                        iconColor: .red,
+                        icon: "mappin.circle",
+                        iconColor: .blue,
                         text: event.name
                     )
                     CompactDetailRow(
-                        icon: "clock.fill",
+                        icon: "clock",
                         iconColor: .blue,
                         text: event.date.startDate
                     )
@@ -87,7 +80,7 @@ struct CartSmallView: View {
         date: EventDate(startDate: "2025-03-05", endDate: nil, durationInDays: 1),
         location: Location(latitude: 41.7151, longitude: 44.8271, address: "Mtatsminda Park", city: "svaneti"),
         seats: Seats(total: 30, available: 15),
-        photos: ["svaneti"],
+        photos: [],
         organizerContact: "hikegeorgia@gmail.com",
         requirements: ["Comfortable Shoes"],
         tags: ["City", "Adventure"],

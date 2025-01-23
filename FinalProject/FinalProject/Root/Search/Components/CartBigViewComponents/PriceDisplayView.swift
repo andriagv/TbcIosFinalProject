@@ -20,8 +20,7 @@ struct PriceDisplayView: View {
                     .fill(Color(.systemGray6))
                     .frame(width: 36, height: 36)
                 
-                Image(systemName: "dollarsign.circle.fill")
-                    .foregroundStyle(Color.green)
+                Image(systemName: "dollarsign.circle")
                     .font(.system(size: 22))
             }
             
@@ -30,15 +29,15 @@ struct PriceDisplayView: View {
                     Text("$\(startPrice, specifier: "%.2f")")
                         .strikethrough(showDiscount, color: .red)
                         .foregroundStyle(Color.red)
-                        .font(.system(size: 14, weight: .medium))
+                        .font(.dateNumberFontBold(size: 14))
                         .opacity(0.8)
                     
                     HStack(alignment: .center, spacing: 8) {
                         Text("$\(discountedPrice, specifier: "%.2f")")
                             .foregroundStyle(Color.green)
-                            .font(.system(size: 22, weight: .bold))
+                            .font(.dateNumberFontBold(size: 22))
                         Text("\(calculateDiscount(original: startPrice, discounted: discountedPrice))% OFF")
-                            .font(.system(size: 12, weight: .bold))
+                            .font(.dateNumberFontBold(size: 22))
                             .foregroundStyle(.white)
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
@@ -51,7 +50,7 @@ struct PriceDisplayView: View {
             } else {
                 Text("$\(startPrice, specifier: "%.2f")")
                     .foregroundStyle(Color.primary)
-                    .font(.system(size: 22, weight: .bold))
+                    .font(.titleFontBold(size: 22))
             }
             
             Spacer()
@@ -69,28 +68,7 @@ struct PriceDisplayView: View {
     }
 }
 
-// Preview provider for testing
-struct PriceDisplayView_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack(spacing: 20) {
-            // Regular price
-            PriceDisplayView(startPrice: 99.99, discountedPrice: nil)
-            
-            // Discounted price
-            PriceDisplayView(startPrice: 99.99, discountedPrice: 79.99)
-        }
-        .padding()
-    }
-}
 
-// Usage in your existing view
-struct YourExistingView: View {
-    let event: Event // Your event model
-    
-    var body: some View {
-        PriceDisplayView(
-            startPrice: event.price.startPrice,
-            discountedPrice: event.price.discountedPrice
-        )
-    }
+#Preview() {
+    SearchView()
 }
