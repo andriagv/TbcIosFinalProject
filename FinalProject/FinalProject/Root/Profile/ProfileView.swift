@@ -6,7 +6,7 @@
 //
 
 import SwiftUI
-import StoreKit //  შეფასების ან გამოწერების მართვის ფუნქცია თუ დავამატე
+import StoreKit
 
 struct ProfileView: View {
     @StateObject private var viewModel = ProfileViewModel()
@@ -16,65 +16,104 @@ struct ProfileView: View {
     @State private var showContactUsSheet = false
     @State private var showPrivacySheet = false
     @State private var showTermsSheet = false
+    @State private var showingDeleteAlert = false
     
     var body: some View {
         NavigationView {
-            VStack {
-                profileHeader
-                Divider()
-                    .padding(.horizontal)
-                List {
-                    languageSection
-                    notificationsSection
-                    darkModeToggleSection
-                    accountManagementSection
-                    helpAndSupportSection
-                    appInfoSection
-                    logoutButton
+            ZStack {
+                Color.pageBack.edgesIgnoringSafeArea(.all)
+                
+                VStack {
+                    profileHeader
+                    Divider()
+                        .padding(.horizontal)
+                    List {
+                        languageSection
+                        notificationsSection
+                        darkModeToggleSection
+                        accountManagementSection
+                        helpAndSupportSection
+                        appInfoSection
+                        logoutButton
+                    }
+                    .listStyle(.plain)
+                    .scrollContentBackground(.hidden)
+                    .background(Color.pageBack)
+                    .listRowBackground(Color.pageBack)
+                    .listSectionSeparator(.hidden)
+                    .listRowSeparator(.hidden)
+                    .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
+                    .listSectionSpacing(0)
                 }
             }
             .navigationTitle("My Profile".localized())
         }
     }
     
-    // MARK: - პროფილის ჰედერი
     private var profileHeader: some View {
         VStack(alignment: .leading) {
             HStack {
-                Circle()
-                    .fill(Color.gray.opacity(0.3))
-                    .frame(width: 80, height: 80)
-                    .overlay(
-                        Image(systemName: "person.fill")
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 40, height: 40)
+                if let user = viewModel.user {
+                    if !user.photoUrl.isEmpty {
+                        AsyncImage(url: URL(string: user.photoUrl)) { image in
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 80, height: 80)
+                                .clipShape(Circle())
+                        } placeholder: {
+                            defaultProfileImage
+                        }
+                    } else {
+                        defaultProfileImage
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text(user.fullName)
+                            .font(.headline)
+                            .foregroundColor(.customPageTitle)
+                        Text(user.email)
+                            .font(.subheadline)
                             .foregroundColor(.gray)
-                    )
-                VStack(alignment: .leading) {
-                    Text("Name")
-                        .font(.headline)
-                    Text("Email@gmail.com")
-                        .font(.subheadline)
-                        .foregroundColor(.gray)
-                }
-                Spacer()
-                NavigationLink {
-                    EditProfileView()
-                } label: {
-                    Image(systemName: "pencil")
-                        .foregroundColor(.blue)
-                        .padding()
+                    }
+                    Spacer()
+                    NavigationLink {
+                        EditProfileView(profileViewModel: viewModel)
+                    } label: {
+                        Image(systemName: "pencil")
+                            .foregroundColor(.red)
+                            .padding()
+                    }
+                } else {
+                    defaultProfileImage
+                    VStack(alignment: .leading) {
+                        Text("Loading...")
+                            .font(.headline)
+                            .foregroundColor(.gray)
+                    }
+                    Spacer()
                 }
             }
             .padding(.horizontal)
         }
         .padding(.top)
     }
+
+    private var defaultProfileImage: some View {
+        Circle()
+            .fill(Color.gray.opacity(0.3))
+            .frame(width: 80, height: 80)
+            .overlay(
+                Image(systemName: "person.fill")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 40, height: 40)
+                    .foregroundColor(.gray)
+            )
+    }
     
-    // MARK: - ენების სექცია
     private var languageSection: some View {
-        Section(header: Text("Language".localized())) {
+        Section(header: Text("Language".localized()).foregroundColor(.gray)) {
             VStack(spacing: 0) {
                 HStack {
                     Image(systemName: "globe")
@@ -105,9 +144,9 @@ struct ProfileView: View {
                 }
             }
         }
+        .listRowBackground(Color.pageBack)
     }
     
-    // MARK: - პირადი შეტყობინებების სექცია
     private var notificationsSection: some View {
         Section {
             NavigationLink(destination: Text("Personal Notifications".localized())) {
@@ -118,9 +157,9 @@ struct ProfileView: View {
                 }
             }
         }
+        .listRowBackground(Color.pageBack)
     }
     
-    // MARK: - დარკ მოუდი
     private var darkModeToggleSection: some View {
         Section {
             HStack {
@@ -143,12 +182,12 @@ struct ProfileView: View {
                 .labelsHidden()
             }
         }
+        .listRowBackground(Color.pageBack)
     }
     
-    // MARK: - ანგარიში: Edit / Delete
     private var accountManagementSection: some View {
-        Section(header: Text("Account Management".localized())) {
-            NavigationLink(destination: EditProfileView()) {
+        Section(header: Text("Account Management".localized()).foregroundColor(.gray)) {
+            NavigationLink(destination: EditProfileView(profileViewModel: viewModel)) {
                 HStack {
                     Image(systemName: "person.crop.circle")
                         .foregroundColor(.blue)
@@ -156,20 +195,27 @@ struct ProfileView: View {
                 }
             }
             Button(role: .destructive, action: {
-                //  Delete Account ლოგიკა
-                //  Alert-იც გამოგადგეთ დასადასტურებლად
+                showingDeleteAlert = true
             }) {
                 HStack {
                     Image(systemName: "trash")
                     Text("Delete Account".localized())
                 }
             }
+            .alert("Delete Account?".localized(), isPresented: $showingDeleteAlert) {
+                Button("Delete", role: .destructive) {
+                    Task {
+                        await viewModel.deleteAccount()
+                    }
+                }
+                Button("Cancel", role: .cancel) {}
+            }
         }
+        .listRowBackground(Color.pageBack)
     }
     
-    // MARK: - დახმარება და ფიდბექი
     private var helpAndSupportSection: some View {
-        Section(header: Text("Help & Support".localized())) {
+        Section(header: Text("Help & Support".localized()).foregroundColor(.gray)) {
             Button(action: {
                 showContactUsSheet = true
             }) {
@@ -196,11 +242,11 @@ struct ProfileView: View {
                 }
             }
         }
+        .listRowBackground(Color.pageBack)
     }
     
-    // MARK: - აპის შესახებ, Terms/Privacy, ვერსია
     private var appInfoSection: some View {
-        Section(header: Text("App Info".localized())) {
+        Section(header: Text("App Info".localized()).foregroundColor(.gray)) {
             Button(action: {
                 showTermsSheet = true
             }) {
@@ -234,13 +280,13 @@ struct ProfileView: View {
                     .foregroundColor(.gray)
             }
         }
+        .listRowBackground(Color.pageBack)
     }
     
-    // MARK: - გამოსვლა
     private var logoutButton: some View {
         Section {
             Button(action: {
-                // Logout Logic
+                viewModel.signOut()
             }) {
                 HStack {
                     Image(systemName: "rectangle.portrait.and.arrow.right")
@@ -250,6 +296,7 @@ struct ProfileView: View {
                 }
             }
         }
+        .listRowBackground(Color.pageBack)
     }
 }
 
