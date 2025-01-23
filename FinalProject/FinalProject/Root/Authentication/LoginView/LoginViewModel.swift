@@ -31,7 +31,6 @@ final class LoginViewModel: ObservableObject {
         guard let topVC = await Utilities.shared.topViewController() else {
             throw URLError(.cannotFindHost)
         }
-        // ახალ ვერსიაში signIn(withPresenting:) წაიღებს Client ID–ს Info.plist–იდან
         let gidSignInResult = try await GIDSignIn.sharedInstance.signIn(withPresenting: topVC)
         
         guard let idToken = gidSignInResult.user.idToken?.tokenString else { return }
@@ -57,6 +56,6 @@ final class LoginViewModel: ObservableObject {
     }
     
     func checkUserStatus() -> Bool {
-        return UserDefaultsManager.shared.isUserLoggedIn()
+        UserDefaultsManager.shared.isUserLoggedIn()
     }
 }

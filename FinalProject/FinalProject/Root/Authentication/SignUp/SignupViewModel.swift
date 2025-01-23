@@ -89,7 +89,6 @@ final class SignupViewModel: ObservableObject {
         
         return errors
     }
-    
 }
 
 enum ValidationError: LocalizedError {

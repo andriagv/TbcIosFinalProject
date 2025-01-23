@@ -26,7 +26,6 @@ struct LoginView: View {
                 Image("darkLogo")
                     .resizable()
                     .renderingMode(.template)
-                // .foregroundColor(.customBlue)
                     .scaledToFit()
                     .frame(width: 233)
                     .overlay {
@@ -59,7 +58,7 @@ struct LoginView: View {
                     SignupView()
                 } label: {
                     HStack(spacing: 3) {
-                        Text("New To Wazaaaaap?")
+                        Text("New Accountt?")
                             .font(.system(size: 12))
                         Spacer()
                         Text("Sign Up")
@@ -135,7 +134,7 @@ struct LoginView: View {
                 .padding(.top, 24)
             }
             .padding()
-            //.background(.customBackground)
+            .background(.pageBack)
         }
     }
 }
@@ -143,6 +142,6 @@ struct LoginView: View {
 
 
 
-//#Preview {
-//    LoginView()
-//}
+#Preview {
+    LoginView()
+}

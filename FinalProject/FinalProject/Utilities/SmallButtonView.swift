@@ -13,7 +13,6 @@ struct SmallButtonView: View {
     var body: some View {
         Image(systemName: imageSystemName)
             .font(.system(size: fontSize))
-            //.foregroundColor(.white)
             .padding(8)
             .background(.ultraThinMaterial)
             .clipShape(Circle())

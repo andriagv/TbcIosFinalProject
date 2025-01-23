@@ -26,11 +26,11 @@ final class UserDefaultsManager {
     }
     
     func getUserId() -> String? {
-        return defaults.string(forKey: Keys.userId)
+        defaults.string(forKey: Keys.userId)
     }
     
     func isUserLoggedIn() -> Bool {
-        return defaults.bool(forKey: Keys.isUserLoggedIn)
+        defaults.bool(forKey: Keys.isUserLoggedIn)
     }
     
     func logoutUser() {

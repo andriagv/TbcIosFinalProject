@@ -20,13 +20,16 @@ struct SignupView: View {
     @State private var showToast = false
     @State private var showErrorToast = false
     
+    var formIsValid: Bool {
+        !fullName.isEmpty && !userName.isEmpty && !email.isEmpty && !fullName.isEmpty && !password.isEmpty && !confirmPassword.isEmpty
+    }
+    
     private func getError(for type: ValidationError) -> String? {
         errors.first { $0 == type }?.errorDescription
     }
     
     var body: some View {
         VStack {
-            // Navigation Bar
             HStack {
                 Button(action: { presentationMode.wrappedValue.dismiss() }) {
                     Image(systemName: "chevron.backward")
@@ -56,37 +59,31 @@ struct SignupView: View {
             
             ScrollView {
                 VStack(spacing: 20) {
-                    // Input Fields
                     VStack(spacing: 10) {
-                        // Full Name
                         InputView(text: $fullName, title: "Full Name", placeholder: "Your full name")
                             .autocapitalization(.none)
                         if let error = getError(for: .fullName) ?? getError(for: .fullNameEmpty) {
                             Text(error).foregroundColor(.red).font(.system(size: 14))
                         }
                         
-                        // Username
                         InputView(text: $userName, title: "Username", placeholder: "Your username")
                             .autocapitalization(.none)
                         if let error = getError(for: .username) ?? getError(for: .usernameEmpty) {
                             Text(error).foregroundColor(.red).font(.system(size: 14))
                         }
                         
-                        // Email
                         InputView(text: $email, title: "Email", placeholder: "Your email address")
                             .autocapitalization(.none)
                         if let error = getError(for: .email) ?? getError(for: .emailEmpty) {
                             Text(error).foregroundColor(.red).font(.system(size: 14))
                         }
                         
-                        // Password
                         InputView(text: $password, title: "Enter Password", placeholder: "Enter your Password", isSecureField: true)
                             .padding(.top, 7)
                         if let error = getError(for: .password) ?? getError(for: .passwordEmpty) {
                             Text(error).foregroundColor(.red).font(.system(size: 14))
                         }
                         
-                        // Confirm Password
                         InputView(text: $confirmPassword, title: "Confirm Password", placeholder: "Enter your Password", isSecureField: true)
                             .padding(.top, 7)
                         if let error = getError(for: .confirmPassword) ?? getError(for: .confirmPasswordEmpty) {
@@ -96,25 +93,21 @@ struct SignupView: View {
                     .padding(.horizontal, 20)
                     .padding(.top, 10)
                     
-                    // Sign Up Button
                     Button(action: {
                         handleSignUp()
                     }) {
                         Text("Sign Up")
-                            .fontWeight(.semibold)
-                            .font(.system(size: 20))
-                            .foregroundColor(.white)
-                            .frame(maxWidth: .infinity, minHeight: 64)
-                            .background(.separator)
-                            .cornerRadius(10)
                     }
                     .padding(.horizontal, 20)
+                    .makeButtonStyle(tintColor: .white, backgroundColor: Color.red, width: UIScreen.main.bounds.width - 40, height: 64)
+                    .disabled(!formIsValid)
+                    .opacity(formIsValid ? 1.0 : 0.5)
                 }
                 .padding(.bottom, 20)
             }
             .scrollIndicators(.hidden)
         }
-        //.background(.customBackground)
+        .background(.pageBack)
     }
     
     private func handleSignUp() {
@@ -157,6 +150,6 @@ struct SignupView: View {
     }
 }
 
-//#Preview {
-//    SignupView()
-//}
+#Preview {
+    SignupView()
+}
