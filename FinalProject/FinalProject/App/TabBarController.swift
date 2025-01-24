@@ -34,8 +34,9 @@ final class TabBarController: UITabBarController {
             selectedImage: UIImage(systemName: "magnifyingglass")
         )
         
-        let likespageVC = LikesPageViewController()
-        let likesVC = UINavigationController(rootViewController: likespageVC)
+
+        let likesView = LikesPageView()
+        let likesVC = UIHostingController(rootView: likesView)
         likesVC.tabBarItem = UITabBarItem(
             title: "Likes",
             image: UIImage(systemName: "heart"),
