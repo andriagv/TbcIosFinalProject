@@ -12,6 +12,7 @@ struct CartBigView: View {
     @State private var isLiked: Bool
     let event: Event
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var viewModel: SearchPageViewModel
     
     init(event: Event) {
         self.event = event
@@ -29,8 +30,19 @@ struct CartBigView: View {
                     .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
                     .opacity(colorScheme == .dark ? 0.9 : 1)
                 Button(action: { isLiked.toggle() }) {
-                    SmallButtonView(imageSystemName: isLiked ? "heart.fill" : "heart", fontSize: 20)
-                        .foregroundStyle(isLiked ? Color.red : Color.white)
+                    Button(action: {
+                        isLiked.toggle()
+                        Task {
+                            do {
+                                try await viewModel.toggleLike(for: event)
+                            } catch {
+                                print("Error toggling like: \(error)")
+                            }
+                        }
+                    }) {
+                        SmallButtonView(imageSystemName: isLiked ? "heart.fill" : "heart", fontSize: 20)
+                            .foregroundStyle(isLiked ? Color.red : Color.white)
+                    }
                 }
                 .padding(16)
             }
