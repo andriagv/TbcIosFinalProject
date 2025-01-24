@@ -5,7 +5,6 @@
 //  Created by Apple on 24.01.25.
 //
 
-
 import Foundation
 import FirebaseFirestore
 
@@ -38,3 +37,4 @@ final class LikedEventsManager {
         return likedEventIds.contains(eventId)
     }
 }
+

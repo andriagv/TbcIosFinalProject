@@ -79,7 +79,7 @@ struct CartSmallView: View {
         .onAppear {
             checkLikeStatus()
         }
-        .onChange(of: likeStatusMonitor.lastUpdated) { _ in
+        .onReceive(likeStatusMonitor.$lastUpdated) { _ in
             checkLikeStatus()
         }
         .frame(width: 160)
