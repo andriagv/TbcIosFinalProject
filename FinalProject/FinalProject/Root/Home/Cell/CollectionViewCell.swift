@@ -11,6 +11,8 @@ final class CollectionViewCell: UICollectionViewCell {
     
     private var isFavorite: Bool
     
+    var onLikeButtonTapped: ((Bool) -> Void)?
+    
     private let containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 16
@@ -33,16 +35,6 @@ final class CollectionViewCell: UICollectionViewCell {
         ]
         gradient.locations = [0.4, 1.0]
         return gradient
-    }()
-    
-    private let likeButton: UIButton = {
-        let button = UIButton()
-        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .medium)
-        button.setImage(UIImage(systemName: "heart"), for: .normal)
-        button.tintColor = .white
-        button.backgroundColor = UIColor.black.withAlphaComponent(0.35)
-        button.layer.cornerRadius = 15
-        return button
     }()
     
     private let blackOverlayView: UIView = {
@@ -98,7 +90,6 @@ final class CollectionViewCell: UICollectionViewCell {
         
         contentView.addSubview(containerView)
         containerView.addSubview(imageView)
-        containerView.addSubview(likeButton)
         
         imageView.layer.insertSublayer(gradientLayer, at: 0)
         
@@ -114,7 +105,6 @@ final class CollectionViewCell: UICollectionViewCell {
         [
             containerView,
             imageView,
-            likeButton,
             blackOverlayView,
             containerStack,
             topRowStack,
@@ -145,49 +135,6 @@ final class CollectionViewCell: UICollectionViewCell {
             containerStack.trailingAnchor.constraint(equalTo: blackOverlayView.trailingAnchor, constant: -8),
             containerStack.bottomAnchor.constraint(equalTo: blackOverlayView.bottomAnchor, constant: -8),
         ])
-        setupLikeButton()
-    }
-    
-    private func setupLikeButton() {
-        likeButton.setImage(UIImage(systemName: self.isFavorite ? "heart.fill" : "heart"), for: .normal)
-        likeButtonAction()
-        
-        NSLayoutConstraint.activate([
-            likeButton.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 12),
-            likeButton.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -12),
-            likeButton.widthAnchor.constraint(equalToConstant: 30),
-            likeButton.heightAnchor.constraint(equalToConstant: 30)
-        ])
-    }
-    
-    private func likeButtonAction() {
-        likeButton.removeTarget(nil, action: nil, for: .allEvents)
-        
-        likeButton.addAction(UIAction(handler: { [weak self] _ in
-            guard let self = self else { return }
-            
-            self.isFavorite.toggle()
-            
-            self.likeButton.setImage(
-                UIImage(systemName: self.isFavorite ? "heart.fill" : "heart"),
-                for: .normal
-            )
-            self.likeButton.tintColor = isFavorite ? .red : .white
-            
-            self.updateFavoriteStatusInDatabase(isFavorite: self.isFavorite)
-        }), for: .touchUpInside)
-    }
-    
-    private func updateFavoriteStatusInDatabase(isFavorite: Bool) {
-//        let eventId = "event1" // შესაბამისი ივენთის ID
-//        let databaseRef = Database.database().reference()
-//        databaseRef.child("events").child(eventId).updateChildValues(["isFavorite": isFavorite]) { error, _ in
-//            if let error = error {
-//                print("Firebase update error: \(error.localizedDescription)")
-//            } else {
-//                print("Successfully updated isFavorite to \(isFavorite)")
-//            }
-//        }
     }
     
     private func createLabel(fontSize: CGFloat, fontName: String, tintColor: UIColor = .white) -> UILabel {
@@ -208,9 +155,6 @@ final class CollectionViewCell: UICollectionViewCell {
         } else {
             imageView.image = nil
         }
-        isFavorite = event.isFavorite
-        
-        setupLikeButton()
     }
 }
 
