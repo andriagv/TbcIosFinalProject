@@ -225,6 +225,7 @@
 				1837A7452D417D50005B1785 /* FontExtension.swift */,
 				18E771042D35224600BE615B /* StringExtension.swift */,
 				18361FAA2D33F918000236B1 /* ColorExtension.swift */,
+				188FFC922D426EA90074A23B /* ToastView.swift */,
 			);
 			path = Utilities;
 			sourceTree = "<group>";
@@ -413,7 +414,6 @@
 		188FFC8F2D426E900074A23B /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				188FFC922D426EA90074A23B /* ToastView.swift */,
 				188FFC902D426E9B0074A23B /* InputView.swift */,
 			);
 			path = Components;

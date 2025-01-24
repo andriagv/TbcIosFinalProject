@@ -12,6 +12,8 @@ struct CartSmallView: View {
     @State private var isLiked: Bool
     let event: Event
     @Environment(\.colorScheme) var colorScheme
+    @EnvironmentObject var viewModel: SearchPageViewModel
+    @StateObject private var likeStatusMonitor = LikeStatusMonitor()
     
     init(event: Event) {
         self.event = event
@@ -37,10 +39,20 @@ struct CartSmallView: View {
                         .background(Color(.systemGray6))
                         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 }
-                Button(action: { isLiked.toggle() }) {
-                    SmallButtonView(imageSystemName: isLiked ? "heart.fill" : "heart", fontSize: 15)
+                Button(action: {
+                    isLiked.toggle()
+                    Task {
+                        do {
+                            try await viewModel.toggleLike(for: event)
+                        } catch {
+                            print("Error toggling like: \(error)")
+                        }
+                    }
+                }) {
+                    SmallButtonView(imageSystemName: isLiked ? "heart.fill" : "heart", fontSize: 20)
                         .foregroundStyle(isLiked ? Color.red : Color.white)
                 }
+                
                 .padding(8)
             }
             VStack(spacing: 8) {
@@ -64,10 +76,30 @@ struct CartSmallView: View {
             .padding(8)
             .background(Color(.filterSheetBackground))
         }
+        .onAppear {
+            checkLikeStatus()
+        }
+        .onChange(of: likeStatusMonitor.lastUpdated) { _ in
+            checkLikeStatus()
+        }
         .frame(width: 160)
         .background(Color(.filterSheetBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(color: .collectionShadow.opacity(0.1), radius: 8, x: 0, y: 3)
+    }
+    
+    private func checkLikeStatus() {
+        Task {
+            if let userId = UserDefaultsManager.shared.getUserId() {
+                let isLiked = try? await LikedEventsManager.shared.isEventLiked(
+                    eventId: event.id,
+                    userId: userId
+                )
+                await MainActor.run {
+                    self.isLiked = isLiked ?? false
+                }
+            }
+        }
     }
 }
 

@@ -6,6 +6,8 @@
 //
 
 import Foundation
+import FirebaseDatabase
+import Firebase
 
 struct EventsContainer: Codable {
     let events: [Event]
@@ -16,44 +18,35 @@ protocol HomePageViewModelProtocol {
     var forYouEvents: [Event] { get }
     var onDataLoaded: (() -> Void)? { get set }
     
-    func loadData()
+    func loadData()    
 }
 
 final class HomePageViewModel: HomePageViewModelProtocol {
-    
-    // MARK: - Properties
-    
     private(set) var events: [Event] = []
-    private(set) var forYouEvents: [Event] = []
+        private(set) var forYouEvents: [Event] = []
+        var onDataLoaded: (() -> Void)?
+        private let databaseRef = Database.database().reference()
     
-    var onDataLoaded: (() -> Void)?
-    
-    // MARK: - Init
     init() {
         loadData()
     }
     
-    // MARK: - Public Methods
-    
     func loadData() {
-        guard let url = Bundle.main.url(forResource: "mockEvents", withExtension: "json") else {
-            print("mockEvents.json ფაილი ვერ მოიძებნა.")
-            return
-        }
-        
-        do {
-            let data = try Data(contentsOf: url)
-            let decoder = JSONDecoder()
-            let decodedContainer = try decoder.decode(EventsContainer.self, from: data)
+        databaseRef.child("events").observeSingleEvent(of: .value) { [weak self] snapshot in
+            guard let self = self,
+                  let value = snapshot.value as? [[String: Any]] else { return }
             
-            self.events = decodedContainer.events
-            
-            self.forYouEvents = events.filter { $0.price.discountedPrice != nil }
-            
-            onDataLoaded?()
-            
-        } catch {
-            print("JSON Data Parsing Error: \(error.localizedDescription)")
+            do {
+                let data = try JSONSerialization.data(withJSONObject: value)
+                let decoder = JSONDecoder()
+                let events = try decoder.decode([Event].self, from: data)
+                
+                self.events = events
+                self.forYouEvents = events.filter { $0.price.discountedPrice != nil }
+                self.onDataLoaded?()
+            } catch {
+                print("Error: \(error)")
+            }
         }
     }
 }

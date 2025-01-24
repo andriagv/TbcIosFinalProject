@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import FirebaseAuth
 
 final class ProfileViewModel: ObservableObject {
     @Published var user: UserModel?
@@ -85,6 +86,7 @@ final class ProfileViewModel: ObservableObject {
         guard let userId = UserDefaultsManager.shared.getUserId() else { return }
         do {
             try await userManager.deleteUser(uid: userId)
+            try await Auth.auth().currentUser?.delete()
             await MainActor.run {
                 signOut()
             }

@@ -45,17 +45,24 @@ struct SignupView: View {
             .padding(.horizontal, 16)
             .padding(.vertical, 10)
             .navigationBarHidden(true)
-            .overlay {
+            .overlay(alignment: .top) {
                 if showToast {
                     ToastView(message: "signup in successfully")
-                        .transition(.move(edge: .top).combined(with: .opacity))
+                        .transition(
+                            .move(edge: .top)
+                            .combined(with: .opacity)
+                            .combined(with: .scale(scale: 0.8))
+                        )
+                        .shadow(color: .black.opacity(0.15), radius: 10, x: 0, y: 5)
                         .zIndex(1)
+                        .padding(.top, 10)
                 } else if showErrorToast {
                     ToastView(message: "wrong", bgColor: .red)
                         .transition(.move(edge: .top).combined(with: .opacity))
                         .zIndex(1)
                 }
             }
+            
             
             ScrollView {
                 VStack(spacing: 20) {
@@ -133,7 +140,7 @@ struct SignupView: View {
                     withAnimation {
                         showToast = true
                     }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
                            let window = windowScene.windows.first {
                             window.rootViewController = TabBarController()
@@ -141,7 +148,7 @@ struct SignupView: View {
                     }
                 } else {
                     showErrorToast = true
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                         showErrorToast = false
                     }
                 }

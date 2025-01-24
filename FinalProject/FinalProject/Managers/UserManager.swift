@@ -33,7 +33,6 @@ final class UserManager: UserManagerProtocol {
         return downloadURL.absoluteString
     }
     
-    
     func saveUserToFirestore(uid: String, email: String, fullname: String, username: String) async throws {
         let userData: [String: Any] = [
             "uid": uid,
@@ -41,7 +40,9 @@ final class UserManager: UserManagerProtocol {
             "fullName": fullname,
             "username": username,
             "createdAt": Timestamp(date: Date()),
-            "photoUrl": ""
+            "photoUrl": "",
+            "likedEventIds": [],
+            "orderedEvents": []
         ]
         try await db.collection("users").document(uid).setData(userData)
     }
@@ -73,9 +74,25 @@ final class UserManager: UserManagerProtocol {
             let photoUrl = data["photoUrl"] as? String else {
             throw NSError(domain: "UserManager", code: 422, userInfo: [NSLocalizedDescriptionKey: "Invalid user data"])
         }
-        
+
         let createdAt = timestamp.dateValue()
-        return UserModel(id: uid, uid: uid, email: email, fullName: fullName, username: username, createdAt: createdAt, photoUrl: photoUrl)
+        let likedEventIds = data["likedEventIds"] as? [String] ?? []
+        let orderedEventsData = data["orderedEvents"] as? [[String: Any]] ?? []
+        let orderedEvents = try orderedEventsData.map { orderedEventData in
+            return try Firestore.Decoder().decode(OrderedEvent.self, from: orderedEventData)
+        }
+
+        return UserModel(
+            id: uid,
+            uid: uid,
+            email: email,
+            fullName: fullName,
+            username: username,
+            createdAt: createdAt,
+            photoUrl: photoUrl,
+            likedEventIds: likedEventIds,
+            orderedEvents: orderedEvents
+        )
     }
     
     func deleteUser(uid: String) async throws {

@@ -27,17 +27,24 @@ final class LoginViewModel: ObservableObject {
         self.userManager = userManager
     }
     
+    @MainActor
     func signInGoogle() async throws {
-        guard let topVC = await Utilities.shared.topViewController() else {
+        guard let topVC = Utilities.shared.topViewController() else {
             throw URLError(.cannotFindHost)
         }
+        
         let gidSignInResult = try await GIDSignIn.sharedInstance.signIn(withPresenting: topVC)
         
-        guard let idToken = gidSignInResult.user.idToken?.tokenString else { return }
+        guard let idToken = gidSignInResult.user.idToken?.tokenString else {
+            throw URLError(.badServerResponse)
+        }
+
         let accessToken = gidSignInResult.user.accessToken.tokenString
-        
         let tokens = GoogleSignInResultModel(idToken: idToken, accessToken: accessToken)
-        let _ = try await authenticationManager.signInWithGoogle(tokens: tokens)
+        
+        let authResult = try await authenticationManager.signInWithGoogle(tokens: tokens)
+        
+        UserDefaultsManager.shared.setUserLoggedIn(userId: authResult.uid)
     }
     
     func signIn(email: String, password: String) async -> Bool {
