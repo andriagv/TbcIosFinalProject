@@ -218,14 +218,14 @@ extension HomePageViewController: UICollectionViewDataSource, UICollectionViewDe
     }
     
     func collectionView(_ collectionView: UICollectionView,
-                        cellForItemAt indexPath: IndexPath
-    ) -> UICollectionViewCell {
+                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: "CollectionViewCell",
             for: indexPath
         ) as? CollectionViewCell else {
             fatalError("CollectionViewCell ვერ მოიძებნა")
         }
+        
         let event = viewModel.events[indexPath.row]
         cell.configure(event: event)
         
