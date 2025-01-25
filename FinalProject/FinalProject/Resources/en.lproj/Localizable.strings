@@ -1,3 +1,13 @@
+//Home Page
+"Most Popular places" = "Most Popular places";
+"For you" = "For you";
+"Partners" = "Partners";
+
+//like Page
+"Favorites" = "Favorites";
+"Favorites are empty" = "Favorites are empty";
+"Add events to favorites" = "Add events to favorites";
+
 //profile page
 "My Profile" = "My Profile";
 "Select Language" = "Select Language";
@@ -7,3 +17,5 @@
 "Dark Mode" = "Dark Mode";
 "Privacy Policy" = "Privacy Policy";
 "Logout" = "Logout";
+
+

@@ -81,7 +81,6 @@
 		188FFCEB2D428E970074A23B /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 188FFCEA2D428E970074A23B /* GoogleSignInSwift */; };
 		188FFCEF2D42A2360074A23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 188FFCEE2D42A2360074A23B /* GoogleService-Info.plist */; };
 		188FFCF22D42B2B40074A23B /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188FFCF12D42B2B40074A23B /* EditProfileViewModel.swift */; };
-		18E771052D35224600BE615B /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18E771042D35224600BE615B /* StringExtension.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -154,7 +153,6 @@
 		188FFCE32D4277650074A23B /* ButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonModifier.swift; sourceTree = "<group>"; };
 		188FFCEE2D42A2360074A23B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		188FFCF12D42B2B40074A23B /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
-		18E771042D35224600BE615B /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -244,7 +242,6 @@
 				188FFCDD2D4270090074A23B /* Utilities.swift */,
 				1837A7472D417D7F005B1785 /* SmallButtonView.swift */,
 				1837A7452D417D50005B1785 /* FontExtension.swift */,
-				18E771042D35224600BE615B /* StringExtension.swift */,
 				18361FAA2D33F918000236B1 /* ColorExtension.swift */,
 				188FFC922D426EA90074A23B /* ToastView.swift */,
 			);
@@ -576,7 +573,6 @@
 				18361FA52D33F8A9000236B1 /* ProfileViewModel.swift in Sources */,
 				18361FAB2D33F919000236B1 /* ColorExtension.swift in Sources */,
 				1807214B2D4415DD00B79B6A /* LikesViewModel.swift in Sources */,
-				18E771052D35224600BE615B /* StringExtension.swift in Sources */,
 				188FFC912D426E9B0074A23B /* InputView.swift in Sources */,
 				1837A75A2D418715005B1785 /* TermsAndConditionsViewController.swift in Sources */,
 				180721472D44141D00B79B6A /* LikeStatusMonitor.swift in Sources */,

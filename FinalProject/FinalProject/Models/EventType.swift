@@ -7,6 +7,10 @@
 
 import Foundation
 
+struct EventsContainer: Codable {
+    let events: [Event]
+}
+
 enum EventType: String, Codable, CaseIterable {
     case camping
     case hiking

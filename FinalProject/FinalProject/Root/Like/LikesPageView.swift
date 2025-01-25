@@ -11,6 +11,7 @@ import SwiftUI
 
 struct LikesPageView: View {
     @StateObject private var viewModel = LikesViewModel()
+    @ObservedObject var languageManager = LanguageManager.shared
     
     var body: some View {
         NavigationView {
@@ -32,13 +33,14 @@ struct LikesPageView: View {
                 }
             }
             .background(Color(.systemGroupedBackground))
-            .navigationTitle("ფავორიტები")
+            .navigationTitle("Favorites".localized())
             .overlay(Group {
                 if viewModel.likedEvents.isEmpty && !viewModel.isLoading {
                     EmptyStateView()
                 }
             })
         }
+        .id(languageManager.selectedLanguage)
     }
 }
 

@@ -16,6 +16,7 @@ final class HomePageViewController: UIViewController {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -54,13 +55,13 @@ final class HomePageViewController: UIViewController {
         return label
     }()
     
-    private lazy var seeMoreButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("See more".localized(), for: .normal)
-        button.setTitleColor(.systemGray, for: .normal)
-        button.titleLabel?.font = UIFont(name: "SourGummy-ThinItalic", size: 16)
-        return button
-    }()
+//    private lazy var seeMoreButton: UIButton = {
+//        let button = UIButton(type: .system)
+//        button.setTitle("See more".localized(), for: .normal)
+//        button.setTitleColor(.systemGray, for: .normal)
+//        button.titleLabel?.font = UIFont(name: "SourGummy-ThinItalic", size: 16)
+//        return button
+//    }()
     
     private lazy var popularCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
@@ -87,6 +88,34 @@ final class HomePageViewController: UIViewController {
         return tb
     }()
     
+    private lazy var partnersLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Partners".localized()
+        label.font = UIFont(name: "SourGummy-Bold", size: 20)
+        return label
+    }()
+    
+    private lazy var partnersStackView: UIStackView = {
+        let stack = UIStackView()
+        stack.axis = .horizontal
+        stack.spacing = 16
+        stack.alignment = .center
+        stack.distribution = .equalSpacing
+        
+        let imageNames = ["prt1", "prt2", "prt3", "prt4"]
+        for name in imageNames {
+            let imageView = UIImageView()
+            imageView.image = UIImage(named: name)
+            imageView.layer.cornerRadius = 8
+            imageView.clipsToBounds = true
+            imageView.contentMode = .scaleAspectFill
+            imageView.heightAnchor.constraint(equalToConstant: 60).isActive = true
+            imageView.widthAnchor.constraint(equalToConstant: 60).isActive = true
+            stack.addArrangedSubview(imageView)
+        }
+        return stack
+    }()
+    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -96,17 +125,24 @@ final class HomePageViewController: UIViewController {
         setupUnderView()
         setupCollectionSection()
         setupTableSection()
+        setupPartniorStackView()
         
         viewModel.onDataLoaded = { [weak self] in
             guard let self = self else { return }
             self.popularCollectionView.reloadData()
             self.recommendedForYouTableView.reloadData()
         }
+        viewModel.loadData()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.setNavigationBarHidden(true, animated: animated)
+        
+        popularLabel.text = "Most Popular places".localized()
+        forouLabel.text = "For you".localized()
+        partnersLabel.text = "Partners".localized()
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -160,19 +196,19 @@ final class HomePageViewController: UIViewController {
     
     private func setupCollectionSection() {
         underView.addSubview(popularLabel)
-        underView.addSubview(seeMoreButton)
+        //underView.addSubview(seeMoreButton)
         underView.addSubview(popularCollectionView)
         
         popularLabel.translatesAutoresizingMaskIntoConstraints = false
-        seeMoreButton.translatesAutoresizingMaskIntoConstraints = false
+        //seeMoreButton.translatesAutoresizingMaskIntoConstraints = false
         popularCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             popularLabel.topAnchor.constraint(equalTo: underView.topAnchor, constant: 32),
             popularLabel.leadingAnchor.constraint(equalTo: underView.leadingAnchor, constant: 16),
             
-            seeMoreButton.centerYAnchor.constraint(equalTo: popularLabel.centerYAnchor),
-            seeMoreButton.trailingAnchor.constraint(equalTo: underView.trailingAnchor, constant: -16),
+//            seeMoreButton.centerYAnchor.constraint(equalTo: popularLabel.centerYAnchor),
+//            seeMoreButton.trailingAnchor.constraint(equalTo: underView.trailingAnchor, constant: -16),
             
             popularCollectionView.topAnchor.constraint(equalTo: popularLabel.bottomAnchor, constant: 8),
             popularCollectionView.leadingAnchor.constraint(equalTo: underView.leadingAnchor, constant: 6),
@@ -200,25 +236,44 @@ final class HomePageViewController: UIViewController {
             recommendedForYouTableView.topAnchor.constraint(equalTo: forouLabel.bottomAnchor, constant: 8),
             recommendedForYouTableView.leadingAnchor.constraint(equalTo: underView.leadingAnchor, constant: 16),
             recommendedForYouTableView.trailingAnchor.constraint(equalTo: underView.trailingAnchor, constant: -16),
-            recommendedForYouTableView.bottomAnchor.constraint(equalTo: underView.bottomAnchor),
-            
-            recommendedForYouTableView.heightAnchor.constraint(equalToConstant: 600)
+            recommendedForYouTableView.heightAnchor.constraint(equalToConstant: 480)
         ])
+        
+        recommendedForYouTableView.isScrollEnabled = false
         
         recommendedForYouTableView.dataSource = self
         recommendedForYouTableView.delegate = self
         recommendedForYouTableView.register(TableViewCell.self, forCellReuseIdentifier: "TableViewCell")
+    }
+    
+    private func setupPartniorStackView() {
+        underView.addSubview(partnersLabel)
+        underView.addSubview(partnersStackView)
+        
+        partnersLabel.translatesAutoresizingMaskIntoConstraints = false
+        partnersStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        NSLayoutConstraint.activate([
+            partnersLabel.topAnchor.constraint(equalTo: recommendedForYouTableView.bottomAnchor, constant: 16),
+            partnersLabel.leadingAnchor.constraint(equalTo: underView.leadingAnchor, constant: 16),
+            
+            partnersStackView.topAnchor.constraint(equalTo: partnersLabel.bottomAnchor, constant: 16),
+            partnersStackView.leadingAnchor.constraint(equalTo: underView.leadingAnchor, constant: 30),
+            partnersStackView.trailingAnchor.constraint(equalTo: underView.trailingAnchor, constant: -30),
+            
+            partnersStackView.bottomAnchor.constraint(equalTo: underView.bottomAnchor, constant: -24)
+        ])
     }
 }
 
 // MARK: - UICollectionViewDataSource, UICollectionViewDelegate
 extension HomePageViewController: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        viewModel.events.count
+        viewModel.eventsCount()
     }
     
     func collectionView(_ collectionView: UICollectionView,
-                         cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+                        cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(
             withReuseIdentifier: "CollectionViewCell",
             for: indexPath
@@ -247,7 +302,7 @@ extension HomePageViewController: UICollectionViewDataSource, UICollectionViewDe
 // MARK: - UITableViewDataSource, UITableViewDelegate
 extension HomePageViewController: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView,numberOfRowsInSection section: Int) -> Int {
-        viewModel.forYouEvents.count
+        viewModel.forYouEventsCount()
     }
     
     func tableView(_ tableView: UITableView,
