@@ -69,6 +69,6 @@ struct PriceDisplayView: View {
 }
 
 
-#Preview() {
-    SearchView()
+#Preview {
+    SearchView { _ in }
 }

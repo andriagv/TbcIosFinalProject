@@ -19,7 +19,8 @@ struct CompactDetailRow: View {
                 .font(.system(size: 12))
             
             Text(text)
-                .font(.titleFontBold(size: 13))                .foregroundStyle(Color.primary)
+                .font(.titleFontBold(size: 13))
+                .foregroundStyle(Color.primary)
                 .lineLimit(1)
             
             Spacer(minLength: 0)
@@ -27,6 +28,6 @@ struct CompactDetailRow: View {
     }
 }
 
-#Preview() {
-    SearchView()
+#Preview {
+    SearchView { _ in }
 }

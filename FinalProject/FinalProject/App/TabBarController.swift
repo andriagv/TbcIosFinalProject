@@ -43,7 +43,6 @@ final class TabBarController: UITabBarController {
         
         if gesture.state == .ended {
             let velocity = gesture.velocity(in: view).x
-            
             if velocity > 0 && selectedIndex > 0 {
                 selectedIndex -= 1
             } else if velocity < 0 && selectedIndex < (viewControllers?.count ?? 1) - 1 {
@@ -54,42 +53,59 @@ final class TabBarController: UITabBarController {
     
     private func setupViewControllers() {
         let homePageVC = HomePageViewController()
-        let homeVC = UINavigationController(rootViewController: homePageVC)
-        homeVC.tabBarItem = UITabBarItem(
+        let homeNav = UINavigationController(rootViewController: homePageVC)
+        homeNav.tabBarItem = UITabBarItem(
             title: "Home".localized(),
             image: UIImage(systemName: "house"),
             selectedImage: UIImage(systemName: "house.fill")
         )
-        homeVC.hidesBottomBarWhenPushed = true
         
-        let searchView = SearchView()
-        let searchVC = UIHostingController(rootView: searchView)
-        searchVC.tabBarItem = UITabBarItem(
+        
+        let searchNav = UINavigationController()
+        searchNav.tabBarItem = UITabBarItem(
             title: "Search".localized(),
             image: UIImage(systemName: "magnifyingglass"),
             selectedImage: UIImage(systemName: "magnifyingglass")
         )
-        searchVC.hidesBottomBarWhenPushed = true
         
-        let likesView = LikesPageView()
-        let likesVC = UIHostingController(rootView: likesView)
-        likesVC.tabBarItem = UITabBarItem(
+        
+        let searchView = SearchView { [weak searchNav] event in
+            guard let searchNav else { return }
+            
+            let detailsVC = UIHostingController(rootView: EventDetailsView(event: event))
+            detailsVC.hidesBottomBarWhenPushed = true
+            
+            searchNav.pushViewController(detailsVC, animated: true)
+        }
+        
+        let searchHosting = UIHostingController(rootView: searchView)
+        searchNav.viewControllers = [searchHosting]
+        
+        let likesNav = UINavigationController()
+        likesNav.tabBarItem = UITabBarItem(
             title: "Likes".localized(),
             image: UIImage(systemName: "heart"),
             selectedImage: UIImage(systemName: "heart.fill")
         )
-        likesVC.hidesBottomBarWhenPushed = true
+        
+        let likesView = LikesPageView { [weak likesNav] event in
+            guard let likesNav else { return }
+            let detailsVC = UIHostingController(rootView: EventDetailsView(event: event))
+            detailsVC.hidesBottomBarWhenPushed = true
+            likesNav.pushViewController(detailsVC, animated: true)
+        }
+        let likesHosting = UIHostingController(rootView: likesView)
+        likesNav.viewControllers = [likesHosting]
         
         let profileView = ProfileView()
-        let profileVC = UIHostingController(rootView: profileView)
-        profileVC.tabBarItem = UITabBarItem(
+        let profileHosting = UIHostingController(rootView: profileView)
+        profileHosting.tabBarItem = UITabBarItem(
             title: "Profile".localized(),
             image: UIImage(systemName: "person"),
             selectedImage: UIImage(systemName: "person.fill")
         )
-        profileVC.hidesBottomBarWhenPushed = true
         
-        self.viewControllers = [homeVC, searchVC, likesVC, profileVC]
+        self.viewControllers = [homeNav, searchNav, likesNav, profileHosting]
     }
 }
 

@@ -12,8 +12,9 @@ struct SearchView: View {
     @State private var isFilterSheetPresented = false
     @State private var isSmalCardPresented = true
     
+    var onEventSelected: (Event) -> Void
+    
     var body: some View {
-        
             NavigationView {
                 ScrollView {
                     VStack {
@@ -123,25 +124,25 @@ struct SearchView: View {
                         spacing: 20
                     ) {
                         ForEach(viewModel.filteredEvents) { event in
-                            NavigationLink(
-                                destination: EventDetailsView(event: event)
-                                    .navigationBarHidden(true)
-                                    .toolbar(.hidden, for: .tabBar)
-                            ) {
+                            Button {
+                                onEventSelected(event)
+                            } label: {
                                 CartSmallView(event: event)
                                     .environmentObject(viewModel)
                             }
+                            .buttonStyle(.plain)
                         }
                     }
                 } else {
                     LazyVStack(spacing: 30) {
                         ForEach(viewModel.filteredEvents) { event in
-                            NavigationLink(destination: EventDetailsView(event: event)
-                                .navigationBarHidden(true)
-                                .toolbar(.hidden, for: .tabBar)) {
+                            Button {
+                                onEventSelected(event)
+                            } label: {
                                 CartBigView(event: event)
                                     .environmentObject(viewModel)
                             }
+                            .buttonStyle(.plain)
                         }
                     }
                     .padding(.top, 10)
@@ -182,6 +183,6 @@ struct SearchView: View {
 }
 
 
-#Preview() {
-    SearchView()
+#Preview {
+    SearchView { _ in }
 }

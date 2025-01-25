@@ -149,5 +149,5 @@ struct FilterSheetView: View {
 //}
 
 #Preview {
-    SearchView()
+    SearchView { _ in }
 }
