@@ -123,7 +123,11 @@ struct SearchView: View {
                         spacing: 20
                     ) {
                         ForEach(viewModel.filteredEvents) { event in
-                            NavigationLink(destination: EventDetailsView(event: event)) {
+                            NavigationLink(
+                                destination: EventDetailsView(event: event)
+                                    .navigationBarHidden(true)
+                                    .toolbar(.hidden, for: .tabBar)
+                            ) {
                                 CartSmallView(event: event)
                                     .environmentObject(viewModel)
                             }
@@ -132,7 +136,9 @@ struct SearchView: View {
                 } else {
                     LazyVStack(spacing: 30) {
                         ForEach(viewModel.filteredEvents) { event in
-                            NavigationLink(destination: EventDetailsView(event: event)) {
+                            NavigationLink(destination: EventDetailsView(event: event)
+                                .navigationBarHidden(true)
+                                .toolbar(.hidden, for: .tabBar)) {
                                 CartBigView(event: event)
                                     .environmentObject(viewModel)
                             }

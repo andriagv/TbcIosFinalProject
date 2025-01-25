@@ -14,6 +14,7 @@ struct EventDetailsView: View {
     @State private var isFavorite: Bool
     @Environment(\.presentationMode) var presentationMode
     @StateObject private var likeMonitor = LikeStatusMonitor.shared
+    @GestureState private var dragOffset: CGFloat = 0
     
     init(event: Event) {
         self.event = event
@@ -29,9 +30,21 @@ struct EventDetailsView: View {
                 bookNowSection
             }
         }
+        .gesture(
+            DragGesture()
+                .updating($dragOffset) { value, state, _ in
+                    state = value.translation.width
+                }
+                .onEnded { value in
+                    if value.translation.width > 100 {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+        )
         .ignoresSafeArea(edges: .top)
-        .navigationBarBackButtonHidden(true)
         .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .tabBar)
         .background(.pageBack)
         .onReceive(likeMonitor.$lastUpdated) { _ in
             checkLikeStatus()
@@ -214,10 +227,10 @@ struct EventDetailsView: View {
     }
     
     private func formatDuration() -> String {
-       if let days = event.date.durationInDays {
-           return "\(days) " + (days == 1 ? "day" : "days")
-       }
-       return "0 days"
+        if let days = event.date.durationInDays {
+            return "\(days) " + (days == 1 ? "day" : "days")
+        }
+        return "0 days"
     }
     
     private func toggleFavorite() {

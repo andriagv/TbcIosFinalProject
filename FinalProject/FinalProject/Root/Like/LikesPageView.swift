@@ -8,7 +8,6 @@
 
 import SwiftUI
 
-
 struct LikesPageView: View {
     @StateObject private var viewModel = LikesViewModel()
     @ObservedObject var languageManager = LanguageManager.shared
@@ -22,11 +21,21 @@ struct LikesPageView: View {
                 } else {
                     LazyVStack(spacing: 16) {
                         ForEach(viewModel.likedEvents) { event in
-                            LikedEventCard(event: event, onUnlike: {
-                                Task {
-                                    try? await viewModel.unlikeEvent(event)
-                                }
-                            })
+                            NavigationLink(
+                                destination: EventDetailsView(event: event)
+                                    .navigationBarHidden(true)
+                                    .toolbar(.hidden, for: .tabBar)
+                                    .onAppear {
+                                        let hostingController = UIHostingController(rootView: EventDetailsView(event: event))
+                                        hostingController.hidesBottomBarWhenPushed = true
+                                    }
+                            ) {
+                                LikedEventCard(event: event, onUnlike: {
+                                    Task {
+                                        try? await viewModel.unlikeEvent(event)
+                                    }
+                                })
+                            }
                         }
                     }
                     .padding()
@@ -44,6 +53,8 @@ struct LikesPageView: View {
     }
 }
 
+
 #Preview {
     LikesPageView()
 }
+

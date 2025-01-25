@@ -11,10 +11,12 @@ import SwiftUI
 
 final class TabBarController: UITabBarController {
     let languageManager = LanguageManager.shared
+    private var lastSelectedIndex = 0
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewControllers()
+        addSwipeNavigation()
         
         if let savedLanguage = UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first {
             Bundle.setLanguage(savedLanguage)
@@ -31,6 +33,25 @@ final class TabBarController: UITabBarController {
         }
     }
     
+    private func addSwipeNavigation() {
+        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        view.addGestureRecognizer(panGesture)
+    }
+    
+    @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
+        _ = gesture.translation(in: view).x
+        
+        if gesture.state == .ended {
+            let velocity = gesture.velocity(in: view).x
+            
+            if velocity > 0 && selectedIndex > 0 {
+                selectedIndex -= 1
+            } else if velocity < 0 && selectedIndex < (viewControllers?.count ?? 1) - 1 {
+                selectedIndex += 1
+            }
+        }
+    }
+    
     private func setupViewControllers() {
         let homePageVC = HomePageViewController()
         let homeVC = UINavigationController(rootViewController: homePageVC)
@@ -39,6 +60,7 @@ final class TabBarController: UITabBarController {
             image: UIImage(systemName: "house"),
             selectedImage: UIImage(systemName: "house.fill")
         )
+        homeVC.hidesBottomBarWhenPushed = true
         
         let searchView = SearchView()
         let searchVC = UIHostingController(rootView: searchView)
@@ -47,6 +69,7 @@ final class TabBarController: UITabBarController {
             image: UIImage(systemName: "magnifyingglass"),
             selectedImage: UIImage(systemName: "magnifyingglass")
         )
+        searchVC.hidesBottomBarWhenPushed = true
         
         let likesView = LikesPageView()
         let likesVC = UIHostingController(rootView: likesView)
@@ -55,6 +78,7 @@ final class TabBarController: UITabBarController {
             image: UIImage(systemName: "heart"),
             selectedImage: UIImage(systemName: "heart.fill")
         )
+        likesVC.hidesBottomBarWhenPushed = true
         
         let profileView = ProfileView()
         let profileVC = UIHostingController(rootView: profileView)
@@ -63,11 +87,11 @@ final class TabBarController: UITabBarController {
             image: UIImage(systemName: "person"),
             selectedImage: UIImage(systemName: "person.fill")
         )
+        profileVC.hidesBottomBarWhenPushed = true
         
         self.viewControllers = [homeVC, searchVC, likesVC, profileVC]
     }
 }
-
 
 #Preview {
     TabBarController()
