@@ -15,11 +15,11 @@ struct EmptyStateView: View {
                 .font(.system(size: 60))
                 .foregroundColor(.gray)
             
-            Text("ფავორიტები ცარიელია")
+            Text("Favorites are empty".localized())
                 .font(.title2)
                 .fontWeight(.medium)
             
-            Text("დაამატეთ ღონისძიებები ფავორიტებში")
+            Text("Add events to favorites".localized())
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
         }

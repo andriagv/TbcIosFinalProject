@@ -1,3 +1,13 @@
+//Home Page
+"Most Popular places" = "პოპულარული ადგილები";
+"For you" = "სპეციალურად შენთვის";
+"Partners" = "პარტნიორები";
+
+//like Page
+"Favorites" = "ფავორიტები";
+"Favorites are empty" = "ფავორიტები ცარიელია";
+"Add events to favorites" = "დაამატეტ ღონისძიებები ფავორიტებში";
+
 //profile page
 "My Profile" = "ჩემი პროფილი";
 "Select Language" = "ენის არჩევა";
