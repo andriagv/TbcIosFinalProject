@@ -218,7 +218,7 @@ struct ProfileView: View {
                 }
             }
             .alert("Delete Account?".localized(), isPresented: $showingDeleteAlert) {
-                Button("Delete", role: .destructive) {
+                Button("Delete".localized(), role: .destructive) {
                     withAnimation {
                         showToast = true
                     }
@@ -226,7 +226,7 @@ struct ProfileView: View {
                         await viewModel.deleteAccount()
                     }
                 }
-                Button("Cancel", role: .cancel) {}
+                Button("Cancel".localized(), role: .cancel) {}
             }
             
         }

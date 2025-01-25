@@ -3,6 +3,18 @@
 "For you" = "სპეციალურად შენთვის";
 "Partners" = "პარტნიორები";
 
+//Filter Page
+"Filters" = "ფილტრები";
+"Close" = "დახურვა";
+"Category" = "კატეგორია";
+"All" = "ყველა";
+"Date Range" = "თარიღის შუალედი";
+"Start Date" = "საწყისი თარიღი";
+"End Date" = "საბოლოო თარიღი";
+"Sort by Price" = "ფასით დალაგება";
+"Sort Option" = "დალაგების ოპცია";
+"Clear Filters" = "ფილტრების გასუფთავება";
+
 //like Page
 "Favorites" = "ფავორიტები";
 "Favorites are empty" = "ფავორიტები ცარიელია";
@@ -16,4 +28,33 @@
 "Personal Notifications" = "ნოთიფიკაციები";
 "Dark Mode" = "ფონის ფერი";
 "Privacy Policy" = "უსაფრთხოება";
+"Delete Account" = "ექაუნთის წაშლა";
+"Delete" = "წაშლა";
+"Cancel" = "გაუქმება";
+"Contact Us" = "კონტაქტი";
+"Rate Us" = "შეფასება"
+"Terms & Conditions" = "წესები და პირობები";
+"Version" = "ვერსია";
 "Logout" = "გასვლა";
+
+
+//Edit Profile
+"Edit Profile" = "პროფილის რედაქტირება";
+"Error" = "შეცდომა";
+"OK" = "კარგი";
+"Profile Information" = "პროფილის ინფორმაცია";
+"Full Name" = "სრული სახელი";
+"Username" = "მომხმარებლის სახელი";
+"Change Password" = "პაროლის შეცვლა";
+"Current Password" = "მიმდინარე პაროლი";
+"New Password" = "ახალი პაროლი";
+"Confirm New Password" = "დაადასტურეთ ახალი პაროლი";
+"Save Changes" = "ცვლილებების შენახვა";
+"Back" = "უკან";
+
+//Details Page
+"About" = "შესახებ";
+"Tags" = "ტეგები";
+"Book now" = "დაჯავშნა";
+
+

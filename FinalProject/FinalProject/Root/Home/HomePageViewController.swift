@@ -290,11 +290,11 @@ extension HomePageViewController: UICollectionViewDataSource, UICollectionViewDe
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView,didSelectItemAt indexPath: IndexPath) {
-        
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         let event = viewModel.events[indexPath.row]
         let detailsView = EventDetailsView(event: event)
         let hostingController = UIHostingController(rootView: detailsView)
+        hostingController.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(hostingController, animated: true)
     }
 }
@@ -322,9 +322,7 @@ extension HomePageViewController: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
-    func tableView(_ tableView: UITableView,
-                   didSelectRowAt indexPath: IndexPath
-    ) {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let event = viewModel.forYouEvents[indexPath.row]
         let detailsView = EventDetailsView(event: event)
         let hostingController = UIHostingController(rootView: detailsView)

@@ -61,7 +61,6 @@ final class HomePageViewModel: HomePageViewModelProtocol {
                 DispatchQueue.main.async {
                     self.events = events
                     self.onDataLoaded?()
-                    print("Loaded \(events.count) tour events")
                 }
             }
     }

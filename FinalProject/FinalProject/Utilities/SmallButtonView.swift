@@ -19,8 +19,4 @@ struct SmallButtonView: View {
     }
 }
 
-#Preview {
-    //SmallButtonView(imageSystemName: "heart.fill", fontSize: 30)
-    SearchView()
-}
 

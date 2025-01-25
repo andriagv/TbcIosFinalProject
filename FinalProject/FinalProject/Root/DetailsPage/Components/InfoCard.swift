@@ -38,7 +38,7 @@ struct InfoCard: View {
         InfoCard(icon: "calendar", title: "Date", value: "14-23-2025")
         InfoCard(icon: "mappin", title: "Location", value: "formatLocation()")
         InfoCard(icon: "person.2.fill", title: "Availability", value: " spots left")
-        InfoCard(icon: "clock", title: "Duration", value: "formatDuration()formatDuration()formatDuration()")
+        InfoCard(icon: "clock", title: "Duration", value: "5")
             
     }
 }

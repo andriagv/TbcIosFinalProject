@@ -40,6 +40,6 @@ struct CompactPriceRow: View {
 }
 
 
-#Preview() {
-    SearchView()
+#Preview {
+    SearchView { _ in }
 }

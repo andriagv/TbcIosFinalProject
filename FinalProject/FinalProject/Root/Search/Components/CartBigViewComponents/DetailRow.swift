@@ -34,5 +34,5 @@ struct DetailRow: View {
 
 
 #Preview {
-    SearchView()
+    SearchView { _ in }
 }

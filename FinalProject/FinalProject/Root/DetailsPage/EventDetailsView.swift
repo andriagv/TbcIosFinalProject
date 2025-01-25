@@ -14,6 +14,7 @@ struct EventDetailsView: View {
     @State private var isFavorite: Bool
     @Environment(\.presentationMode) var presentationMode
     @StateObject private var likeMonitor = LikeStatusMonitor.shared
+    @GestureState private var dragOffset: CGFloat = 0
     
     init(event: Event) {
         self.event = event
@@ -29,9 +30,21 @@ struct EventDetailsView: View {
                 bookNowSection
             }
         }
+        .gesture(
+            DragGesture()
+                .updating($dragOffset) { value, state, _ in
+                    state = value.translation.width
+                }
+                .onEnded { value in
+                    if value.translation.width > 100 {
+                        presentationMode.wrappedValue.dismiss()
+                    }
+                }
+        )
         .ignoresSafeArea(edges: .top)
-        .navigationBarBackButtonHidden(true)
         .navigationBarHidden(true)
+        .navigationBarBackButtonHidden(true)
+        .toolbar(.hidden, for: .tabBar)
         .background(.pageBack)
         .onReceive(likeMonitor.$lastUpdated) { _ in
             checkLikeStatus()
@@ -133,7 +146,7 @@ struct EventDetailsView: View {
             }
             
             VStack(alignment: .leading, spacing: 12) {
-                Text("About")
+                Text("About".localized())
                     .font(.dateNumberFont(size: 25))
                 Text(event.description)
                     .foregroundStyle(.secondary)
@@ -142,7 +155,7 @@ struct EventDetailsView: View {
             
             if let tags = event.tags, !tags.isEmpty {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Tags")
+                    Text("Tags".localized())
                         .font(.dateNumberFont(size: 25))
                     
                     FlowLayout(spacing: 8) {
@@ -180,7 +193,7 @@ struct EventDetailsView: View {
                 }
                 Spacer()
                 Button(action: {}) {
-                    Text("Book now")
+                    Text("Book now".localized())
                         .font(.dateNumberFont(size: 25))
                         .foregroundColor(.white)
                         .padding(.horizontal, 32)
@@ -214,8 +227,10 @@ struct EventDetailsView: View {
     }
     
     private func formatDuration() -> String {
-        let days = event.date.durationInDays
-        return days == 1 ? "1 day" : "\(String(describing: days)) days"
+        if let days = event.date.durationInDays {
+            return "\(days) " + (days == 1 ? "day" : "days")
+        }
+        return "0 days"
     }
     
     private func toggleFavorite() {

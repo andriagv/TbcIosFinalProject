@@ -16,12 +16,13 @@ struct EmptyStateView: View {
                 .foregroundColor(.gray)
             
             Text("Favorites are empty".localized())
-                .font(.title2)
                 .fontWeight(.medium)
+                .font(.custom("SourGummy-Bold", size: 23))
             
             Text("Add events to favorites".localized())
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
+                .font(.custom("SourGummy-Bold", size: 18))
         }
     }
 }
