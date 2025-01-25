@@ -133,7 +133,7 @@ struct EventDetailsView: View {
             }
             
             VStack(alignment: .leading, spacing: 12) {
-                Text("About")
+                Text("About".localized())
                     .font(.dateNumberFont(size: 25))
                 Text(event.description)
                     .foregroundStyle(.secondary)
@@ -142,7 +142,7 @@ struct EventDetailsView: View {
             
             if let tags = event.tags, !tags.isEmpty {
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("Tags")
+                    Text("Tags".localized())
                         .font(.dateNumberFont(size: 25))
                     
                     FlowLayout(spacing: 8) {
@@ -180,7 +180,7 @@ struct EventDetailsView: View {
                 }
                 Spacer()
                 Button(action: {}) {
-                    Text("Book now")
+                    Text("Book now".localized())
                         .font(.dateNumberFont(size: 25))
                         .foregroundColor(.white)
                         .padding(.horizontal, 32)
@@ -214,8 +214,10 @@ struct EventDetailsView: View {
     }
     
     private func formatDuration() -> String {
-        let days = event.date.durationInDays
-        return days == 1 ? "1 day" : "\(String(describing: days)) days"
+       if let days = event.date.durationInDays {
+           return "\(days) " + (days == 1 ? "day" : "days")
+       }
+       return "0 days"
     }
     
     private func toggleFavorite() {

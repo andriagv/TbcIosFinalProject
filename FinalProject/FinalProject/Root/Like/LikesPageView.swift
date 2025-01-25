@@ -32,7 +32,7 @@ struct LikesPageView: View {
                     .padding()
                 }
             }
-            .background(Color(.systemGroupedBackground))
+            .background(.pageBack)
             .navigationTitle("Favorites".localized())
             .overlay(Group {
                 if viewModel.likedEvents.isEmpty && !viewModel.isLoading {

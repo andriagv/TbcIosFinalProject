@@ -25,7 +25,6 @@ struct EditProfileView: View {
                 saveButton
             }
         }
-        .navigationTitle("Edit Profile".localized())
         .alert("Error".localized(), isPresented: $showingAlert) {
             Button("OK", role: .cancel) {}
         } message: {
@@ -35,6 +34,16 @@ struct EditProfileView: View {
         .overlay {
             if viewModel.isLoading {
                 ProgressView()
+            }
+        }
+        .navigationBarBackButtonHidden(true)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarLeading) {
+                Button(action: { dismiss() }) {
+                    HStack() {
+                        SmallButtonView(imageSystemName: "chevron.left", fontSize: 20)
+                    }
+                }
             }
         }
     }
@@ -96,4 +105,8 @@ struct EditProfileView: View {
             Text("Save Changes".localized())
         }
     }
+}
+
+#Preview() {
+    ProfileView()
 }

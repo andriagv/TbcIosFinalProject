@@ -75,7 +75,7 @@ struct LikedEventCard: View {
                     .foregroundColor(.secondary)
                 }
                 .padding()
-                .background(Color(.systemBackground))
+                .background(.tableCellBackground)
             }
         }
         .clipShape(RoundedRectangle(cornerRadius: 16))

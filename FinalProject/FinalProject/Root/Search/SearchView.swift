@@ -40,8 +40,8 @@ struct SearchView: View {
                             .presentationDragIndicator(.visible)
                     }
                 }
+                .background(.pageBack)
             }
-            .background(.pageBack)
     }
     
     private var headerView: some View {

@@ -3,6 +3,18 @@
 "For you" = "For you";
 "Partners" = "Partners";
 
+//Filter Page
+"Filters" = "Filters";
+"Close" = "Close";
+"Category" = "Category";
+"All" = "All";
+"Date Range" = "Date Range";
+"Start Date" = "Start Date";
+"End Date" = "End Date";
+"Sort by Price" = "Sort by Price";
+"Sort Option" = "Sort Option";
+"Clear Filters" = "Clear Filters";
+
 //like Page
 "Favorites" = "Favorites";
 "Favorites are empty" = "Favorites are empty";
@@ -17,5 +29,26 @@
 "Dark Mode" = "Dark Mode";
 "Privacy Policy" = "Privacy Policy";
 "Logout" = "Logout";
+
+
+//Edit Profile
+"Error" = "Error";
+"OK" = "OK";
+"Profile Information" = "Profile Information";
+"Full Name" = "Full Name";
+"Profile Information" = "Profile Information";
+"Full Name" = "Full Name";
+"Username" = "Username";
+"Change Password" = "Change Password";
+"Current Password" = "Current Password";
+"New Password" = "New Password";
+"Confirm New Password" = "Confirm New Password";
+
+
+//Details Page
+"About" = "About";
+"Tags" = "Tags";
+"Book now" = "Book now";
+
 
 

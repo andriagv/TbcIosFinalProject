@@ -38,14 +38,14 @@ struct FilterSheetView: View {
     
     private var headerView: some View {
         HStack {
-            Text("Filters")
+            Text("Filters".localized())
                 .font(.dateNumberFont(size: 26))
                 .foregroundColor(.primary)
             Spacer()
             Button(action: {
                 isPresented = false
             }) {
-                Text("Close")
+                Text("Close".localized())
                     .foregroundColor(.blue)
                     .padding(.horizontal, 12)
                     .padding(.vertical, 6)
@@ -67,12 +67,12 @@ struct FilterSheetView: View {
     
     private var categoryPickerView: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Category")
+            Text("Category".localized())
                 .font(.dateNumberFont(size: 22))
                 .foregroundColor(.primary)
             
-            Picker("Category", selection: $viewModel.selectedCategory) {
-                Text("All").tag(EventType?.none)
+            Picker("Category".localized(), selection: $viewModel.selectedCategory) {
+                Text("All".localized()).tag(EventType?.none)
                 ForEach(EventType.allCases, id: \.self) { type in
                     Text(type.rawValue.capitalized).tag(type as EventType?)
                 }
@@ -89,15 +89,15 @@ struct FilterSheetView: View {
     
     private var dateRangeView: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Date Range")
+            Text("Date Range".localized())
                 .foregroundColor(.primary)
                 .font(.dateNumberFont(size: 22))
             
-            DatePicker("Start Date", selection: $viewModel.startDate, displayedComponents: [.date])
+            DatePicker("Start Date".localized(), selection: $viewModel.startDate, displayedComponents: [.date])
                 .datePickerStyle(.compact)
                 .font(.titleFontBold(size: 20))
             Divider()
-            DatePicker("End Date", selection: $viewModel.endDate, displayedComponents: [.date])
+            DatePicker("End Date".localized(), selection: $viewModel.endDate, displayedComponents: [.date])
                 .datePickerStyle(.compact)
                 .font(.titleFontBold(size: 20))
         }
@@ -110,11 +110,11 @@ struct FilterSheetView: View {
     
     private var sortingPickerView: some View {
         VStack(alignment: .leading, spacing: 12) {
-            Text("Sort by Price")
+            Text("Sort by Price".localized())
                 .font(.dateNumberFont(size: 22))
                 .foregroundColor(.primary)
             
-            Picker("Sort Option", selection: $viewModel.sortOption) {
+            Picker("Sort Option".localized(), selection: $viewModel.sortOption) {
                 ForEach(SortOption.allCases, id: \.self) { option in
                     Text(option.rawValue)
                 }
@@ -130,9 +130,9 @@ struct FilterSheetView: View {
     
     private var clearFiltersView: some View {
         Button(action: {
-            //viewModel.clearFilters()
+            viewModel.clearFilters()
         }) {
-            Text("Clear Filters")
+            Text("Clear Filters".localized())
                 .font(.titleFontBold(size: 20))
                 .foregroundColor(.white)
                 .frame(maxWidth: .infinity, minHeight: 44)

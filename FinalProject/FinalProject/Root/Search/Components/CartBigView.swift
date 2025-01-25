@@ -13,6 +13,7 @@ struct CartBigView: View {
     let event: Event
     @Environment(\.colorScheme) var colorScheme
     @EnvironmentObject var viewModel: SearchPageViewModel
+    @StateObject private var likeStatusMonitor = LikeStatusMonitor()
     
     init(event: Event) {
         self.event = event
@@ -79,19 +80,35 @@ struct CartBigView: View {
             }
             .padding(.top)
         }
+        .onAppear {
+            checkLikeStatus()
+        }
+        .onReceive(likeStatusMonitor.$lastUpdated) { _ in
+            checkLikeStatus()
+        }
         .padding()
         .background(Color(.filterSheetBackground))
         .clipShape(RoundedRectangle(cornerRadius: 20))
         .padding(.horizontal, 16)
         .shadow(
-            color: .collectionShadow.opacity(0.5),
-            radius: 10,
+            color: .collectionShadow.opacity(0.3),
+            radius: 5,
             x: 2,
             y: 2
         )
     }
+    private func checkLikeStatus() {
+        Task {
+            if let userId = UserDefaultsManager.shared.getUserId() {
+                let isLiked = try? await LikedEventsManager.shared.isEventLiked(
+                    eventId: event.id,
+                    userId: userId
+                )
+                await MainActor.run {
+                    self.isLiked = isLiked ?? false
+                }
+            }
+        }
+    }
 }
 
-#Preview() {
-    SearchView()
-}
