@@ -17,6 +17,8 @@ struct ProfileView: View {
     @State private var showPrivacySheet = false
     @State private var showTermsSheet = false
     @State private var showingDeleteAlert = false
+    @State private var isShowingTickets = false
+
     
     @State private var showToast = false
     
@@ -61,6 +63,9 @@ struct ProfileView: View {
                         .zIndex(1)
                         .padding(.top, 10)
                 }
+            }
+            .sheet(isPresented: $isShowingTickets) {
+               TicketsViewControllerRepresentable()
             }
         }
     }
@@ -164,8 +169,8 @@ struct ProfileView: View {
 
     private var notificationsSection: some View {
         Section {
-            NavigationLink {
-                TicketsViewControllerRepresentable()
+            Button {
+                isShowingTickets = true
             } label: {
                 HStack {
                     Image(systemName: "ticket")

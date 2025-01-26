@@ -19,6 +19,7 @@ class TicketsViewController: UIViewController, TicketsViewModelDelegate {
         setupUI()
         setupViewModel()
         fetchEvents()
+        view.backgroundColor = .pageBack
     }
     
     private func setupUI() {
@@ -79,6 +80,7 @@ extension TicketsViewController: UITableViewDataSource, UITableViewDelegate {
         let qrImage = QRCodeManager.generateQRCode(from: qrString)
         
         cell.configure(with: event, qrImage: qrImage)
+        cell.backgroundColor = .tableCellBackground
         return cell
     }
     
@@ -87,7 +89,6 @@ extension TicketsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-// MARK: - SwiftUI Preview
 #Preview {
    TicketsViewController()
 }
