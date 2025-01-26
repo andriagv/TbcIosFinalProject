@@ -88,10 +88,10 @@ struct SearchView: View {
                 .font(.system(size: 50))
                 .foregroundColor(.red)
             
-            Text("ინტერნეტთან კავშირი ვერ მყარდება")
+            Text("Unable to connect to the internet".localized())
                 .font(.headline)
             
-            Text("გთხოვთ შეამოწმოთ თქვენი ინტერნეტ კავშირი")
+            Text("Please check your internet connection and try again.".localized())
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -100,7 +100,7 @@ struct SearchView: View {
             Button {
                 viewModel.fetchEvents()
             } label: {
-                Text("ხელახლა ცდა")
+                Text("Retry".localized())
                     .foregroundColor(.white)
                     .padding(.horizontal, 24)
                     .padding(.vertical, 12)
