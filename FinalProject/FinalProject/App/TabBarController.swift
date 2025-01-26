@@ -52,7 +52,7 @@ final class TabBarController: UITabBarController {
     }
     
     private func setupViewControllers() {
-        let homePageVC = HomePageViewController()
+        let homePageVC = MainViewController()
         let homeNav = UINavigationController(rootViewController: homePageVC)
         homeNav.tabBarItem = UITabBarItem(
             title: "Home".localized(),
