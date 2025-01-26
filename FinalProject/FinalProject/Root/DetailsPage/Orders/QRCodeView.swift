@@ -8,6 +8,7 @@
 
 import SwiftUI
 
+
 struct QRCodeView: View {
     @Environment(\.dismiss) var dismiss
     @StateObject private var viewModel: QRCodeViewModel
@@ -35,6 +36,31 @@ struct QRCodeView: View {
         .background(.pageBack)
     }
     
+    private var bookButton: some View {
+        Group {
+            if viewModel.seatsAvailable > 0 {
+                Button(action: {
+                    viewModel.showConfirmationAlert = true
+                }) {
+                    Text("Book now")
+                        .font(.dateNumberFont(size: 25))
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 32)
+                        .padding(.vertical, 12)
+                        .background(Color.blue)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                }
+            } else {
+                Text("No seats available")
+                    .font(.dateNumberFont(size: 25))
+                    .foregroundColor(.gray)
+                    .padding(.horizontal, 32)
+                    .padding(.vertical, 12)
+                    .background(Color.blue.opacity(0.3))
+                    .clipShape(RoundedRectangle(cornerRadius: 12))
+            }
+        }
+    }
     private var closeButton: some View {
         HStack {
             Spacer()
