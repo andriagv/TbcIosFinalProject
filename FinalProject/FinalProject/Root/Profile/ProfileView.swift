@@ -164,11 +164,13 @@ struct ProfileView: View {
 
     private var notificationsSection: some View {
         Section {
-            NavigationLink(destination: Text("Personal Notifications".localized())) {
+            NavigationLink {
+                TicketsViewControllerRepresentable()
+            } label: {
                 HStack {
-                    Image(systemName: "bell")
+                    Image(systemName: "ticket")
                         .foregroundColor(.blue)
-                    Text("Personal Notifications".localized())
+                    Text("My Tickets")
                 }
             }
         }
