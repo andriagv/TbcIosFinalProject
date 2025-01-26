@@ -9,16 +9,12 @@
 import SwiftUI
 
 struct EventDetailsView: View {
-    let event: Event
-    @State private var currentPhotoIndex = 0
-    @State private var isFavorite: Bool
+    @StateObject private var viewModel: EventDetailsViewModel
     @Environment(\.presentationMode) var presentationMode
-    @StateObject private var likeMonitor = LikeStatusMonitor.shared
     @GestureState private var dragOffset: CGFloat = 0
     
     init(event: Event) {
-        self.event = event
-        _isFavorite = State(initialValue: event.isFavorite)
+        _viewModel = StateObject(wrappedValue: EventDetailsViewModel(event: event))
     }
     
     var body: some View {
@@ -46,19 +42,24 @@ struct EventDetailsView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .tabBar)
         .background(.pageBack)
-        .onReceive(likeMonitor.$lastUpdated) { _ in
-            checkLikeStatus()
+        .onReceive(LikeStatusMonitor.shared.$lastUpdated) { _ in
+            viewModel.checkLikeStatus()
         }
         .onAppear {
-            checkLikeStatus()
+            viewModel.checkLikeStatus()
+        }
+        .sheet(isPresented: $viewModel.showQRCode, onDismiss: {
+            viewModel.updateSeatsLocally()
+        }) {
+            QRCodeView(event: viewModel.event)
         }
     }
     
     private var photoSectionWithLocationOverlay: some View {
         ZStack(alignment: .top) {
-            TabView(selection: $currentPhotoIndex) {
-                ForEach(event.photos.indices, id: \.self) { index in
-                    Image(event.photos[index])
+            TabView(selection: $viewModel.currentPhotoIndex) {
+                ForEach(viewModel.event.photos.indices, id: \.self) { index in
+                    Image(viewModel.event.photos[index])
                         .resizable()
                         .scaledToFill()
                         .tag(index)
@@ -78,13 +79,13 @@ struct EventDetailsView: View {
                 }
                 Spacer()
                 Button(action: {
-                    toggleFavorite()
+                    viewModel.toggleFavorite()
                 }) {
                     SmallButtonView(
-                        imageSystemName: isFavorite ? "heart.fill" : "heart",
+                        imageSystemName: viewModel.isFavorite ? "heart.fill" : "heart",
                         fontSize: 30
                     )
-                    .foregroundStyle(isFavorite ? Color.red : Color.white)
+                    .foregroundStyle(viewModel.isFavorite ? Color.red : Color.white)
                     .padding(.trailing, 16)
                 }
             }
@@ -95,18 +96,18 @@ struct EventDetailsView: View {
     private var thumbnailStrip: some View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
-                ForEach(event.photos.indices, id: \.self) { index in
-                    Image(event.photos[index])
+                ForEach(viewModel.event.photos.indices, id: \.self) { index in
+                    Image(viewModel.event.photos[index])
                         .resizable()
                         .scaledToFill()
                         .frame(width: 60, height: 60)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                         .overlay(
                             RoundedRectangle(cornerRadius: 12)
-                                .stroke(currentPhotoIndex == index ? .blue : .clear, lineWidth: 2)
+                                .stroke(viewModel.currentPhotoIndex == index ? .blue : .clear, lineWidth: 2)
                         )
                         .onTapGesture {
-                            currentPhotoIndex = index
+                            viewModel.currentPhotoIndex = index
                         }
                 }
             }
@@ -117,43 +118,43 @@ struct EventDetailsView: View {
     private var eventDetails: some View {
         VStack(alignment: .leading, spacing: 24) {
             VStack(alignment: .leading, spacing: 8) {
-                Text(event.name)
+                Text(viewModel.event.name)
                     .font(.dateNumberFont(size: 30))
                 
-                if let discountedPrice = event.price.discountedPrice {
+                if let discountedPrice = viewModel.event.price.discountedPrice {
                     HStack(alignment: .firstTextBaseline, spacing: 8) {
                         Text("$\(discountedPrice, specifier: "%.2f")")
                             .font(.title2)
                             .fontWeight(.bold)
                             .foregroundStyle(.green)
                         
-                        Text("$\(event.price.startPrice, specifier: "%.2f")")
+                        Text("$\(viewModel.event.price.startPrice, specifier: "%.2f")")
                             .font(.subheadline)
                             .strikethrough()
                             .foregroundStyle(.secondary)
                     }
                 } else {
-                    Text("$\(event.price.startPrice, specifier: "%.2f")")
+                    Text("$\(viewModel.event.price.startPrice, specifier: "%.2f")")
                         .font(.dateNumberFont(size: 23))
                 }
             }
             
             LazyVGrid(columns: [GridItem(.flexible()), GridItem(.flexible())], spacing: 12) {
-                InfoCard(icon: "calendar", title: "Date", value: formatDateRange())
-                InfoCard(icon: "mappin", title: "Location", value: formatLocation())
-                InfoCard(icon: "person.2.fill", title: "Availability", value: "\(event.seats.available) spots left")
-                InfoCard(icon: "clock", title: "Duration", value: formatDuration())
+                InfoCard(icon: "calendar", title: "Date", value: viewModel.formatDateRange())
+                InfoCard(icon: "mappin", title: "Location", value: viewModel.formatLocation())
+                InfoCard(icon: "person.2.fill", title: "Availability", value: "\(viewModel.currentSeats) spots left")
+                InfoCard(icon: "clock", title: "Duration", value: viewModel.formatDuration())
             }
             
             VStack(alignment: .leading, spacing: 12) {
                 Text("About".localized())
                     .font(.dateNumberFont(size: 25))
-                Text(event.description)
+                Text(viewModel.event.description)
                     .foregroundStyle(.secondary)
                     .font(.titleFontBold(size: 20))
             }
             
-            if let tags = event.tags, !tags.isEmpty {
+            if let tags = viewModel.event.tags, !tags.isEmpty {
                 VStack(alignment: .leading, spacing: 12) {
                     Text("Tags".localized())
                         .font(.dateNumberFont(size: 25))
@@ -178,27 +179,34 @@ struct EventDetailsView: View {
         VStack(spacing: 8) {
             HStack {
                 VStack(alignment: .leading) {
-                    if let discountedPrice = event.price.discountedPrice {
-                        Text("$\(event.price.startPrice, specifier: "%.2f")")
+                    if let discountedPrice = viewModel.event.price.discountedPrice {
+                        Text("$\(viewModel.event.price.startPrice, specifier: "%.2f")")
                             .strikethrough()
                             .foregroundColor(.secondary)
                         Text("$\(discountedPrice, specifier: "%.2f")")
                             .font(.dateNumberFont(size: 25))
                             .foregroundColor(.blue)
                     } else {
-                        Text("$\(event.price.startPrice, specifier: "%.2f")")
+                        Text("$\(viewModel.event.price.startPrice, specifier: "%.2f")")
                             .font(.dateNumberFont(size: 25))
                             .foregroundColor(.blue)
                     }
                 }
                 Spacer()
-                Button(action: {}) {
+                
+                Button(action: {
+                    if viewModel.currentSeats > 0 {
+                        viewModel.showBookingConfirmation = true
+                    } else {
+                        viewModel.showNoSeatsAlert = true
+                    }
+                }) {
                     Text("Book now".localized())
                         .font(.dateNumberFont(size: 25))
                         .foregroundColor(.white)
                         .padding(.horizontal, 32)
                         .padding(.vertical, 12)
-                        .background(Color.blue)
+                        .background(viewModel.currentSeats > 0 ? Color.blue : Color.gray)
                         .clipShape(RoundedRectangle(cornerRadius: 12))
                 }
             }
@@ -210,57 +218,25 @@ struct EventDetailsView: View {
                 .foregroundColor(Color(.systemGray5)),
             alignment: .top
         )
-    }
-    
-    private func formatDateRange() -> String {
-        guard let endDate = event.date.endDate else {
-            return "\(event.date.startDate)"
+        .alert("No Seats Available", isPresented: $viewModel.showNoSeatsAlert) {
+            Button("OK", role: .cancel) {}
+        } message: {
+            Text("Sorry, this event is fully booked.")
         }
-        return "\(event.date.startDate) \(endDate)"
-    }
-    
-    private func formatLocation() -> String {
-        guard let city = event.location.city else {
-            return event.location.address ?? "Unknown location"
-        }
-        return "\(city), \(event.location.address ?? "")"
-    }
-    
-    private func formatDuration() -> String {
-        if let days = event.date.durationInDays {
-            return "\(days) " + (days == 1 ? "day" : "days")
-        }
-        return "0 days"
-    }
-    
-    private func toggleFavorite() {
-        Task {
-            guard let userId = UserDefaultsManager.shared.getUserId() else { return }
-            do {
-                if isFavorite {
-                    try await LikedEventsManager.shared.removeLikedEvent(for: userId, event: event)
-                } else {
-                    try await LikedEventsManager.shared.addLikedEvent(for: userId, event: event)
-                }
-                isFavorite.toggle()
-                LikeStatusMonitor.shared.statusChanged()
-            } catch {
-                print("Error toggling favorite: \(error)")
-            }
-        }
-    }
-    
-    private func checkLikeStatus() {
-        Task {
-            if let userId = UserDefaultsManager.shared.getUserId() {
-                let isLiked = try? await LikedEventsManager.shared.isEventLiked(
-                    eventId: event.id,
-                    userId: userId
-                )
-                await MainActor.run {
-                    self.isFavorite = isLiked ?? false
+        .alert("Confirm Booking", isPresented: $viewModel.showBookingConfirmation) {
+            Button("Cancel", role: .cancel) {}
+            Button("Book", role: .none) {
+                if viewModel.currentSeats > 0 {
+                    viewModel.showQRCode = true
                 }
             }
+        } message: {
+            Text("Do you want to book this event?")
+        }
+        .sheet(isPresented: $viewModel.showQRCode, onDismiss: {
+            viewModel.updateSeatsLocally()
+        }) {
+            QRCodeView(event: viewModel.event)
         }
     }
 }

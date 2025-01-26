@@ -77,10 +77,8 @@ final class UserManager: UserManagerProtocol {
 
         let createdAt = timestamp.dateValue()
         let likedEventIds = data["likedEventIds"] as? [String] ?? []
-        let orderedEventsData = data["orderedEvents"] as? [[String: Any]] ?? []
-        let orderedEvents = try orderedEventsData.map { orderedEventData in
-            return try Firestore.Decoder().decode(OrderedEvent.self, from: orderedEventData)
-        }
+        let orderedEvents = data["orderedEvents"] as? [String] ?? []
+        
 
         return UserModel(
             id: uid,

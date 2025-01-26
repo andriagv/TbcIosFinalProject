@@ -58,6 +58,14 @@
 		1837A75E2D418B10005B1785 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1837A75D2D418B10005B1785 /* EditProfileView.swift */; };
 		185820632D46340700F1DF27 /* HomePageNetworkErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185820622D46340700F1DF27 /* HomePageNetworkErrorViewController.swift */; };
 		185820652D46342100F1DF27 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185820642D46342100F1DF27 /* MainViewController.swift */; };
+		185820682D4643AF00F1DF27 /* QRCodeManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185820672D4643AF00F1DF27 /* QRCodeManager.swift */; };
+		1858206D2D464E2100F1DF27 /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1858206C2D464E2100F1DF27 /* QRCodeView.swift */; };
+		1858206F2D46527300F1DF27 /* QRCodeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1858206E2D46527300F1DF27 /* QRCodeViewModel.swift */; };
+		185820712D465E9600F1DF27 /* TicketsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185820702D465E9600F1DF27 /* TicketsViewController.swift */; };
+		185820752D465ED300F1DF27 /* TicketCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185820742D465ED300F1DF27 /* TicketCell.swift */; };
+		185820772D465FD000F1DF27 /* TicketsViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185820762D465FD000F1DF27 /* TicketsViewControllerRepresentable.swift */; };
+		185820792D4660F100F1DF27 /* TicketsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185820782D4660F100F1DF27 /* TicketsViewModel.swift */; };
+		1858207B2D467EDD00F1DF27 /* EventDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1858207A2D467EDD00F1DF27 /* EventDetailsViewModel.swift */; };
 		188FFC6F2D4261370074A23B /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188FFC6E2D4261370074A23B /* AuthenticationManager.swift */; };
 		188FFC722D4261A80074A23B /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 188FFC712D4261A80074A23B /* FirebaseAuth */; };
 		188FFC742D4261A80074A23B /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 188FFC732D4261A80074A23B /* FirebaseCore */; };
@@ -141,6 +149,14 @@
 		1837A7632D41A276005B1785 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		185820622D46340700F1DF27 /* HomePageNetworkErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageNetworkErrorViewController.swift; sourceTree = "<group>"; };
 		185820642D46342100F1DF27 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		185820672D4643AF00F1DF27 /* QRCodeManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeManager.swift; sourceTree = "<group>"; };
+		1858206C2D464E2100F1DF27 /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
+		1858206E2D46527300F1DF27 /* QRCodeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeViewModel.swift; sourceTree = "<group>"; };
+		185820702D465E9600F1DF27 /* TicketsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketsViewController.swift; sourceTree = "<group>"; };
+		185820742D465ED300F1DF27 /* TicketCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketCell.swift; sourceTree = "<group>"; };
+		185820762D465FD000F1DF27 /* TicketsViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketsViewControllerRepresentable.swift; sourceTree = "<group>"; };
+		185820782D4660F100F1DF27 /* TicketsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketsViewModel.swift; sourceTree = "<group>"; };
+		1858207A2D467EDD00F1DF27 /* EventDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewModel.swift; sourceTree = "<group>"; };
 		188FFC6E2D4261370074A23B /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		188FFC7F2D426CC30074A23B /* AuthDataResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDataResultModel.swift; sourceTree = "<group>"; };
 		188FFC812D426CFF0074A23B /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -225,6 +241,7 @@
 		18361F892D33F732000236B1 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				185820672D4643AF00F1DF27 /* QRCodeManager.swift */,
 				188FFCDF2D4272BC0074A23B /* UserDefaultsManager.swift */,
 				188FFC942D426F060074A23B /* UserManager.swift */,
 				188FFC6E2D4261370074A23B /* AuthenticationManager.swift */,
@@ -331,8 +348,10 @@
 		1837A7222D4176C4005B1785 /* DetailsPage */ = {
 			isa = PBXGroup;
 			children = (
+				185820692D4643D700F1DF27 /* Orders */,
 				1837A7252D4176E7005B1785 /* Components */,
 				1837A7232D4176DA005B1785 /* EventDetailsView.swift */,
+				1858207A2D467EDD00F1DF27 /* EventDetailsViewModel.swift */,
 			);
 			path = DetailsPage;
 			sourceTree = "<group>";
@@ -399,6 +418,7 @@
 		1837A7542D4186EA005B1785 /* Components */ = {
 			isa = PBXGroup;
 			children = (
+				185820722D465EB000F1DF27 /* Tikets */,
 				188FFCF02D42B2990074A23B /* EditProfile */,
 				1837A75B2D418733005B1785 /* ContactUsViewControllerRepresentable.swift */,
 				1837A7592D418715005B1785 /* TermsAndConditionsViewController.swift */,
@@ -415,6 +435,34 @@
 				185820622D46340700F1DF27 /* HomePageNetworkErrorViewController.swift */,
 			);
 			path = NetworkError;
+			sourceTree = "<group>";
+		};
+		185820692D4643D700F1DF27 /* Orders */ = {
+			isa = PBXGroup;
+			children = (
+				1858206E2D46527300F1DF27 /* QRCodeViewModel.swift */,
+				1858206C2D464E2100F1DF27 /* QRCodeView.swift */,
+			);
+			path = Orders;
+			sourceTree = "<group>";
+		};
+		185820722D465EB000F1DF27 /* Tikets */ = {
+			isa = PBXGroup;
+			children = (
+				185820732D465EBC00F1DF27 /* Cell */,
+				185820782D4660F100F1DF27 /* TicketsViewModel.swift */,
+				185820702D465E9600F1DF27 /* TicketsViewController.swift */,
+				185820762D465FD000F1DF27 /* TicketsViewControllerRepresentable.swift */,
+			);
+			path = Tikets;
+			sourceTree = "<group>";
+		};
+		185820732D465EBC00F1DF27 /* Cell */ = {
+			isa = PBXGroup;
+			children = (
+				185820742D465ED300F1DF27 /* TicketCell.swift */,
+			);
+			path = Cell;
 			sourceTree = "<group>";
 		};
 		188FFC6D2D4260D00074A23B /* Authentication */ = {
@@ -559,6 +607,7 @@
 				18361FA92D33F8EE000236B1 /* EventType.swift in Sources */,
 				1837A72D2D41772A005B1785 /* TableViewCell.swift in Sources */,
 				180721542D44195800B79B6A /* OrderedEvent.swift in Sources */,
+				185820682D4643AF00F1DF27 /* QRCodeManager.swift in Sources */,
 				1837A7562D4186F1005B1785 /* ContactUsViewController.swift in Sources */,
 				188FFC6F2D4261370074A23B /* AuthenticationManager.swift in Sources */,
 				185820632D46340700F1DF27 /* HomePageNetworkErrorViewController.swift in Sources */,
@@ -568,6 +617,7 @@
 				188FFCE42D4277650074A23B /* ButtonModifier.swift in Sources */,
 				1837A71D2D41765F005B1785 /* ImageCacheManager.swift in Sources */,
 				180721492D44144400B79B6A /* LikedEventsManager.swift in Sources */,
+				185820792D4660F100F1DF27 /* TicketsViewModel.swift in Sources */,
 				188FFC822D426CFF0074A23B /* UserModel.swift in Sources */,
 				185820652D46342100F1DF27 /* MainViewController.swift in Sources */,
 				188FFC872D426DE40074A23B /* LoginView.swift in Sources */,
@@ -586,12 +636,14 @@
 				1837A7582D4186FF005B1785 /* PrivacyPolicyViewController.swift in Sources */,
 				1837A7292D417707005B1785 /* FlowLayout.swift in Sources */,
 				188FFCE22D4277180074A23B /* TextUIModifier.swift in Sources */,
+				1858207B2D467EDD00F1DF27 /* EventDetailsViewModel.swift in Sources */,
 				18361FA52D33F8A9000236B1 /* ProfileViewModel.swift in Sources */,
 				18361FAB2D33F919000236B1 /* ColorExtension.swift in Sources */,
 				1807214B2D4415DD00B79B6A /* LikesViewModel.swift in Sources */,
 				188FFC912D426E9B0074A23B /* InputView.swift in Sources */,
 				1837A75A2D418715005B1785 /* TermsAndConditionsViewController.swift in Sources */,
 				180721472D44141D00B79B6A /* LikeStatusMonitor.swift in Sources */,
+				185820772D465FD000F1DF27 /* TicketsViewControllerRepresentable.swift in Sources */,
 				1837A71F2D417688005B1785 /* DateFormatterManager.swift in Sources */,
 				1837A75E2D418B10005B1785 /* EditProfileView.swift in Sources */,
 				188FFC892D426DF30074A23B /* LoginViewModel.swift in Sources */,
@@ -600,6 +652,7 @@
 				18361FA32D33F897000236B1 /* ProfileView.swift in Sources */,
 				188FFCE02D4272BC0074A23B /* UserDefaultsManager.swift in Sources */,
 				1837A7392D41776A005B1785 /* FilterSheetView.swift in Sources */,
+				185820752D465ED300F1DF27 /* TicketCell.swift in Sources */,
 				180721502D44168F00B79B6A /* EmptyStateView.swift in Sources */,
 				1837A7412D417791005B1785 /* SearcPageViewModel.swift in Sources */,
 				188FFCF22D42B2B40074A23B /* EditProfileViewModel.swift in Sources */,
@@ -609,11 +662,14 @@
 				1837A73C2D41776A005B1785 /* CompactDetailRow.swift in Sources */,
 				1837A7482D417D7F005B1785 /* SmallButtonView.swift in Sources */,
 				1837A73D2D41776A005B1785 /* DetailRow.swift in Sources */,
+				1858206D2D464E2100F1DF27 /* QRCodeView.swift in Sources */,
 				188FFCDE2D4270090074A23B /* Utilities.swift in Sources */,
 				1837A73E2D41776A005B1785 /* PriceDisplayView.swift in Sources */,
 				1837A73F2D41776A005B1785 /* CartBigView.swift in Sources */,
 				1837A7272D4176F7005B1785 /* InfoCard.swift in Sources */,
 				18361F842D33F70B000236B1 /* SceneDelegate.swift in Sources */,
+				1858206F2D46527300F1DF27 /* QRCodeViewModel.swift in Sources */,
+				185820712D465E9600F1DF27 /* TicketsViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
