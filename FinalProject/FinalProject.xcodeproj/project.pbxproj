@@ -56,6 +56,8 @@
 		1837A75A2D418715005B1785 /* TermsAndConditionsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1837A7592D418715005B1785 /* TermsAndConditionsViewController.swift */; };
 		1837A75C2D418733005B1785 /* ContactUsViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1837A75B2D418733005B1785 /* ContactUsViewControllerRepresentable.swift */; };
 		1837A75E2D418B10005B1785 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1837A75D2D418B10005B1785 /* EditProfileView.swift */; };
+		185820632D46340700F1DF27 /* HomePageNetworkErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185820622D46340700F1DF27 /* HomePageNetworkErrorViewController.swift */; };
+		185820652D46342100F1DF27 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185820642D46342100F1DF27 /* MainViewController.swift */; };
 		188FFC6F2D4261370074A23B /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188FFC6E2D4261370074A23B /* AuthenticationManager.swift */; };
 		188FFC722D4261A80074A23B /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 188FFC712D4261A80074A23B /* FirebaseAuth */; };
 		188FFC742D4261A80074A23B /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 188FFC732D4261A80074A23B /* FirebaseCore */; };
@@ -137,6 +139,8 @@
 		1837A75B2D418733005B1785 /* ContactUsViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContactUsViewControllerRepresentable.swift; sourceTree = "<group>"; };
 		1837A75D2D418B10005B1785 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
 		1837A7632D41A276005B1785 /* FinalProject.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FinalProject.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		185820622D46340700F1DF27 /* HomePageNetworkErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomePageNetworkErrorViewController.swift; sourceTree = "<group>"; };
+		185820642D46342100F1DF27 /* MainViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		188FFC6E2D4261370074A23B /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		188FFC7F2D426CC30074A23B /* AuthDataResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDataResultModel.swift; sourceTree = "<group>"; };
 		188FFC812D426CFF0074A23B /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -316,6 +320,7 @@
 		18361F952D33F7CD000236B1 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				185820662D46347900F1DF27 /* NetworkError */,
 				1837A72C2D41772A005B1785 /* Cell */,
 				18361F962D33F800000236B1 /* HomePageViewController.swift */,
 				18361F982D33F80C000236B1 /* HomePageViewModel.swift */,
@@ -401,6 +406,15 @@
 				1837A7552D4186F1005B1785 /* ContactUsViewController.swift */,
 			);
 			path = Components;
+			sourceTree = "<group>";
+		};
+		185820662D46347900F1DF27 /* NetworkError */ = {
+			isa = PBXGroup;
+			children = (
+				185820642D46342100F1DF27 /* MainViewController.swift */,
+				185820622D46340700F1DF27 /* HomePageNetworkErrorViewController.swift */,
+			);
+			path = NetworkError;
 			sourceTree = "<group>";
 		};
 		188FFC6D2D4260D00074A23B /* Authentication */ = {
@@ -547,6 +561,7 @@
 				180721542D44195800B79B6A /* OrderedEvent.swift in Sources */,
 				1837A7562D4186F1005B1785 /* ContactUsViewController.swift in Sources */,
 				188FFC6F2D4261370074A23B /* AuthenticationManager.swift in Sources */,
+				185820632D46340700F1DF27 /* HomePageNetworkErrorViewController.swift in Sources */,
 				1837A72E2D41772A005B1785 /* CollectionViewCell.swift in Sources */,
 				1807214D2D4415EC00B79B6A /* LikesPageView.swift in Sources */,
 				18361FAD2D33F9E2000236B1 /* TabBarController.swift in Sources */,
@@ -554,6 +569,7 @@
 				1837A71D2D41765F005B1785 /* ImageCacheManager.swift in Sources */,
 				180721492D44144400B79B6A /* LikedEventsManager.swift in Sources */,
 				188FFC822D426CFF0074A23B /* UserModel.swift in Sources */,
+				185820652D46342100F1DF27 /* MainViewController.swift in Sources */,
 				188FFC872D426DE40074A23B /* LoginView.swift in Sources */,
 				188FFC8C2D426E270074A23B /* SignupView.swift in Sources */,
 				1837A7462D417D50005B1785 /* FontExtension.swift in Sources */,
