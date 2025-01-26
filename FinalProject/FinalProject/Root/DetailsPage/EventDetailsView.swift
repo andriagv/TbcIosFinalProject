@@ -15,6 +15,7 @@ struct EventDetailsView: View {
     @Environment(\.presentationMode) var presentationMode
     @StateObject private var likeMonitor = LikeStatusMonitor.shared
     @GestureState private var dragOffset: CGFloat = 0
+    @State private var showQRCode = false
     
     init(event: Event) {
         self.event = event
@@ -52,6 +53,9 @@ struct EventDetailsView: View {
         .onAppear {
             checkLikeStatus()
         }
+        .sheet(isPresented: $showQRCode) {
+                QRCodeView(event: event)
+            }
     }
     
     private var photoSectionWithLocationOverlay: some View {
@@ -192,7 +196,9 @@ struct EventDetailsView: View {
                     }
                 }
                 Spacer()
-                Button(action: {}) {
+                Button(action: {
+                    showQRCode.toggle()
+                }) {
                     Text("Book now".localized())
                         .font(.dateNumberFont(size: 25))
                         .foregroundColor(.white)
