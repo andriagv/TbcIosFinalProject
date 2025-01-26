@@ -19,5 +19,5 @@ struct UserModel: Identifiable, Codable {
     let createdAt: Date
     let photoUrl: String
     var likedEventIds: [String]
-    var orderedEvents: [OrderedEvent]
+    var orderedEvents: [String]
 }
