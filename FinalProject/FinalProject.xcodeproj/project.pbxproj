@@ -65,6 +65,7 @@
 		185820752D465ED300F1DF27 /* TicketCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185820742D465ED300F1DF27 /* TicketCell.swift */; };
 		185820772D465FD000F1DF27 /* TicketsViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185820762D465FD000F1DF27 /* TicketsViewControllerRepresentable.swift */; };
 		185820792D4660F100F1DF27 /* TicketsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 185820782D4660F100F1DF27 /* TicketsViewModel.swift */; };
+		1858207B2D467EDD00F1DF27 /* EventDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1858207A2D467EDD00F1DF27 /* EventDetailsViewModel.swift */; };
 		188FFC6F2D4261370074A23B /* AuthenticationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188FFC6E2D4261370074A23B /* AuthenticationManager.swift */; };
 		188FFC722D4261A80074A23B /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 188FFC712D4261A80074A23B /* FirebaseAuth */; };
 		188FFC742D4261A80074A23B /* FirebaseCore in Frameworks */ = {isa = PBXBuildFile; productRef = 188FFC732D4261A80074A23B /* FirebaseCore */; };
@@ -155,6 +156,7 @@
 		185820742D465ED300F1DF27 /* TicketCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketCell.swift; sourceTree = "<group>"; };
 		185820762D465FD000F1DF27 /* TicketsViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketsViewControllerRepresentable.swift; sourceTree = "<group>"; };
 		185820782D4660F100F1DF27 /* TicketsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketsViewModel.swift; sourceTree = "<group>"; };
+		1858207A2D467EDD00F1DF27 /* EventDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailsViewModel.swift; sourceTree = "<group>"; };
 		188FFC6E2D4261370074A23B /* AuthenticationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationManager.swift; sourceTree = "<group>"; };
 		188FFC7F2D426CC30074A23B /* AuthDataResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthDataResultModel.swift; sourceTree = "<group>"; };
 		188FFC812D426CFF0074A23B /* UserModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserModel.swift; sourceTree = "<group>"; };
@@ -349,6 +351,7 @@
 				185820692D4643D700F1DF27 /* Orders */,
 				1837A7252D4176E7005B1785 /* Components */,
 				1837A7232D4176DA005B1785 /* EventDetailsView.swift */,
+				1858207A2D467EDD00F1DF27 /* EventDetailsViewModel.swift */,
 			);
 			path = DetailsPage;
 			sourceTree = "<group>";
@@ -633,6 +636,7 @@
 				1837A7582D4186FF005B1785 /* PrivacyPolicyViewController.swift in Sources */,
 				1837A7292D417707005B1785 /* FlowLayout.swift in Sources */,
 				188FFCE22D4277180074A23B /* TextUIModifier.swift in Sources */,
+				1858207B2D467EDD00F1DF27 /* EventDetailsViewModel.swift in Sources */,
 				18361FA52D33F8A9000236B1 /* ProfileViewModel.swift in Sources */,
 				18361FAB2D33F919000236B1 /* ColorExtension.swift in Sources */,
 				1807214B2D4415DD00B79B6A /* LikesViewModel.swift in Sources */,
