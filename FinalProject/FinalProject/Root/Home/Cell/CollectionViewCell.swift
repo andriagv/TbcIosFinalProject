@@ -26,6 +26,8 @@ final class CollectionViewCell: UICollectionViewCell {
         let imageView = UIImageView()
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
+        imageView.image = UIImage(systemName: "photo.fill")
+        imageView.tintColor = .systemGray4
         return imageView
     }()
     

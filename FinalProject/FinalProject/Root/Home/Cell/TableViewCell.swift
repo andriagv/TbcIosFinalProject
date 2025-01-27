@@ -34,6 +34,8 @@ final class TableViewCell: UITableViewCell {
         ImageView.translatesAutoresizingMaskIntoConstraints = false
         ImageView.contentMode = .scaleAspectFill
         ImageView.clipsToBounds = true
+        ImageView.image = UIImage(systemName: "photo.fill")
+        ImageView.tintColor = .systemGray4
         ImageView.layer.cornerRadius = 12
         return ImageView
     }()
