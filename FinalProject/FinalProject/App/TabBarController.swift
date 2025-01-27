@@ -12,6 +12,7 @@ import SwiftUI
 final class TabBarController: UITabBarController {
     let languageManager = LanguageManager.shared
     private var lastSelectedIndex = 0
+    private var panGesture: UIPanGestureRecognizer?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,8 +35,10 @@ final class TabBarController: UITabBarController {
     }
     
     private func addSwipeNavigation() {
-        let panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
-        view.addGestureRecognizer(panGesture)
+        panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
+        if let panGesture = panGesture {
+            view.addGestureRecognizer(panGesture)
+        }
     }
     
     @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
@@ -60,7 +63,6 @@ final class TabBarController: UITabBarController {
             selectedImage: UIImage(systemName: "house.fill")
         )
         
-        
         let searchNav = UINavigationController()
         searchNav.tabBarItem = UITabBarItem(
             title: "Search".localized(),
@@ -68,16 +70,12 @@ final class TabBarController: UITabBarController {
             selectedImage: UIImage(systemName: "magnifyingglass")
         )
         
-        
         let searchView = SearchView { [weak searchNav] event in
-            guard let searchNav else { return }
-            
+            guard let searchNav = searchNav else { return }
             let detailsVC = UIHostingController(rootView: EventDetailsView(event: event))
             detailsVC.hidesBottomBarWhenPushed = true
-            
             searchNav.pushViewController(detailsVC, animated: true)
         }
-        
         let searchHosting = UIHostingController(rootView: searchView)
         searchNav.viewControllers = [searchHosting]
         
@@ -89,7 +87,7 @@ final class TabBarController: UITabBarController {
         )
         
         let likesView = LikesPageView { [weak likesNav] event in
-            guard let likesNav else { return }
+            guard let likesNav = likesNav else { return }
             let detailsVC = UIHostingController(rootView: EventDetailsView(event: event))
             detailsVC.hidesBottomBarWhenPushed = true
             likesNav.pushViewController(detailsVC, animated: true)
@@ -106,6 +104,13 @@ final class TabBarController: UITabBarController {
         )
         
         self.viewControllers = [homeNav, searchNav, likesNav, profileHosting]
+    }
+    
+    deinit {
+        if let panGesture = panGesture {
+            view.removeGestureRecognizer(panGesture)
+        }
+        print("TabBarController deinitialized")
     }
 }
 

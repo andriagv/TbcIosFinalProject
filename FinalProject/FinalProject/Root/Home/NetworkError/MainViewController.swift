@@ -21,6 +21,10 @@ final class MainViewController: UIViewController {
         setupNetworkMonitoring()
     }
     
+    deinit {
+        monitor.cancel()
+    }
+    
     private func setupNetworkMonitoring() {
         monitor.pathUpdateHandler = { [weak self] path in
             DispatchQueue.main.async {
@@ -42,7 +46,7 @@ final class MainViewController: UIViewController {
     
     private func showNetworkErrorPage() {
         let networkErrorVC = HomePageNetworkErrorViewController {
-            self.monitor.start(queue: self.queue) 
+            self.monitor.start(queue: self.queue)
         }
         switchToViewController(networkErrorVC)
     }

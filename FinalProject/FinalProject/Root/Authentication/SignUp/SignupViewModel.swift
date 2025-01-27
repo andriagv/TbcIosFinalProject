@@ -19,6 +19,10 @@ final class SignupViewModel: ObservableObject {
         self.userManager = userManager
     }
     
+    deinit {
+        print("SignupViewModel deinitialized")
+    }
+    
     func signUp(email: String, password: String, fullName: String, userName: String, confirmPassword: String) async -> Bool {
         do {
             let user = try await authenticationManager.createUser(email: email, password: password)

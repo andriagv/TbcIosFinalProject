@@ -215,7 +215,6 @@
 		18361F822D33F70B000236B1 /* FinalProject */ = {
 			isa = PBXGroup;
 			children = (
-				1837A74B2D418047005B1785 /* Font */,
 				18361F882D33F714000236B1 /* App */,
 				18361F892D33F732000236B1 /* Managers */,
 				18361F8D2D33F75D000236B1 /* Root */,
@@ -276,6 +275,7 @@
 				18361F802D33F70B000236B1 /* LaunchScreen.storyboard */,
 				18361FAE2D33FAD0000236B1 /* Localizable.strings */,
 				1837A7422D417BF9005B1785 /* mockEvents.json */,
+				1837A74B2D418047005B1785 /* Font */,
 			);
 			path = Resources;
 			sourceTree = "<group>";

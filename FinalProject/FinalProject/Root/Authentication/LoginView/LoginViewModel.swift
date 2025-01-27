@@ -27,6 +27,10 @@ final class LoginViewModel: ObservableObject {
         self.userManager = userManager
     }
     
+    deinit {
+        print("LoginViewModel deinitialized")
+    }
+    
     @MainActor
     func signInGoogle() async throws {
         guard let topVC = Utilities.shared.topViewController() else {
