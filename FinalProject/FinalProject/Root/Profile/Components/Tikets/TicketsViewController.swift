@@ -89,6 +89,3 @@ extension TicketsViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-#Preview {
-   TicketsViewController()
-}

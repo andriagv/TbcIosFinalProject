@@ -152,7 +152,3 @@ final class TableViewCell: UITableViewCell {
 }
 
 
-
-#Preview {
-    HomePageViewController()
-}

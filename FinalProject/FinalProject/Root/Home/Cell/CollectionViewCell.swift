@@ -158,7 +158,5 @@ final class CollectionViewCell: UICollectionViewCell {
     }
 }
 
-#Preview {
-    HomePageViewController()
-}
+
 

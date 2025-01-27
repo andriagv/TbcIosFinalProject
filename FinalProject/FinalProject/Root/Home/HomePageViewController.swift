@@ -317,6 +317,3 @@ extension HomePageViewController: UITableViewDataSource, UITableViewDelegate {
     }
 }
 
-#Preview() {
-    HomePageViewController()
-}
