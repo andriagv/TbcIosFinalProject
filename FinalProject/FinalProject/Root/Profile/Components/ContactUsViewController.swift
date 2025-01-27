@@ -12,47 +12,48 @@ class ContactUsViewController: UIViewController {
     // MARK: - Properties
     
     private let titleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Contact Us"
-        label.font = UIFont.boldSystemFont(ofSize: 24)
-        label.textAlignment = .center
-        return label
+        return createLabel(
+            text: "Contact Us",
+            font: UIFont.boldSystemFont(ofSize: 24),
+            textAlignment: .center
+        )
     }()
     
     private let subtitleLabel: UILabel = {
-        let label = UILabel()
-        label.text = "Feel free to reach out through email or social links."
-        label.font = UIFont.systemFont(ofSize: 14)
-        label.textColor = .gray
-        label.textAlignment = .center
-        return label
+        return createLabel(
+            text: "Feel free to reach out through email or social links.",
+            font: UIFont.systemFont(ofSize: 14),
+            textColor: .gray,
+            textAlignment: .center
+        )
     }()
     
     private lazy var emailButton: UIButton = {
-        return createRowButton(
-            iconName: "ic_email",
-            title: "gvaramia.andria@tbcacademy.edu.ge",
-            action: #selector(emailTapped)
-        )
+        return createButton(
+            title: "gvaramia.andria@tbcacademy.edu.ge"
+        ) { [weak self] in
+            self?.openEmail()
+        }
     }()
     
     private lazy var linkedInButton: UIButton = {
-        return createRowButton(
-            iconName: "ic_linkedin",
-            title: "LinkedIn Profile",
-            action: #selector(linkedInTapped)
-        )
+        return createButton(
+            title: "LinkedIn Profile"
+        ) { [weak self] in
+            self?.openURL("https://www.linkedin.com/in/andria-gvaramia-b85935229/")
+        }
     }()
     
     private lazy var facebookButton: UIButton = {
-        return createRowButton(
-            iconName: "ic_facebook",
-            title: "Facebook Profile",
-            action: #selector(facebookTapped)
-        )
+        return createButton(
+            title: "Facebook Profile"
+        ) { [weak self] in
+            self?.openURL("https://www.facebook.com/andria361791/")
+        }
     }()
     
     // MARK: - Lifecycle
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -68,6 +69,7 @@ class ContactUsViewController: UIViewController {
     }
     
     // MARK: - UI Setup
+    
     private func configureUI() {
         view.backgroundColor = .systemBackground
         
@@ -92,46 +94,54 @@ class ContactUsViewController: UIViewController {
         ])
     }
     
-    // MARK: - Helper to create row (button with icon + text)
-    private func createRowButton(iconName: String, title: String, action: Selector) -> UIButton {
+    // MARK: - Helper Functions
+    
+    private static func createLabel(
+        text: String,
+        font: UIFont = UIFont.systemFont(ofSize: 14),
+        textColor: UIColor = .label,
+        textAlignment: NSTextAlignment = .left
+    ) -> UILabel {
+        let label = UILabel()
+        label.text = text
+        label.font = font
+        label.textColor = textColor
+        label.textAlignment = textAlignment
+        return label
+    }
+    
+    private func createButton(
+        title: String,
+        font: UIFont = UIFont.systemFont(ofSize: 16),
+        titleColor: UIColor = .label,
+        action: @escaping () -> Void
+    ) -> UIButton {
         let button = UIButton(type: .system)
         
         var config = UIButton.Configuration.plain()
-        config.image = UIImage(named: iconName)
-        config.imagePadding = 8
-        config.imagePlacement = .leading
         config.title = title
-        config.baseForegroundColor = .label
+        config.baseForegroundColor = titleColor
         
-        // Bigger font
-        var titleAttr = AttributedString(title)
-        titleAttr.font = .systemFont(ofSize: 16)
-        config.attributedTitle = titleAttr
+        var attributedTitle = AttributedString(title)
+        attributedTitle.font = font
+        config.attributedTitle = attributedTitle
         
         button.configuration = config
-        
         button.contentHorizontalAlignment = .leading
-        button.addTarget(self, action: action, for: .touchUpInside)
+        button.addAction(UIAction(handler: { _ in action() }), for: .touchUpInside)
         return button
     }
     
     // MARK: - Actions
-    @objc private func emailTapped() {
+    
+    private func openEmail() {
         let email = "gvaramia.andria@tbcacademy.edu.ge"
         if let url = URL(string: "mailto:\(email)") {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }
     }
     
-    @objc private func linkedInTapped() {
-        let urlString = "https://www.linkedin.com/in/andria-gvaramia-b85935229/"
-        if let url = URL(string: urlString) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-    }
-    
-    @objc private func facebookTapped() {
-        let urlString = "https://www.facebook.com/andria361791/"
+    private func openURL(_ urlString: String) {
         if let url = URL(string: urlString) {
             UIApplication.shared.open(url, options: [:], completionHandler: nil)
         }

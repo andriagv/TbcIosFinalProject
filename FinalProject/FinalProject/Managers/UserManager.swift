@@ -79,7 +79,6 @@ final class UserManager: UserManagerProtocol {
         let likedEventIds = data["likedEventIds"] as? [String] ?? []
         let orderedEvents = data["orderedEvents"] as? [String] ?? []
         
-
         return UserModel(
             id: uid,
             uid: uid,
@@ -96,7 +95,6 @@ final class UserManager: UserManagerProtocol {
     func deleteUser(uid: String) async throws {
         let storageRef = Storage.storage().reference().child("profile_pictures/\(uid).jpg")
         try? await storageRef.delete()
-        
         try await db.collection("users").document(uid).delete()
     }
 }

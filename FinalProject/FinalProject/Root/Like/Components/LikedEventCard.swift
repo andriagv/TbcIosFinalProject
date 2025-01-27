@@ -7,17 +7,21 @@
 
 import SwiftUI
 
-
 struct LikedEventCard: View {
-    let event: Event
-    let onUnlike: () -> Void
+    @StateObject private var viewModel: LikedEventCardViewModel
     
-    let onCardTap: () -> Void
+    init(event: Event, onUnlike: @escaping () -> Void, onCardTap: @escaping () -> Void) {
+        _viewModel = StateObject(wrappedValue: LikedEventCardViewModel(
+            event: event,
+            onUnlike: onUnlike,
+            onCardTap: onCardTap
+        ))
+    }
     
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ZStack(alignment: .topTrailing) {
-                if let imageName = event.photos.first {
+                if let imageName = viewModel.eventImageName {
                     Image(imageName)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
@@ -25,9 +29,7 @@ struct LikedEventCard: View {
                         .clipped()
                 }
                 
-                Button(action: {
-                    onUnlike()
-                }) {
+                Button(action: viewModel.handleUnlike) {
                     Image(systemName: "heart.fill")
                         .font(.title2)
                         .foregroundColor(.red)
@@ -39,14 +41,14 @@ struct LikedEventCard: View {
             }
             
             VStack(alignment: .leading, spacing: 12) {
-                Text(event.name)
+                Text(viewModel.eventName)
                     .font(.title3)
                     .fontWeight(.bold)
                     .foregroundColor(.primary)
                 
                 HStack {
                     Label(
-                        event.location.address ?? "No address",
+                        viewModel.eventAddress,
                         systemImage: "mappin.circle.fill"
                     )
                     .foregroundColor(.secondary)
@@ -54,24 +56,16 @@ struct LikedEventCard: View {
                 
                 HStack {
                     Label(
-                        DateFormatterManager.shared.formatDate(event.date.startDate),
+                        viewModel.formattedDate,
                         systemImage: "calendar"
                     )
                     
                     Spacer()
                     
-                    if let discounted = event.price.discountedPrice {
-                        Text("$\(Int(event.price.startPrice))")
-                            .strikethrough()
-                            .foregroundColor(.secondary)
-                        Text("$\(Int(discounted))")
-                            .fontWeight(.bold)
-                            .foregroundColor(.green)
-                    } else {
-                        Text("$\(Int(event.price.startPrice))")
-                            .fontWeight(.bold)
-                            .foregroundColor(.green)
-                    }
+                    PriceView(
+                        originalPrice: viewModel.priceDisplay.originalPrice,
+                        discountedPrice: viewModel.priceDisplay.discountedPrice
+                    )
                 }
                 .foregroundColor(.secondary)
             }
@@ -80,8 +74,6 @@ struct LikedEventCard: View {
         }
         .clipShape(RoundedRectangle(cornerRadius: 16))
         .shadow(color: .black.opacity(0.1), radius: 5, x: 0, y: 2)
-        .onTapGesture {
-            onCardTap()
-        }
+        .onTapGesture(perform: viewModel.handleCardTap)
     }
 }

@@ -24,8 +24,9 @@ final class ProfileViewModel: ObservableObject {
         self.themeManager = themeManager
         self.selectedTheme = themeManager.currentTheme
         
-        Task {
-            await fetchUserData()
+        Task { [weak self] in
+            guard let self = self else { return }
+            await self.fetchUserData()
         }
     }
     

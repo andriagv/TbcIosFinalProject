@@ -40,6 +40,7 @@ final class HomePageViewModel: HomePageViewModelProtocol {
         databaseRef.child("events")
             .queryOrdered(byChild: "type")
             .queryEqual(toValue: "tour")
+            .queryLimited(toFirst: 4)
             .observeSingleEvent(of: .value) { [weak self] snapshot in
                 guard let self = self else { return }
                 
@@ -69,6 +70,7 @@ final class HomePageViewModel: HomePageViewModelProtocol {
         databaseRef.child("events")
             .queryOrdered(byChild: "price/startPrice")
             .queryEqual(toValue: 0)
+            .queryLimited(toFirst: 4)
             .observeSingleEvent(of: .value) { [weak self] snapshot in
                 guard let self = self else { return }
                 

@@ -8,7 +8,7 @@
 import UIKit
 import CoreImage.CIFilterBuiltins
 
-class QRCodeManager {
+final class QRCodeManager {
     static func generateQRCode(from string: String, scale: CGFloat = 10) -> UIImage? {
         guard let data = string.data(using: .ascii) else { return nil }
         guard let filter = CIFilter(name: "CIQRCodeGenerator") else { return nil }

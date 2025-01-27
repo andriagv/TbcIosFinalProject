@@ -18,9 +18,7 @@ struct InputView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text(title)
-                
                 .font(.system(size: 12))
-            
             VStack {
                 if isSecureField {
                     HStack {
@@ -63,5 +61,4 @@ struct InputView: View {
     InputView(text: .constant("eewsds"),
               title: "სახელი",
               placeholder: "ტექსტფილდი")
-              //isSecureField: true)
 }
