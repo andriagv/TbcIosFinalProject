@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct FilterSheetView: View {
-    @StateObject var viewModel = SearchPageViewModel()
+    @EnvironmentObject var viewModel: SearchPageViewModel
     @Binding var isPresented: Bool
     
     var body: some View {
@@ -144,9 +144,6 @@ struct FilterSheetView: View {
     }
 }
 
-//#Preview {
-//    FilterSheetView(isPresented: .constant(true))
-//}
 
 #Preview {
     SearchView { _ in }

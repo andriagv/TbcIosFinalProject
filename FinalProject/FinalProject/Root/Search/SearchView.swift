@@ -15,34 +15,35 @@ struct SearchView: View {
     var onEventSelected: (Event) -> Void
     
     var body: some View {
-            NavigationView {
-                ScrollView {
-                    VStack {
-                        Text("Find a campsite easily")
-                            .opacity(0.5)
-                            .font(.custom("SourGummy-Bold", size: 30))
-                        headerView
-                        
-                        if viewModel.networkError {
-                            networkErrorView
-                        } else if viewModel.isLoading && viewModel.events.isEmpty {
-                            loadingView
-                        } else {
-                            contentView
-                        }
-                    }
-                    .onAppear {
-                        viewModel.fetchEvents()
-                    }
-                    .sheet(isPresented: $isFilterSheetPresented) {
-                        FilterSheetView(isPresented: $isFilterSheetPresented)
-                            .environmentObject(viewModel)
-                            .presentationDetents([.fraction(0.8)])
-                            .presentationDragIndicator(.visible)
+        NavigationView {
+            ScrollView {
+                VStack {
+                    Text("Find a campsite easily")
+                        .opacity(0.5)
+                        .font(.custom("SourGummy-Bold", size: 30))
+                    
+                    headerView
+                    
+                    if viewModel.networkError {
+                        networkErrorView
+                    } else if viewModel.isLoading && viewModel.events.isEmpty {
+                        loadingView
+                    } else {
+                        contentView
                     }
                 }
-                .background(.pageBack)
+                .onAppear {
+                    viewModel.fetchEvents()
+                }
+                .sheet(isPresented: $isFilterSheetPresented) {
+                    FilterSheetView(isPresented: $isFilterSheetPresented)
+                        .environmentObject(viewModel)
+                        .presentationDetents([.fraction(0.8)])
+                        .presentationDragIndicator(.visible)
+                }
             }
+            .background(.pageBack)
+        }
     }
     
     private var headerView: some View {
@@ -123,7 +124,9 @@ struct SearchView: View {
                         ],
                         spacing: 20
                     ) {
-                        ForEach(viewModel.filteredEvents) { event in
+                        ForEach(viewModel.filteredEvents.indices, id: \.self) { index in
+                            let event = viewModel.filteredEvents[index]
+                            
                             Button {
                                 onEventSelected(event)
                             } label: {
@@ -131,11 +134,29 @@ struct SearchView: View {
                                     .environmentObject(viewModel)
                             }
                             .buttonStyle(.plain)
+                            
+                            if index == viewModel.filteredEvents.count - 1 {
+                                Color.clear
+                                    .frame(height: 1)
+                                    .onAppear {
+                                        if viewModel.hasMoreData && !viewModel.isLoading {
+                                            viewModel.fetchMoreEvents()
+                                        }
+                                    }
+                            }
+                        }
+                        
+                        if viewModel.isLoading {
+                            ProgressView("Loading more...")
+                                .padding(.vertical)
                         }
                     }
+                    .padding(.horizontal)
                 } else {
                     LazyVStack(spacing: 30) {
-                        ForEach(viewModel.filteredEvents) { event in
+                        ForEach(viewModel.filteredEvents.indices, id: \.self) { index in
+                            let event = viewModel.filteredEvents[index]
+                            
                             Button {
                                 onEventSelected(event)
                             } label: {
@@ -143,8 +164,24 @@ struct SearchView: View {
                                     .environmentObject(viewModel)
                             }
                             .buttonStyle(.plain)
+                            
+                            if index == viewModel.filteredEvents.count - 1 {
+                                Color.clear
+                                    .frame(height: 1)
+                                    .onAppear {
+                                        if viewModel.hasMoreData && !viewModel.isLoading {
+                                            viewModel.fetchMoreEvents()
+                                        }
+                                    }
+                            }
+                        }
+                        
+                        if viewModel.isLoading {
+                            ProgressView("Loading more...")
+                                .padding(.vertical)
                         }
                     }
+                    .padding(.horizontal)
                     .padding(.top, 10)
                 }
             }
@@ -182,7 +219,7 @@ struct SearchView: View {
     }
 }
 
-
 #Preview {
     SearchView { _ in }
 }
+
