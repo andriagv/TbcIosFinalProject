@@ -50,8 +50,6 @@ final class TicketsViewModel {
         databaseRef.child("events").observeSingleEvent(of: .value) { [weak self] snapshot in
             guard let self = self else { return }
 
-            print("Events snapshot: \(String(describing: snapshot.value))")
-
             guard let eventsArray = snapshot.value as? [[String: Any]] else {
                 print("Events data is not in expected format or is missing")
                 return

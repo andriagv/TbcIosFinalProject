@@ -46,7 +46,6 @@ struct ProfileView: View {
                     .listSectionSeparator(.hidden)
                     .listRowSeparator(.hidden)
                     .listRowInsets(EdgeInsets(top: 0, leading: 0, bottom: 0, trailing: 0))
-                    .listSectionSpacing(0)
                 }
             }
             .navigationTitle("My Profile".localized())

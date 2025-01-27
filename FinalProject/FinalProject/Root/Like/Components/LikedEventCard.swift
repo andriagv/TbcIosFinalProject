@@ -21,12 +21,21 @@ struct LikedEventCard: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             ZStack(alignment: .topTrailing) {
-                if let imageName = viewModel.eventImageName {
-                    Image(imageName)
+                if let uiImage = viewModel.image {
+                    Image(uiImage: uiImage)
                         .resizable()
                         .aspectRatio(contentMode: .fill)
                         .frame(height: 200)
                         .clipped()
+                } else {
+                    Rectangle()
+                        .fill(Color.gray.opacity(0.3))
+                        .frame(height: 200)
+                        .overlay(
+                            Image(systemName: "photo.fill")
+                                .font(.system(size: 40))
+                                .foregroundColor(.gray)
+                        )
                 }
                 
                 Button(action: viewModel.handleUnlike) {

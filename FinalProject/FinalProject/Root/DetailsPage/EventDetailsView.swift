@@ -59,10 +59,20 @@ struct EventDetailsView: View {
         ZStack(alignment: .top) {
             TabView(selection: $viewModel.currentPhotoIndex) {
                 ForEach(viewModel.event.photos.indices, id: \.self) { index in
-                    Image(viewModel.event.photos[index])
-                        .resizable()
-                        .scaledToFill()
-                        .tag(index)
+                    if let image = viewModel.getImage(for: viewModel.event.photos[index]) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .tag(index)
+                    } else {
+                        Image(systemName: "photo.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .foregroundColor(.gray)
+                            .frame(maxWidth: .infinity)
+                            .background(Color(.systemGray6))
+                            .tag(index)
+                    }
                 }
             }
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .automatic))
@@ -97,18 +107,28 @@ struct EventDetailsView: View {
         ScrollView(.horizontal, showsIndicators: false) {
             HStack(spacing: 8) {
                 ForEach(viewModel.event.photos.indices, id: \.self) { index in
-                    Image(viewModel.event.photos[index])
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: 60, height: 60)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(viewModel.currentPhotoIndex == index ? .blue : .clear, lineWidth: 2)
-                        )
-                        .onTapGesture {
-                            viewModel.currentPhotoIndex = index
-                        }
+                    if let image = viewModel.getImage(for: viewModel.event.photos[index]) {
+                        Image(uiImage: image)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 60, height: 60)
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 12)
+                                    .stroke(viewModel.currentPhotoIndex == index ? .blue : .clear, lineWidth: 2)
+                            )
+                            .onTapGesture {
+                                viewModel.currentPhotoIndex = index
+                            }
+                    } else {
+                        Image(systemName: "photo.fill")
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 60, height: 60)
+                            .foregroundColor(.gray)
+                            .background(Color(.systemGray6))
+                            .clipShape(RoundedRectangle(cornerRadius: 12))
+                    }
                 }
             }
             .padding()

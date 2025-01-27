@@ -9,6 +9,8 @@ import UIKit
 
 final class TableViewCell: UITableViewCell {
     
+    private var loadingTask: Task<Void, Never>?
+    
     private let containerView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -32,6 +34,8 @@ final class TableViewCell: UITableViewCell {
         ImageView.translatesAutoresizingMaskIntoConstraints = false
         ImageView.contentMode = .scaleAspectFill
         ImageView.clipsToBounds = true
+        ImageView.image = UIImage(systemName: "photo.fill")
+        ImageView.tintColor = .systemGray4
         ImageView.layer.cornerRadius = 12
         return ImageView
     }()
@@ -51,6 +55,12 @@ final class TableViewCell: UITableViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        loadingTask?.cancel()
+        ImageView.image = nil
     }
     
     private func setupViews() {
@@ -143,16 +153,31 @@ final class TableViewCell: UITableViewCell {
         nameLabel.text = event.name
         dateLabel.text = event.date.startDate
         priceLabel.text = "\(Int(event.price.startPrice))"
-        if let imageName = event.photos.first {
-            ImageView.image = UIImage(named: imageName)
-        } else {
-            ImageView.image = nil
+        
+        loadingTask?.cancel()
+        
+        loadingTask = Task { @MainActor in
+            if let photoName = event.photos.first {
+                do {
+                    if let image = try await ImageCacheManager.shared.fetchPhoto(
+                        photoName: photoName,
+                        cacheType: .homePage
+                    ) {
+                        if !Task.isCancelled {
+                            ImageView.image = image
+                        }
+                    }
+                } catch {
+                    print("Error loading image: \(error)")
+                    if !Task.isCancelled {
+                        ImageView.image = UIImage(named: "placeholder")
+                    }
+                }
+            } else {
+                ImageView.image = UIImage(named: "placeholder")
+            }
         }
     }
 }
 
 
-
-#Preview {
-    HomePageViewController()
-}

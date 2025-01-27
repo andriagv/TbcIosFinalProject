@@ -7,6 +7,7 @@
 
 
 import Foundation
+import UIKit
 
 @MainActor
 class EventDetailsViewModel: ObservableObject {
@@ -16,7 +17,9 @@ class EventDetailsViewModel: ObservableObject {
     @Published var showNoSeatsAlert = false
     @Published var showBookingConfirmation = false
     @Published var currentSeats: Int
+    @Published var images: [String: UIImage] = [:]
     
+    private var loadingTasks: [String: Task<Void, Never>] = [:]
     let event: Event
     
     init(event: Event) {
@@ -24,6 +27,43 @@ class EventDetailsViewModel: ObservableObject {
         self.isFavorite = event.isFavorite
         self.currentSeats = event.seats.available
         checkLikeStatus()
+        loadAllImages()
+    }
+    
+    deinit {
+        loadingTasks.values.forEach { $0.cancel() }
+    }
+
+    private func loadAllImages() {
+        for photoName in event.photos {
+            loadImage(photoName: photoName)
+        }
+    }
+    
+    private func loadImage(photoName: String) {
+        loadingTasks[photoName]?.cancel()
+        
+        loadingTasks[photoName] = Task { @MainActor in
+            do {
+                if let image = try await ImageCacheManager.shared.fetchPhoto(
+                    photoName: photoName,
+                    cacheType: .detailsPage
+                ) {
+                    if !Task.isCancelled {
+                        images[photoName] = image
+                    }
+                }
+            } catch {
+                print("Error loading image \(photoName): \(error)")
+                if !Task.isCancelled {
+                    images[photoName] = UIImage(named: "placeholder")
+                }
+            }
+        }
+    }
+    
+    func getImage(for photoName: String) -> UIImage? {
+        return images[photoName] ?? UIImage(named: "placeholder")
     }
     
     func toggleFavorite() {
@@ -44,7 +84,8 @@ class EventDetailsViewModel: ObservableObject {
     }
     
     func checkLikeStatus() {
-        Task {
+        Task { [weak self] in
+            guard let self = self else { return }
             if let userId = UserDefaultsManager.shared.getUserId() {
                 let isLiked = try? await LikedEventsManager.shared.isEventLiked(
                     eventId: event.id,

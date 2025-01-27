@@ -92,6 +92,7 @@
 		188FFCEB2D428E970074A23B /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 188FFCEA2D428E970074A23B /* GoogleSignInSwift */; };
 		188FFCEF2D42A2360074A23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 188FFCEE2D42A2360074A23B /* GoogleService-Info.plist */; };
 		188FFCF22D42B2B40074A23B /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188FFCF12D42B2B40074A23B /* EditProfileViewModel.swift */; };
+		189121122D482836002D41BB /* CartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189121112D482836002D41BB /* CartViewModel.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -175,6 +176,7 @@
 		188FFCE32D4277650074A23B /* ButtonModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonModifier.swift; sourceTree = "<group>"; };
 		188FFCEE2D42A2360074A23B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		188FFCF12D42B2B40074A23B /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
+		189121112D482836002D41BB /* CartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewModel.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -398,10 +400,7 @@
 		1837A7382D41776A005B1785 /* Components */ = {
 			isa = PBXGroup;
 			children = (
-				1837A7312D41776A005B1785 /* CartBigViewComponents */,
-				1837A7342D41776A005B1785 /* CartSmalViewComponents */,
-				1837A7352D41776A005B1785 /* CartBigView.swift */,
-				1837A7362D41776A005B1785 /* CartSmallView.swift */,
+				189121132D48283F002D41BB /* Cart */,
 				1837A7372D41776A005B1785 /* FilterSheetView.swift */,
 			);
 			path = Components;
@@ -511,6 +510,18 @@
 				1837A75D2D418B10005B1785 /* EditProfileView.swift */,
 			);
 			path = EditProfile;
+			sourceTree = "<group>";
+		};
+		189121132D48283F002D41BB /* Cart */ = {
+			isa = PBXGroup;
+			children = (
+				1837A7352D41776A005B1785 /* CartBigView.swift */,
+				1837A7362D41776A005B1785 /* CartSmallView.swift */,
+				189121112D482836002D41BB /* CartViewModel.swift */,
+				1837A7312D41776A005B1785 /* CartBigViewComponents */,
+				1837A7342D41776A005B1785 /* CartSmalViewComponents */,
+			);
+			path = Cart;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -647,6 +658,7 @@
 				1837A75A2D418715005B1785 /* TermsAndConditionsViewController.swift in Sources */,
 				180721472D44141D00B79B6A /* LikeStatusMonitor.swift in Sources */,
 				185820812D47981900F1DF27 /* PriceView.swift in Sources */,
+				189121122D482836002D41BB /* CartViewModel.swift in Sources */,
 				185820772D465FD000F1DF27 /* TicketsViewControllerRepresentable.swift in Sources */,
 				1837A71F2D417688005B1785 /* DateFormatterManager.swift in Sources */,
 				1837A75E2D418B10005B1785 /* EditProfileView.swift in Sources */,
@@ -723,7 +735,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -751,7 +763,7 @@
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
