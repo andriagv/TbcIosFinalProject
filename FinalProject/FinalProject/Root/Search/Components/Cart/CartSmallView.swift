@@ -9,22 +9,18 @@
 import SwiftUI
 
 struct CartSmallView: View {
-    @State private var isLiked: Bool
-    let event: Event
+    @StateObject private var viewModel: CartViewModel
     @Environment(\.colorScheme) var colorScheme
-    @EnvironmentObject var viewModel: SearchPageViewModel
-    @StateObject private var likeStatusMonitor = LikeStatusMonitor()
     
     init(event: Event) {
-        self.event = event
-        self._isLiked = State(initialValue: event.isFavorite)
+        _viewModel = StateObject(wrappedValue: CartViewModel(event: event))
     }
     
     var body: some View {
         VStack(spacing: 0) {
             ZStack(alignment: .topTrailing) {
-                if let firstPhoto = event.photos.first {
-                    Image(firstPhoto)
+                if let uiImage = viewModel.image {
+                    Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFill()
                         .frame(height: 100)
@@ -39,67 +35,47 @@ struct CartSmallView: View {
                         .background(Color(.systemGray6))
                         .clipShape(RoundedRectangle(cornerRadius: 12, style: .continuous))
                 }
-                Button(action: {
-                    isLiked.toggle()
-                    Task {
-                        do {
-                            try await viewModel.toggleLike(for: event)
-                        } catch {
-                            print("Error toggling like: \(error)")
-                        }
-                    }
-                }) {
-                    SmallButtonView(imageSystemName: isLiked ? "heart.fill" : "heart", fontSize: 20)
-                        .foregroundStyle(isLiked ? Color.red : Color.white)
-                }
                 
+                Button(action: {
+                    Task { await viewModel.toggleLike() }
+                }) {
+                    SmallButtonView(
+                        imageSystemName: viewModel.isLiked ? "heart.fill" : "heart",
+                        fontSize: 20
+                    )
+                    .foregroundStyle(viewModel.isLiked ? Color.red : Color.white)
+                }
                 .padding(8)
             }
+            
             VStack(spacing: 8) {
                 VStack(spacing: 6) {
                     CompactDetailRow(
                         icon: "mappin.circle",
                         iconColor: .blue,
-                        text: event.name
+                        text: viewModel.name
                     )
                     CompactDetailRow(
                         icon: "clock",
                         iconColor: .blue,
-                        text: event.date.startDate
+                        text: viewModel.startDate
                     )
                     CompactPriceRow(
-                        startPrice: event.price.startPrice,
-                        discountedPrice: event.price.discountedPrice
+                        startPrice: viewModel.startPrice,
+                        discountedPrice: viewModel.discountedPrice
                     )
                 }
             }
             .padding(8)
             .background(Color(.filterSheetBackground))
         }
-        .onAppear {
-            checkLikeStatus()
-        }
-        .onReceive(likeStatusMonitor.$lastUpdated) { _ in
-            checkLikeStatus()
+        .task {
+            await viewModel.loadImage()
         }
         .frame(width: 160)
         .background(Color(.filterSheetBackground))
         .clipShape(RoundedRectangle(cornerRadius: 12))
         .shadow(color: .collectionShadow.opacity(0.1), radius: 8, x: 0, y: 3)
-    }
-    
-    private func checkLikeStatus() {
-        Task {
-            if let userId = UserDefaultsManager.shared.getUserId() {
-                let isLiked = try? await LikedEventsManager.shared.isEventLiked(
-                    eventId: event.id,
-                    userId: userId
-                )
-                await MainActor.run {
-                    self.isLiked = isLiked ?? false
-                }
-            }
-        }
     }
 }
 
