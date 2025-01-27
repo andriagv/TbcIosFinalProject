@@ -13,6 +13,8 @@ final class CollectionViewCell: UICollectionViewCell {
     
     var onLikeButtonTapped: ((Bool) -> Void)?
     
+    private var loadingTask: Task<Void, Never>?
+    
     private let containerView: UIView = {
         let view = UIView()
         view.layer.cornerRadius = 16
@@ -75,6 +77,12 @@ final class CollectionViewCell: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        loadingTask?.cancel()
+        imageView.image = nil  
     }
     
     override func layoutSubviews() {
@@ -150,10 +158,29 @@ final class CollectionViewCell: UICollectionViewCell {
         locationLabel.text = event.location.city
         timeLabel.text = "\(event.date.startDate)"
         prite.text = "\(Int(event.price.startPrice)) $"
-        if let imageName = event.photos.first {
-            imageView.image = UIImage(named: imageName)
-        } else {
-            imageView.image = nil
+        
+        loadingTask?.cancel()
+        
+        loadingTask = Task { @MainActor in
+            if let photoName = event.photos.first {
+                do {
+                    if let image = try await ImageCacheManager.shared.fetchPhoto(
+                        photoName: photoName,
+                        cacheType: .homePage
+                    ) {
+                        if !Task.isCancelled {
+                            imageView.image = image
+                        }
+                    }
+                } catch {
+                    print("Error loading image: \(error)")
+                    if !Task.isCancelled {
+                        imageView.image = UIImage(named: "placeholder")
+                    }
+                }
+            } else {
+                imageView.image = UIImage(named: "placeholder")
+            }
         }
     }
 }
