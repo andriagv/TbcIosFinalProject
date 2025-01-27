@@ -28,9 +28,13 @@ final class EditProfileViewModel: ObservableObject {
         self.userManager = userManager
         self.authManager = authManager
         
-        Task {
-            await loadUserData()
+        Task { [weak self] in
+            await self?.loadUserData()
         }
+    }
+    
+    deinit {
+        print("EditProfileViewModel deinitialized")
     }
     
     @MainActor

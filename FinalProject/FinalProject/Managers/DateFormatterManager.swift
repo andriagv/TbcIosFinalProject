@@ -2,21 +2,13 @@
 //  DateFormatterManager.swift
 //  FinalProject
 //
-//  Created by Apple on 22.01.25.
-//
-
-
-//
-//  DateFormatterManager.swift
-//  FinalProject
-//
 //  Created by Apple on 19.01.25.
 //
 
 
 import Foundation
 
-class DateFormatterManager {
+final class DateFormatterManager {
     static let shared = DateFormatterManager()
     private let dateFormatter = DateFormatter()
     
@@ -29,7 +21,6 @@ class DateFormatterManager {
             dateFormatter.dateFormat = outputFormat
             return dateFormatter.string(from: date)
         }
-        
         return dateString
     }
 }

@@ -54,15 +54,7 @@ final class HomePageViewController: UIViewController {
         label.textColor = .label
         return label
     }()
-    
-//    private lazy var seeMoreButton: UIButton = {
-//        let button = UIButton(type: .system)
-//        button.setTitle("See more".localized(), for: .normal)
-//        button.setTitleColor(.systemGray, for: .normal)
-//        button.titleLabel?.font = UIFont(name: "SourGummy-ThinItalic", size: 16)
-//        return button
-//    }()
-    
+        
     private lazy var popularCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
         layout.scrollDirection = .horizontal
@@ -142,7 +134,6 @@ final class HomePageViewController: UIViewController {
         popularLabel.text = "Most Popular places".localized()
         forouLabel.text = "For you".localized()
         partnersLabel.text = "Partners".localized()
-        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -196,19 +187,14 @@ final class HomePageViewController: UIViewController {
     
     private func setupCollectionSection() {
         underView.addSubview(popularLabel)
-        //underView.addSubview(seeMoreButton)
         underView.addSubview(popularCollectionView)
         
         popularLabel.translatesAutoresizingMaskIntoConstraints = false
-        //seeMoreButton.translatesAutoresizingMaskIntoConstraints = false
         popularCollectionView.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
             popularLabel.topAnchor.constraint(equalTo: underView.topAnchor, constant: 32),
             popularLabel.leadingAnchor.constraint(equalTo: underView.leadingAnchor, constant: 16),
-            
-//            seeMoreButton.centerYAnchor.constraint(equalTo: popularLabel.centerYAnchor),
-//            seeMoreButton.trailingAnchor.constraint(equalTo: underView.trailingAnchor, constant: -16),
             
             popularCollectionView.topAnchor.constraint(equalTo: popularLabel.bottomAnchor, constant: 8),
             popularCollectionView.leadingAnchor.constraint(equalTo: underView.leadingAnchor, constant: 6),

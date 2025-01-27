@@ -14,14 +14,12 @@ protocol TicketsViewModelDelegate: AnyObject {
     func didFailWithError(_ error: Error)
 }
 
-class TicketsViewModel {
+final class TicketsViewModel {
     weak var delegate: TicketsViewModelDelegate?
     private let databaseRef = Database.database().reference()
     private(set) var orderedEvents: [Event] = []
 
     func fetchUserEvents() {
-        print("🔍 Fetching user events...")
-
         guard let userId = UserDefaultsManager.shared.getUserId() else {
             print("User ID not found")
             return
@@ -42,9 +40,6 @@ class TicketsViewModel {
                 print("No `orderedEvents` field found or it's not an array of strings")
                 return
             }
-
-            print("Ordered events: \(orderedEventIds)")
-
             self.fetchEvents(fromIds: orderedEventIds)
         }
     }
@@ -74,8 +69,6 @@ class TicketsViewModel {
                     return try JSONDecoder().decode(Event.self, from: eventData)
                 }
 
-                print("Filtered events: \(filteredEvents)")
-
                 DispatchQueue.main.async {
                     self.orderedEvents = filteredEvents
                     self.delegate?.didLoadEvents(filteredEvents)
@@ -86,5 +79,4 @@ class TicketsViewModel {
             }
         }
     }
-
 }

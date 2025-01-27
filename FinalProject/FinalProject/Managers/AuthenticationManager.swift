@@ -39,7 +39,8 @@ final class AuthenticationManager: AuthenticationManagerProtocol {
     @MainActor
     func signInWithGoogle(tokens: GoogleSignInResultModel) async throws -> AuthDataResultModel {
         return try await withCheckedThrowingContinuation { continuation in
-            Task {
+            Task { [weak self] in
+                guard let self = self else { return }
                 do {
                     let credential = GoogleAuthProvider.credential(withIDToken: tokens.idToken, accessToken: tokens.accessToken)
                     let authResult = try await self.signIn(credential: credential)
@@ -59,7 +60,6 @@ final class AuthenticationManager: AuthenticationManagerProtocol {
             }
         }
     }
-    
     
     func signIn(credential: AuthCredential) async throws -> AuthDataResultModel {
         let authDataResult = try await Auth.auth().signIn(with: credential)

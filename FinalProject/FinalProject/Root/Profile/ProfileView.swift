@@ -19,7 +19,6 @@ struct ProfileView: View {
     @State private var showingDeleteAlert = false
     @State private var isShowingTickets = false
 
-    
     @State private var showToast = false
     
     var body: some View {
@@ -53,7 +52,7 @@ struct ProfileView: View {
             .navigationTitle("My Profile".localized())
             .overlay(alignment: .top) {
                 if showToast {
-                    ToastView(message: "წაიშალა აქაუნთი")
+                    ToastView(message: "Deleted account".localized())
                         .transition(
                             .move(edge: .top)
                             .combined(with: .opacity)
@@ -107,7 +106,7 @@ struct ProfileView: View {
                 } else {
                     defaultProfileImage
                     VStack(alignment: .leading) {
-                        Text("Loading...")
+                        Text("Loading...".localized())
                             .font(.headline)
                             .foregroundColor(.gray)
                     }
@@ -175,7 +174,7 @@ struct ProfileView: View {
                 HStack {
                     Image(systemName: "ticket")
                         .foregroundColor(.blue)
-                    Text("My Tickets")
+                    Text("My Tickets".localized())
                 }
             }
         }

@@ -62,6 +62,12 @@ final class SearchPageViewModel: ObservableObject {
         fetchEvents()
     }
     
+    deinit {
+        monitor.cancel()
+        databaseRef.child("events").removeAllObservers()
+        print("SearchPageViewModel deinit")
+    }
+    
     // MARK: - Network Monitoring
     private func setupNetworkMonitoring() {
         monitor.pathUpdateHandler = { [weak self] path in
@@ -81,57 +87,57 @@ final class SearchPageViewModel: ObservableObject {
     
     // MARK: - Data Fetching
     func fetchEvents() {
-       guard !isLoading else { return }
-       isLoading = true
-       
-       guard let userId = UserDefaultsManager.shared.getUserId() else {
-           isLoading = false
-           return
-       }
-       
-       Task {
-           do {
-               let user = try await UserManager().getUser(by: userId)
-               let likedEventIds = user.likedEventIds
-               
-               databaseRef.child("events").observe(.value) { [weak self] snapshot in
-                   guard let self = self else { return }
-                   
-                   defer {
-                       self.isLoading = false
-                   }
-                   
-                   guard let value = snapshot.value as? [[String: Any]] else {
-                       print("მონაცემები არასწორი ფორმატით მივიღეთ")
-                       return
-                   }
-                   
-                   DispatchQueue.main.async {
-                       do {
-                           let data = try JSONSerialization.data(withJSONObject: value)
-                           let decoder = JSONDecoder()
-                           var fetchedEvents = try decoder.decode([Event].self, from: data)
-                           
-                           fetchedEvents = fetchedEvents.map { event in
-                               var updatedEvent = event
-                               updatedEvent.isFavorite = likedEventIds.contains(event.id)
-                               return updatedEvent
-                           }
-                           
-                           self.events = fetchedEvents
-                           self.filteredEvents = fetchedEvents
-                           self.saveEventsToCache(events: fetchedEvents)
-                           
-                       } catch {
-                           print("პარსინგის შეცდომა: \(error)")
-                       }
-                   }
-               }
-           } catch {
-               print("იუზერის ინფორმაციის წამოღების შეცდომა: \(error)")
-               self.isLoading = false
-           }
-       }
+        guard !isLoading else { return }
+        isLoading = true
+        
+        guard let userId = UserDefaultsManager.shared.getUserId() else {
+            isLoading = false
+            return
+        }
+        
+        Task {
+            do {
+                let user = try await UserManager().getUser(by: userId)
+                let likedEventIds = user.likedEventIds
+                
+                databaseRef.child("events").observe(.value) { [weak self] snapshot in
+                    guard let self = self else { return }
+                    
+                    defer {
+                        self.isLoading = false
+                    }
+                    
+                    guard let value = snapshot.value as? [[String: Any]] else {
+                        print("მონაცემები არასწორი ფორმატით მივიღეთ")
+                        return
+                    }
+                    
+                    DispatchQueue.main.async {
+                        do {
+                            let data = try JSONSerialization.data(withJSONObject: value)
+                            let decoder = JSONDecoder()
+                            var fetchedEvents = try decoder.decode([Event].self, from: data)
+                            
+                            fetchedEvents = fetchedEvents.map { event in
+                                var updatedEvent = event
+                                updatedEvent.isFavorite = likedEventIds.contains(event.id)
+                                return updatedEvent
+                            }
+                            
+                            self.events = fetchedEvents
+                            self.filteredEvents = fetchedEvents
+                            self.saveEventsToCache(events: fetchedEvents)
+                            
+                        } catch {
+                            print("პარსინგის შეცდომა: \(error)")
+                        }
+                    }
+                }
+            } catch {
+                print("იუზერის ინფორმაციის წამოღების შეცდომა: \(error)")
+                self.isLoading = false
+            }
+        }
     }
     
     // MARK: - Caching
@@ -202,22 +208,22 @@ final class SearchPageViewModel: ObservableObject {
     // MARK: - toggleLike
     
     func toggleLike(for event: Event) async throws {
-       guard let userId = UserDefaultsManager.shared.getUserId() else { return }
-       let newFavoriteStatus = !event.isFavorite
-       
-       if newFavoriteStatus {
-           try await LikedEventsManager.shared.addLikedEvent(for: userId, event: event)
-       } else {
-           try await LikedEventsManager.shared.removeLikedEvent(for: userId, event: event)
-       }
-       
-       DispatchQueue.main.async { [self] in
-           if let index = filteredEvents.firstIndex(where: { $0.id == event.id }) {
-               var updatedEvent = event
-               updatedEvent.isFavorite = newFavoriteStatus
-               filteredEvents[index] = updatedEvent
-           }
-       }
+        guard let userId = UserDefaultsManager.shared.getUserId() else { return }
+        let newFavoriteStatus = !event.isFavorite
+        
+        if newFavoriteStatus {
+            try await LikedEventsManager.shared.addLikedEvent(for: userId, event: event)
+        } else {
+            try await LikedEventsManager.shared.removeLikedEvent(for: userId, event: event)
+        }
+        
+        DispatchQueue.main.async { [self] in
+            if let index = filteredEvents.firstIndex(where: { $0.id == event.id }) {
+                var updatedEvent = event
+                updatedEvent.isFavorite = newFavoriteStatus
+                filteredEvents[index] = updatedEvent
+            }
+        }
     }
     
     // MARK: - Filter Reset
