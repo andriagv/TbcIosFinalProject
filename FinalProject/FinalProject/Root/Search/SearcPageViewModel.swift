@@ -33,7 +33,6 @@ final class SearchPageViewModel: ObservableObject {
     
     @Published var selectedCategory: EventType? = nil {
         didSet {
-            print(">>> selectedCategory changed: \(String(describing: selectedCategory))")
             fetchEvents()
         }
     }
@@ -134,9 +133,7 @@ final class SearchPageViewModel: ObservableObject {
                 query.observeSingleEvent(of: .value) { [weak self] snapshot in
                     guard let self = self else { return }
                     defer { self.isLoading = false }
-                    
-                    print("fetchFirstPage(): childrenCount = \(snapshot.childrenCount)")
-                    
+                                        
                     if !snapshot.hasChildren() {
                         self.hasMoreData = false
                         return
@@ -378,7 +375,7 @@ final class SearchPageViewModel: ObservableObject {
     
     // MARK: - Filter Reset
     func clearFilters() {
-        print(">>> clearFilters() CALLED")
+        print("clearFilters() CALLED")
         searchText = ""
         selectedCategory = nil
         
