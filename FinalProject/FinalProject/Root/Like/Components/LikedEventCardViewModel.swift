@@ -12,6 +12,8 @@ import SwiftUI
 @MainActor
 final class LikedEventCardViewModel: ObservableObject {
     @Published private(set) var event: Event
+    @Published private(set) var image: UIImage?
+    
     private let onUnlike: () -> Void
     private let onCardTap: () -> Void
     
@@ -19,10 +21,23 @@ final class LikedEventCardViewModel: ObservableObject {
         self.event = event
         self.onUnlike = onUnlike
         self.onCardTap = onCardTap
+        
+        Task {
+            await loadImage()
+        }
     }
     
-    var eventImageName: String? {
-        event.photos.first
+    private func loadImage() async {
+        if let photoName = event.photos.first {
+            do {
+                self.image = try await ImageCacheManager.shared.fetchPhoto(
+                    photoName: photoName,
+                    cacheType: .profilePage
+                )
+            } catch {
+                print("Error loading image for event \(event.id): \(error)")
+            }
+        }
     }
     
     var eventName: String {
