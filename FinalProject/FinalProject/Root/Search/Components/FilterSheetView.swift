@@ -30,6 +30,7 @@ struct FilterSheetView: View {
                 categoryPickerView
                 dateRangeView
                 sortingPickerView
+                freeEventsToggleView
                 clearFiltersView
             }
         }
@@ -59,7 +60,7 @@ struct FilterSheetView: View {
     }
     
     private var matchingEventsView: some View {
-        Text("Matching events: \(viewModel.filteredEvents.count)")
+        Text("Matching events: \(viewModel.events.count)")
             .foregroundColor(.secondary)
             .padding(.horizontal, 16)
             .font(.titleFontBold(size: 20))
@@ -128,8 +129,30 @@ struct FilterSheetView: View {
         .padding(.horizontal)
     }
     
+    private var freeEventsToggleView: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Show Free Events".localized())
+                .font(.dateNumberFont(size: 22))
+                .foregroundColor(.primary)
+            
+            Toggle(isOn: $viewModel.showFreeEventsOnly) {
+                Text("Only Free Events".localized())
+                    .font(.titleFontBold(size: 20))
+                    .foregroundColor(.primary)
+            }
+            .toggleStyle(SwitchToggleStyle(tint: .blue))
+        }
+        .padding()
+        .background(Color(UIColor.secondarySystemBackground))
+        .cornerRadius(12)
+        .shadow(color: Color.black.opacity(0.05), radius: 4, x: 0, y: 2)
+        .padding(.horizontal)
+    }
+
+    
     private var clearFiltersView: some View {
         Button(action: {
+            
             viewModel.clearFilters()
         }) {
             Text("Clear Filters".localized())

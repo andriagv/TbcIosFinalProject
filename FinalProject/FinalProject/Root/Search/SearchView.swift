@@ -114,7 +114,7 @@ struct SearchView: View {
     
     private var contentView: some View {
         ScrollView {
-            if viewModel.filteredEvents.isEmpty {
+            if viewModel.events.isEmpty {
                 emptyStateView
             } else {
                 if isSmalCardPresented {
@@ -124,9 +124,7 @@ struct SearchView: View {
                         ],
                         spacing: 20
                     ) {
-                        ForEach(viewModel.filteredEvents.indices, id: \.self) { index in
-                            let event = viewModel.filteredEvents[index]
-                            
+                        ForEach(Array(viewModel.events.enumerated()), id: \.element.id) { index, event in
                             Button {
                                 onEventSelected(event)
                             } label: {
@@ -135,7 +133,7 @@ struct SearchView: View {
                             }
                             .buttonStyle(.plain)
                             
-                            if index == viewModel.filteredEvents.count - 1 {
+                            if index == viewModel.events.count - 1 {
                                 Color.clear
                                     .frame(height: 1)
                                     .onAppear {
@@ -154,9 +152,7 @@ struct SearchView: View {
                     .padding(.horizontal)
                 } else {
                     LazyVStack(spacing: 30) {
-                        ForEach(viewModel.filteredEvents.indices, id: \.self) { index in
-                            let event = viewModel.filteredEvents[index]
-                            
+                        ForEach(Array(viewModel.events.enumerated()), id: \.element.id) { index, event in
                             Button {
                                 onEventSelected(event)
                             } label: {
@@ -165,7 +161,7 @@ struct SearchView: View {
                             }
                             .buttonStyle(.plain)
                             
-                            if index == viewModel.filteredEvents.count - 1 {
+                            if index == viewModel.events.count - 1 {
                                 Color.clear
                                     .frame(height: 1)
                                     .onAppear {
@@ -180,8 +176,7 @@ struct SearchView: View {
                             ProgressView("Loading more...")
                                 .padding(.vertical)
                         }
-                    }
-                    .padding(.horizontal)
+                    }                    .padding(.horizontal)
                     .padding(.top, 10)
                 }
             }
