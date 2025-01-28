@@ -17,8 +17,6 @@ final class TabBarController: UITabBarController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViewControllers()
-        addSwipeNavigation()
-        
         if let savedLanguage = UserDefaults.standard.stringArray(forKey: "AppleLanguages")?.first {
             Bundle.setLanguage(savedLanguage)
         }
@@ -33,27 +31,7 @@ final class TabBarController: UITabBarController {
             vcs[3].tabBarItem.title = "Profile".localized()
         }
     }
-    
-    private func addSwipeNavigation() {
-        panGesture = UIPanGestureRecognizer(target: self, action: #selector(handlePan(_:)))
-        if let panGesture = panGesture {
-            view.addGestureRecognizer(panGesture)
-        }
-    }
-    
-    @objc private func handlePan(_ gesture: UIPanGestureRecognizer) {
-        _ = gesture.translation(in: view).x
-        
-        if gesture.state == .ended {
-            let velocity = gesture.velocity(in: view).x
-            if velocity > 0 && selectedIndex > 0 {
-                selectedIndex -= 1
-            } else if velocity < 0 && selectedIndex < (viewControllers?.count ?? 1) - 1 {
-                selectedIndex += 1
-            }
-        }
-    }
-    
+
     private func setupViewControllers() {
         let homePageVC = MainViewController()
         let homeNav = UINavigationController(rootViewController: homePageVC)
@@ -79,6 +57,14 @@ final class TabBarController: UITabBarController {
         let searchHosting = UIHostingController(rootView: searchView)
         searchNav.viewControllers = [searchHosting]
         
+        let mapPageVC = MapViewController()
+        let mapNav = UINavigationController(rootViewController: mapPageVC)
+        mapNav.tabBarItem = UITabBarItem(
+            title: "Map".localized(),
+            image: UIImage(systemName: "map"),
+            selectedImage: UIImage(systemName: "map.fill")
+        )
+        
         let likesNav = UINavigationController()
         likesNav.tabBarItem = UITabBarItem(
             title: "Likes".localized(),
@@ -103,7 +89,7 @@ final class TabBarController: UITabBarController {
             selectedImage: UIImage(systemName: "person.fill")
         )
         
-        self.viewControllers = [homeNav, searchNav, likesNav, profileHosting]
+        self.viewControllers = [homeNav, searchNav, mapNav, likesNav, profileHosting]
     }
     
     deinit {
