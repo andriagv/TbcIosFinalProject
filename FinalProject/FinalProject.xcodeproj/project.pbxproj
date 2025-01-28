@@ -21,6 +21,8 @@
 		181C130F2D497FC7009D27F2 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181C130E2D497FC7009D27F2 /* NetworkService.swift */; };
 		181C13112D4981A7009D27F2 /* EventFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181C13102D4981A7009D27F2 /* EventFilter.swift */; };
 		181C13152D498E1E009D27F2 /* FirebaseEventsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181C13142D498E1E009D27F2 /* FirebaseEventsRepository.swift */; };
+		181C13182D49951E009D27F2 /* ImageLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181C13172D49951E009D27F2 /* ImageLoadable.swift */; };
+		181C131A2D499543009D27F2 /* EventFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181C13192D499543009D27F2 /* EventFormatter.swift */; };
 		18361F832D33F70B000236B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18361F7C2D33F70B000236B1 /* AppDelegate.swift */; };
 		18361F842D33F70B000236B1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18361F812D33F70B000236B1 /* SceneDelegate.swift */; };
 		18361F852D33F70B000236B1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18361F7D2D33F70B000236B1 /* Assets.xcassets */; };
@@ -118,6 +120,8 @@
 		181C130E2D497FC7009D27F2 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		181C13102D4981A7009D27F2 /* EventFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventFilter.swift; sourceTree = "<group>"; };
 		181C13142D498E1E009D27F2 /* FirebaseEventsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseEventsRepository.swift; sourceTree = "<group>"; };
+		181C13172D49951E009D27F2 /* ImageLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoadable.swift; sourceTree = "<group>"; };
+		181C13192D499543009D27F2 /* EventFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventFormatter.swift; sourceTree = "<group>"; };
 		18361F7C2D33F70B000236B1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18361F7D2D33F70B000236B1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18361F7E2D33F70B000236B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -250,6 +254,15 @@
 			isa = PBXGroup;
 			children = (
 				181C13142D498E1E009D27F2 /* FirebaseEventsRepository.swift */,
+			);
+			path = ViewModelComponents;
+			sourceTree = "<group>";
+		};
+		181C13162D49950E009D27F2 /* ViewModelComponents */ = {
+			isa = PBXGroup;
+			children = (
+				181C13192D499543009D27F2 /* EventFormatter.swift */,
+				181C13172D49951E009D27F2 /* ImageLoadable.swift */,
 			);
 			path = ViewModelComponents;
 			sourceTree = "<group>";
@@ -405,6 +418,7 @@
 				1837A7252D4176E7005B1785 /* Components */,
 				1837A7232D4176DA005B1785 /* EventDetailsView.swift */,
 				1858207A2D467EDD00F1DF27 /* EventDetailsViewModel.swift */,
+				181C13162D49950E009D27F2 /* ViewModelComponents */,
 			);
 			path = DetailsPage;
 			sourceTree = "<group>";
@@ -718,6 +732,7 @@
 				188FFC892D426DF30074A23B /* LoginViewModel.swift in Sources */,
 				18361F972D33F800000236B1 /* HomePageViewController.swift in Sources */,
 				188FFC8E2D426E460074A23B /* SignupViewModel.swift in Sources */,
+				181C13182D49951E009D27F2 /* ImageLoadable.swift in Sources */,
 				18361FA32D33F897000236B1 /* ProfileView.swift in Sources */,
 				188FFCE02D4272BC0074A23B /* UserDefaultsManager.swift in Sources */,
 				181C130D2D497FB7009D27F2 /* EventServices.swift in Sources */,
@@ -726,6 +741,7 @@
 				180721502D44168F00B79B6A /* EmptyStateView.swift in Sources */,
 				1837A7412D417791005B1785 /* SearcPageViewModel.swift in Sources */,
 				188FFCF22D42B2B40074A23B /* EditProfileViewModel.swift in Sources */,
+				181C131A2D499543009D27F2 /* EventFormatter.swift in Sources */,
 				1837A75C2D418733005B1785 /* ContactUsViewControllerRepresentable.swift in Sources */,
 				181C12EB2D48F673009D27F2 /* EventAnnotation.swift in Sources */,
 				181C12E72D48E9C7009D27F2 /* MapViewController.swift in Sources */,
