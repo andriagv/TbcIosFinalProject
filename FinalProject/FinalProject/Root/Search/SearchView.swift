@@ -114,7 +114,7 @@ struct SearchView: View {
     
     private var contentView: some View {
         ScrollView {
-            if viewModel.events.isEmpty {
+            if viewModel.events.isEmpty && !viewModel.isLoading {
                 emptyStateView
             } else {
                 if isSmalCardPresented {
@@ -124,67 +124,55 @@ struct SearchView: View {
                         ],
                         spacing: 20
                     ) {
-                        ForEach(Array(viewModel.events.enumerated()), id: \.element.id) { index, event in
-                            Button {
-                                onEventSelected(event)
-                            } label: {
-                                CartSmallView(event: event)
-                                    .environmentObject(viewModel)
-                            }
-                            .buttonStyle(.plain)
-                            
-                            if index == viewModel.events.count - 1 {
-                                Color.clear
-                                    .frame(height: 1)
-                                    .onAppear {
-                                        if viewModel.hasMoreData && !viewModel.isLoading {
-                                            viewModel.fetchMoreEvents()
-                                        }
-                                    }
-                            }
-                        }
-                        
-                        if viewModel.isLoading {
-                            ProgressView("Loading more...")
-                                .padding(.vertical)
-                        }
+                        eventContent
                     }
                     .padding(.horizontal)
                 } else {
                     LazyVStack(spacing: 30) {
-                        ForEach(Array(viewModel.events.enumerated()), id: \.element.id) { index, event in
-                            Button {
-                                onEventSelected(event)
-                            } label: {
-                                CartBigView(event: event)
-                                    .environmentObject(viewModel)
-                            }
-                            .buttonStyle(.plain)
-                            
-                            if index == viewModel.events.count - 1 {
-                                Color.clear
-                                    .frame(height: 1)
-                                    .onAppear {
-                                        if viewModel.hasMoreData && !viewModel.isLoading {
-                                            viewModel.fetchMoreEvents()
-                                        }
-                                    }
-                            }
-                        }
-                        
-                        if viewModel.isLoading {
-                            ProgressView("Loading more...")
-                                .padding(.vertical)
-                        }
-                    }                    .padding(.horizontal)
+                        eventContent
+                    }
+                    .padding(.horizontal)
                     .padding(.top, 10)
                 }
             }
         }
-        .padding(.horizontal)
         .padding(.top, 10)
         .refreshable {
             viewModel.fetchEvents()
+        }
+    }
+
+    private var eventContent: some View {
+        Group {
+            ForEach(Array(viewModel.events.enumerated()), id: \.element.id) { index, event in
+                Button {
+                    onEventSelected(event)
+                } label: {
+                    if isSmalCardPresented {
+                        CartSmallView(event: event)
+                            .environmentObject(viewModel)
+                    } else {
+                        CartBigView(event: event)
+                            .environmentObject(viewModel)
+                    }
+                }
+                .buttonStyle(.plain)
+                
+                if index == viewModel.events.count - 1 {
+                    Color.clear
+                        .frame(height: 1)
+                        .onAppear {
+                            if viewModel.hasMoreData && !viewModel.isLoading {
+                                viewModel.fetchMoreEvents()
+                            }
+                        }
+                }
+            }
+            
+            if viewModel.isLoading {
+                ProgressView("Loading more...")
+                    .padding(.vertical)
+            }
         }
     }
     
