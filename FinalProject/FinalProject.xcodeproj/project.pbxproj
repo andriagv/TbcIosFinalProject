@@ -20,6 +20,7 @@
 		181C130D2D497FB7009D27F2 /* EventServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181C130C2D497FB7009D27F2 /* EventServices.swift */; };
 		181C130F2D497FC7009D27F2 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181C130E2D497FC7009D27F2 /* NetworkService.swift */; };
 		181C13112D4981A7009D27F2 /* EventFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181C13102D4981A7009D27F2 /* EventFilter.swift */; };
+		181C13152D498E1E009D27F2 /* FirebaseEventsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 181C13142D498E1E009D27F2 /* FirebaseEventsRepository.swift */; };
 		18361F832D33F70B000236B1 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18361F7C2D33F70B000236B1 /* AppDelegate.swift */; };
 		18361F842D33F70B000236B1 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18361F812D33F70B000236B1 /* SceneDelegate.swift */; };
 		18361F852D33F70B000236B1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 18361F7D2D33F70B000236B1 /* Assets.xcassets */; };
@@ -116,6 +117,7 @@
 		181C130C2D497FB7009D27F2 /* EventServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventServices.swift; sourceTree = "<group>"; };
 		181C130E2D497FC7009D27F2 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 		181C13102D4981A7009D27F2 /* EventFilter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventFilter.swift; sourceTree = "<group>"; };
+		181C13142D498E1E009D27F2 /* FirebaseEventsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseEventsRepository.swift; sourceTree = "<group>"; };
 		18361F7C2D33F70B000236B1 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		18361F7D2D33F70B000236B1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		18361F7E2D33F70B000236B1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -238,9 +240,16 @@
 			isa = PBXGroup;
 			children = (
 				181C13102D4981A7009D27F2 /* EventFilter.swift */,
-				181C130E2D497FC7009D27F2 /* NetworkService.swift */,
 				181C130C2D497FB7009D27F2 /* EventServices.swift */,
 				181C130A2D497FA7009D27F2 /* EventRepository.swift */,
+			);
+			path = ViewModelComponents;
+			sourceTree = "<group>";
+		};
+		181C13132D498E0D009D27F2 /* ViewModelComponents */ = {
+			isa = PBXGroup;
+			children = (
+				181C13142D498E1E009D27F2 /* FirebaseEventsRepository.swift */,
 			);
 			path = ViewModelComponents;
 			sourceTree = "<group>";
@@ -291,6 +300,7 @@
 				18361F902D33F79F000236B1 /* DarkModeManager.swift */,
 				180721462D44141D00B79B6A /* LikeStatusMonitor.swift */,
 				180721482D44144400B79B6A /* LikedEventsManager.swift */,
+				181C130E2D497FC7009D27F2 /* NetworkService.swift */,
 			);
 			path = Managers;
 			sourceTree = "<group>";
@@ -358,9 +368,10 @@
 		18361F932D33F7BF000236B1 /* Like */ = {
 			isa = PBXGroup;
 			children = (
-				1807214E2D44167000B79B6A /* Components */,
 				1807214C2D4415EC00B79B6A /* LikesPageView.swift */,
+				1807214E2D44167000B79B6A /* Components */,
 				1807214A2D4415DD00B79B6A /* LikesViewModel.swift */,
+				181C13132D498E0D009D27F2 /* ViewModelComponents */,
 			);
 			path = Like;
 			sourceTree = "<group>";
@@ -368,8 +379,8 @@
 		18361F942D33F7C6000236B1 /* Search */ = {
 			isa = PBXGroup;
 			children = (
-				1837A7382D41776A005B1785 /* Components */,
 				18361F9A2D33F82D000236B1 /* SearchView.swift */,
+				1837A7382D41776A005B1785 /* Components */,
 				1837A7402D417791005B1785 /* SearcPageViewModel.swift */,
 				181C13122D498C5B009D27F2 /* ViewModelComponents */,
 			);
@@ -677,6 +688,7 @@
 				188FFC8C2D426E270074A23B /* SignupView.swift in Sources */,
 				181C130F2D497FC7009D27F2 /* NetworkService.swift in Sources */,
 				1837A7462D417D50005B1785 /* FontExtension.swift in Sources */,
+				181C13152D498E1E009D27F2 /* FirebaseEventsRepository.swift in Sources */,
 				180721522D4416B400B79B6A /* LikedEventCard.swift in Sources */,
 				18361F8F2D33F78D000236B1 /* LanguageManager.swift in Sources */,
 				18361F832D33F70B000236B1 /* AppDelegate.swift in Sources */,
