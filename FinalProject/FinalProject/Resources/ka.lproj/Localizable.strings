@@ -40,6 +40,13 @@
 "Loading..." = "იტვირთება...";
 "ticket" = "ბილეთი";
 "My Tickets" = "ჩემი ბილეთები";
+"Events not found" = "ღონისძიებები ვერ მოიძებნა";
+"Try another search term or filter" = "სცადეთ სხვა საძიებო სიტყვა ან ფილტრი";
+"Clear filters" = "ფილტრების გასუფთავება";
+"Loading data..." = "მონაცემების ჩატვირთვა...";
+"Loading more..." = "დაელოდე მეტს...";
+"Show Free Events" = "აჩვენე უფასო ივენტები";
+"Only Free Events" = "მხოლოდ უფასოები";
 
 
 //Edit Profile
