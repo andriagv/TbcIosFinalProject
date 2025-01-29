@@ -209,18 +209,13 @@
 		18FA2ED92D4A484100522C5F /* EventFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventFormatter.swift; sourceTree = "<group>"; };
 		18FA2EDA2D4A484100522C5F /* ImageLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoadable.swift; sourceTree = "<group>"; };
 		18FA2F4C2D4A714800522C5F /* FinalProjectXCTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinalProjectXCTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		18FA2F762D4A864800522C5F /* FinalProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinalProjectUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		18FA2F762D4A864800522C5F /* FinalProjectUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; name = FinalProjectUITests.xctest; path = "/Users/apple/Desktop/TbcIosFinalProject/FinalProject/build/Debug-iphoneos/FinalProjectUITests-Runner.app/PlugIns/FinalProjectUITests.xctest"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		18FA2F4D2D4A714800522C5F /* FinalProjectXCTests */ = {
 			isa = PBXFileSystemSynchronizedRootGroup;
 			path = FinalProjectXCTests;
-			sourceTree = "<group>";
-		};
-		18FA2F772D4A864800522C5F /* FinalProjectUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = FinalProjectUITests;
 			sourceTree = "<group>";
 		};
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -287,8 +282,6 @@
 				1837A7632D41A276005B1785 /* FinalProject.app */,
 				18FA2F4C2D4A714800522C5F /* FinalProjectXCTests.xctest */,
 				18FA2F4D2D4A714800522C5F /* FinalProjectXCTests */,
-				18FA2F762D4A864800522C5F /* FinalProjectUITests.xctest */,
-				18FA2F772D4A864800522C5F /* FinalProjectUITests */,
 			);
 			sourceTree = "<group>";
 		};
@@ -374,10 +367,10 @@
 		18361F8D2D33F75D000236B1 /* Root */ = {
 			isa = PBXGroup;
 			children = (
-				181C12E52D48E9C0009D27F2 /* MapPage */,
 				188FFC6D2D4260D00074A23B /* Authentication */,
 				18361F952D33F7CD000236B1 /* Home */,
 				18361F942D33F7C6000236B1 /* Search */,
+				181C12E52D48E9C0009D27F2 /* MapPage */,
 				18361F932D33F7BF000236B1 /* Like */,
 				18361F922D33F7AF000236B1 /* Profile */,
 				1837A7222D4176C4005B1785 /* DetailsPage */,
@@ -685,9 +678,6 @@
 			);
 			dependencies = (
 				18FA2F7D2D4A864800522C5F /* PBXTargetDependency */,
-			);
-			fileSystemSynchronizedGroups = (
-				18FA2F772D4A864800522C5F /* FinalProjectUITests */,
 			);
 			name = FinalProjectUITests;
 			packageProductDependencies = (
