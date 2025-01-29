@@ -38,7 +38,7 @@ final class MapViewController: UIViewController, MapViewProtocol {
     
     private func setupUI() {
         title = "Events Map"
-        view.backgroundColor = .white
+        view.backgroundColor = .pageBack
     }
     
     private func setupMapView() {
