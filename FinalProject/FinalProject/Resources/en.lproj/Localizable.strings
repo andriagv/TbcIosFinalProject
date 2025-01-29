@@ -40,6 +40,13 @@
 "Loading..." = "Loading...";
 "ticket" = "ticket";
 "My Tickets" = "My Tickets";
+"Events not found" = "Events not found";
+"Try another search term or filter" = "Try another search term or filter";
+"Clear filters" = "Clear filters";
+"Loading data..." = "Loading data...";
+"Loading more..." = "Loading more...";
+"Show Free Events" = "Show Free Events";
+"Only Free Events" = "Only Free Events";
 
 
 //Edit Profile

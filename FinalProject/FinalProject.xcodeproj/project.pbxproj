@@ -96,6 +96,10 @@
 		188FFCEF2D42A2360074A23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 188FFCEE2D42A2360074A23B /* GoogleService-Info.plist */; };
 		188FFCF22D42B2B40074A23B /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188FFCF12D42B2B40074A23B /* EditProfileViewModel.swift */; };
 		189121122D482836002D41BB /* CartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189121112D482836002D41BB /* CartViewModel.swift */; };
+		18FA2ED62D4A469900522C5F /* FirebaseEventsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA2ED42D4A469900522C5F /* FirebaseEventsRepository.swift */; };
+		18FA2ED82D4A46E900522C5F /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA2ED72D4A46E900522C5F /* NetworkMonitor.swift */; };
+		18FA2EDC2D4A484100522C5F /* ImageLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA2EDA2D4A484100522C5F /* ImageLoadable.swift */; };
+		18FA2EDD2D4A484100522C5F /* EventFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA2ED92D4A484100522C5F /* EventFormatter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -183,6 +187,10 @@
 		188FFCEE2D42A2360074A23B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		188FFCF12D42B2B40074A23B /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		189121112D482836002D41BB /* CartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewModel.swift; sourceTree = "<group>"; };
+		18FA2ED42D4A469900522C5F /* FirebaseEventsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseEventsRepository.swift; sourceTree = "<group>"; };
+		18FA2ED72D4A46E900522C5F /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		18FA2ED92D4A484100522C5F /* EventFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventFormatter.swift; sourceTree = "<group>"; };
+		18FA2EDA2D4A484100522C5F /* ImageLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoadable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,6 +270,7 @@
 		18361F892D33F732000236B1 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				18FA2ED72D4A46E900522C5F /* NetworkMonitor.swift */,
 				185820672D4643AF00F1DF27 /* QRCodeManager.swift */,
 				188FFCDF2D4272BC0074A23B /* UserDefaultsManager.swift */,
 				188FFC942D426F060074A23B /* UserManager.swift */,
@@ -341,6 +350,7 @@
 			children = (
 				1807214E2D44167000B79B6A /* Components */,
 				1807214C2D4415EC00B79B6A /* LikesPageView.swift */,
+				18FA2ED52D4A469900522C5F /* ViewModelComponents */,
 				1807214A2D4415DD00B79B6A /* LikesViewModel.swift */,
 			);
 			path = Like;
@@ -373,6 +383,7 @@
 				185820692D4643D700F1DF27 /* Orders */,
 				1837A7252D4176E7005B1785 /* Components */,
 				1837A7232D4176DA005B1785 /* EventDetailsView.swift */,
+				18FA2EDB2D4A484100522C5F /* ViewModelComponents */,
 				1858207A2D467EDD00F1DF27 /* EventDetailsViewModel.swift */,
 			);
 			path = DetailsPage;
@@ -541,6 +552,23 @@
 			path = Cart;
 			sourceTree = "<group>";
 		};
+		18FA2ED52D4A469900522C5F /* ViewModelComponents */ = {
+			isa = PBXGroup;
+			children = (
+				18FA2ED42D4A469900522C5F /* FirebaseEventsRepository.swift */,
+			);
+			path = ViewModelComponents;
+			sourceTree = "<group>";
+		};
+		18FA2EDB2D4A484100522C5F /* ViewModelComponents */ = {
+			isa = PBXGroup;
+			children = (
+				18FA2ED92D4A484100522C5F /* EventFormatter.swift */,
+				18FA2EDA2D4A484100522C5F /* ImageLoadable.swift */,
+			);
+			path = ViewModelComponents;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -635,6 +663,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18FA2ED82D4A46E900522C5F /* NetworkMonitor.swift in Sources */,
 				18361FA92D33F8EE000236B1 /* EventType.swift in Sources */,
 				1837A72D2D41772A005B1785 /* TableViewCell.swift in Sources */,
 				185820682D4643AF00F1DF27 /* QRCodeManager.swift in Sources */,
@@ -682,6 +711,7 @@
 				1837A75E2D418B10005B1785 /* EditProfileView.swift in Sources */,
 				188FFC892D426DF30074A23B /* LoginViewModel.swift in Sources */,
 				18361F972D33F800000236B1 /* HomePageViewController.swift in Sources */,
+				18FA2ED62D4A469900522C5F /* FirebaseEventsRepository.swift in Sources */,
 				188FFC8E2D426E460074A23B /* SignupViewModel.swift in Sources */,
 				18361FA32D33F897000236B1 /* ProfileView.swift in Sources */,
 				188FFCE02D4272BC0074A23B /* UserDefaultsManager.swift in Sources */,
@@ -703,6 +733,8 @@
 				1837A73E2D41776A005B1785 /* PriceDisplayView.swift in Sources */,
 				1837A73F2D41776A005B1785 /* CartBigView.swift in Sources */,
 				1837A7272D4176F7005B1785 /* InfoCard.swift in Sources */,
+				18FA2EDC2D4A484100522C5F /* ImageLoadable.swift in Sources */,
+				18FA2EDD2D4A484100522C5F /* EventFormatter.swift in Sources */,
 				18361F842D33F70B000236B1 /* SceneDelegate.swift in Sources */,
 				1858206F2D46527300F1DF27 /* QRCodeViewModel.swift in Sources */,
 				185820712D465E9600F1DF27 /* TicketsViewController.swift in Sources */,
