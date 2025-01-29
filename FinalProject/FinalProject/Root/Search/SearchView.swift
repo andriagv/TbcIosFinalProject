@@ -77,7 +77,7 @@ struct SearchView: View {
         VStack {
             ProgressView()
                 .scaleEffect(1.5)
-            Text("მონაცემების ჩატვირთვა...")
+            Text("Loading data...".localized())
                 .foregroundColor(.secondary)
                 .padding(.top)
         }
@@ -114,7 +114,7 @@ struct SearchView: View {
     
     private var contentView: some View {
         ScrollView {
-            if viewModel.filteredEvents.isEmpty {
+            if viewModel.events.isEmpty {
                 emptyStateView
             } else {
                 if isSmalCardPresented {
@@ -124,8 +124,7 @@ struct SearchView: View {
                         ],
                         spacing: 20
                     ) {
-                        ForEach(viewModel.filteredEvents.indices, id: \.self) { index in
-                            let event = viewModel.filteredEvents[index]
+                        ForEach(Array(viewModel.events.enumerated()), id: \.element.id) { index, event in
                             
                             Button {
                                 onEventSelected(event)
@@ -135,7 +134,7 @@ struct SearchView: View {
                             }
                             .buttonStyle(.plain)
                             
-                            if index == viewModel.filteredEvents.count - 1 {
+                            if index == viewModel.events.count - 1 {
                                 Color.clear
                                     .frame(height: 1)
                                     .onAppear {
@@ -147,15 +146,14 @@ struct SearchView: View {
                         }
                         
                         if viewModel.isLoading {
-                            ProgressView("Loading more...")
+                            ProgressView("Loading more...".localized())
                                 .padding(.vertical)
                         }
                     }
                     .padding(.horizontal)
                 } else {
                     LazyVStack(spacing: 30) {
-                        ForEach(viewModel.filteredEvents.indices, id: \.self) { index in
-                            let event = viewModel.filteredEvents[index]
+                        ForEach(Array(viewModel.events.enumerated()), id: \.element.id) { index, event in
                             
                             Button {
                                 onEventSelected(event)
@@ -165,7 +163,7 @@ struct SearchView: View {
                             }
                             .buttonStyle(.plain)
                             
-                            if index == viewModel.filteredEvents.count - 1 {
+                            if index == viewModel.events.count - 1 {
                                 Color.clear
                                     .frame(height: 1)
                                     .onAppear {
@@ -177,7 +175,7 @@ struct SearchView: View {
                         }
                         
                         if viewModel.isLoading {
-                            ProgressView("Loading more...")
+                            ProgressView("Loading more...".localized())
                                 .padding(.vertical)
                         }
                     }
@@ -199,10 +197,10 @@ struct SearchView: View {
                 .font(.system(size: 50))
                 .foregroundColor(.secondary)
             
-            Text("ღონისძიებები ვერ მოიძებნა")
+            Text("Events not found".localized())
                 .font(.headline)
             
-            Text("სცადეთ სხვა საძიებო სიტყვა ან ფილტრი")
+            Text("Try another search term or filter".localized())
                 .font(.subheadline)
                 .foregroundColor(.secondary)
                 .multilineTextAlignment(.center)
@@ -211,7 +209,7 @@ struct SearchView: View {
             Button {
                 viewModel.clearFilters()
             } label: {
-                Text("ფილტრების გასუფთავება")
+                Text("Clear filters".localized())
                     .foregroundColor(.blue)
             }
         }
