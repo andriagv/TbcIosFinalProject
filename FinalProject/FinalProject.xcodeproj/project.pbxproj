@@ -96,6 +96,8 @@
 		188FFCEF2D42A2360074A23B /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 188FFCEE2D42A2360074A23B /* GoogleService-Info.plist */; };
 		188FFCF22D42B2B40074A23B /* EditProfileViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 188FFCF12D42B2B40074A23B /* EditProfileViewModel.swift */; };
 		189121122D482836002D41BB /* CartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189121112D482836002D41BB /* CartViewModel.swift */; };
+		18FA2ED62D4A469900522C5F /* FirebaseEventsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA2ED42D4A469900522C5F /* FirebaseEventsRepository.swift */; };
+		18FA2ED82D4A46E900522C5F /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA2ED72D4A46E900522C5F /* NetworkMonitor.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -183,6 +185,8 @@
 		188FFCEE2D42A2360074A23B /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		188FFCF12D42B2B40074A23B /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		189121112D482836002D41BB /* CartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewModel.swift; sourceTree = "<group>"; };
+		18FA2ED42D4A469900522C5F /* FirebaseEventsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseEventsRepository.swift; sourceTree = "<group>"; };
+		18FA2ED72D4A46E900522C5F /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -262,6 +266,7 @@
 		18361F892D33F732000236B1 /* Managers */ = {
 			isa = PBXGroup;
 			children = (
+				18FA2ED72D4A46E900522C5F /* NetworkMonitor.swift */,
 				185820672D4643AF00F1DF27 /* QRCodeManager.swift */,
 				188FFCDF2D4272BC0074A23B /* UserDefaultsManager.swift */,
 				188FFC942D426F060074A23B /* UserManager.swift */,
@@ -341,6 +346,7 @@
 			children = (
 				1807214E2D44167000B79B6A /* Components */,
 				1807214C2D4415EC00B79B6A /* LikesPageView.swift */,
+				18FA2ED52D4A469900522C5F /* ViewModelComponents */,
 				1807214A2D4415DD00B79B6A /* LikesViewModel.swift */,
 			);
 			path = Like;
@@ -541,6 +547,14 @@
 			path = Cart;
 			sourceTree = "<group>";
 		};
+		18FA2ED52D4A469900522C5F /* ViewModelComponents */ = {
+			isa = PBXGroup;
+			children = (
+				18FA2ED42D4A469900522C5F /* FirebaseEventsRepository.swift */,
+			);
+			path = ViewModelComponents;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -635,6 +649,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				18FA2ED82D4A46E900522C5F /* NetworkMonitor.swift in Sources */,
 				18361FA92D33F8EE000236B1 /* EventType.swift in Sources */,
 				1837A72D2D41772A005B1785 /* TableViewCell.swift in Sources */,
 				185820682D4643AF00F1DF27 /* QRCodeManager.swift in Sources */,
@@ -682,6 +697,7 @@
 				1837A75E2D418B10005B1785 /* EditProfileView.swift in Sources */,
 				188FFC892D426DF30074A23B /* LoginViewModel.swift in Sources */,
 				18361F972D33F800000236B1 /* HomePageViewController.swift in Sources */,
+				18FA2ED62D4A469900522C5F /* FirebaseEventsRepository.swift in Sources */,
 				188FFC8E2D426E460074A23B /* SignupViewModel.swift in Sources */,
 				18361FA32D33F897000236B1 /* ProfileView.swift in Sources */,
 				188FFCE02D4272BC0074A23B /* UserDefaultsManager.swift in Sources */,
