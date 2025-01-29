@@ -42,11 +42,11 @@ struct EventDetailsView: View {
         .navigationBarBackButtonHidden(true)
         .toolbar(.hidden, for: .tabBar)
         .background(.pageBack)
-        .onReceive(LikeStatusMonitor.shared.$lastUpdated) { _ in
-            viewModel.checkLikeStatus()
+        .onReceive(viewModel.likeStatusPublisher) { _ in
+            viewModel.refreshLikeStatus()
         }
         .onAppear {
-            viewModel.checkLikeStatus()
+            viewModel.refreshLikeStatus()
         }
         .sheet(isPresented: $viewModel.showQRCode, onDismiss: {
             viewModel.updateSeatsLocally()

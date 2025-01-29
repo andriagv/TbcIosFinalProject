@@ -98,6 +98,8 @@
 		189121122D482836002D41BB /* CartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 189121112D482836002D41BB /* CartViewModel.swift */; };
 		18FA2ED62D4A469900522C5F /* FirebaseEventsRepository.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA2ED42D4A469900522C5F /* FirebaseEventsRepository.swift */; };
 		18FA2ED82D4A46E900522C5F /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA2ED72D4A46E900522C5F /* NetworkMonitor.swift */; };
+		18FA2EDC2D4A484100522C5F /* ImageLoadable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA2EDA2D4A484100522C5F /* ImageLoadable.swift */; };
+		18FA2EDD2D4A484100522C5F /* EventFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 18FA2ED92D4A484100522C5F /* EventFormatter.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -187,6 +189,8 @@
 		189121112D482836002D41BB /* CartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewModel.swift; sourceTree = "<group>"; };
 		18FA2ED42D4A469900522C5F /* FirebaseEventsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseEventsRepository.swift; sourceTree = "<group>"; };
 		18FA2ED72D4A46E900522C5F /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		18FA2ED92D4A484100522C5F /* EventFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventFormatter.swift; sourceTree = "<group>"; };
+		18FA2EDA2D4A484100522C5F /* ImageLoadable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoadable.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -379,6 +383,7 @@
 				185820692D4643D700F1DF27 /* Orders */,
 				1837A7252D4176E7005B1785 /* Components */,
 				1837A7232D4176DA005B1785 /* EventDetailsView.swift */,
+				18FA2EDB2D4A484100522C5F /* ViewModelComponents */,
 				1858207A2D467EDD00F1DF27 /* EventDetailsViewModel.swift */,
 			);
 			path = DetailsPage;
@@ -555,6 +560,15 @@
 			path = ViewModelComponents;
 			sourceTree = "<group>";
 		};
+		18FA2EDB2D4A484100522C5F /* ViewModelComponents */ = {
+			isa = PBXGroup;
+			children = (
+				18FA2ED92D4A484100522C5F /* EventFormatter.swift */,
+				18FA2EDA2D4A484100522C5F /* ImageLoadable.swift */,
+			);
+			path = ViewModelComponents;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -719,6 +733,8 @@
 				1837A73E2D41776A005B1785 /* PriceDisplayView.swift in Sources */,
 				1837A73F2D41776A005B1785 /* CartBigView.swift in Sources */,
 				1837A7272D4176F7005B1785 /* InfoCard.swift in Sources */,
+				18FA2EDC2D4A484100522C5F /* ImageLoadable.swift in Sources */,
+				18FA2EDD2D4A484100522C5F /* EventFormatter.swift in Sources */,
 				18361F842D33F70B000236B1 /* SceneDelegate.swift in Sources */,
 				1858206F2D46527300F1DF27 /* QRCodeViewModel.swift in Sources */,
 				185820712D465E9600F1DF27 /* TicketsViewController.swift in Sources */,

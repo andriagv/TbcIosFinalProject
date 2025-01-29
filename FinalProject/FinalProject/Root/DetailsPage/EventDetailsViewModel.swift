@@ -9,23 +9,55 @@
 import Foundation
 import UIKit
 
+protocol LikeStatusObservable {
+    var lastUpdated: Date { get }
+    var likeStatusPublisher: Published<Date>.Publisher { get }
+    func statusChanged()
+}
+
 @MainActor
-class EventDetailsViewModel: ObservableObject {
+final class EventDetailsViewModel: ObservableObject {
+    // MARK: - Published Properties
+    @Published private(set) var images: [String: UIImage] = [:]
     @Published var isFavorite: Bool
     @Published var showQRCode = false
     @Published var currentPhotoIndex = 0
     @Published var showNoSeatsAlert = false
     @Published var showBookingConfirmation = false
     @Published var currentSeats: Int
-    @Published var images: [String: UIImage] = [:]
     
+    @Published private var lastLikeUpdate: Date = Date()
+    
+    var likeStatusPublisher: Published<Date>.Publisher {
+        $lastLikeUpdate
+    }
+    
+    // MARK: - Private Properties
     private var loadingTasks: [String: Task<Void, Never>] = [:]
+    private let imageLoader: ImageLoadable
+    private let formatter: EventFormattable
+    private let likedEventsManager: LikedEventsManager
+    private let userDefaults: UserDefaultsManager
+    
+    // MARK: - Public Properties
     let event: Event
     
-    init(event: Event) {
+    // MARK: - Initialization
+    init(
+        event: Event,
+        imageLoader: ImageLoadable = EventImageLoader(),
+        formatter: EventFormattable = EventFormatter(),
+        likedEventsManager: LikedEventsManager = .shared,
+        userDefaults: UserDefaultsManager = .shared
+    ) {
         self.event = event
         self.isFavorite = event.isFavorite
         self.currentSeats = event.seats.available
+        self.imageLoader = imageLoader
+        self.formatter = formatter
+        self.likedEventsManager = likedEventsManager
+        self.userDefaults = userDefaults
+        
         checkLikeStatus()
         loadAllImages()
     }
@@ -33,7 +65,8 @@ class EventDetailsViewModel: ObservableObject {
     deinit {
         loadingTasks.values.forEach { $0.cancel() }
     }
-
+    
+    // MARK: - Image Loading
     private func loadAllImages() {
         for photoName in event.photos {
             loadImage(photoName: photoName)
@@ -45,10 +78,7 @@ class EventDetailsViewModel: ObservableObject {
         
         loadingTasks[photoName] = Task { @MainActor in
             do {
-                if let image = try await ImageCacheManager.shared.fetchPhoto(
-                    photoName: photoName,
-                    cacheType: .detailsPage
-                ) {
+                if let image = try await imageLoader.loadImage(photoName: photoName) {
                     if !Task.isCancelled {
                         images[photoName] = image
                     }
@@ -66,14 +96,15 @@ class EventDetailsViewModel: ObservableObject {
         return images[photoName] ?? UIImage(named: "placeholder")
     }
     
+    // MARK: - Like Management
     func toggleFavorite() {
         Task {
-            guard let userId = UserDefaultsManager.shared.getUserId() else { return }
+            guard let userId = userDefaults.getUserId() else { return }
             do {
                 if isFavorite {
-                    try await LikedEventsManager.shared.removeLikedEvent(for: userId, event: event)
+                    try await likedEventsManager.removeLikedEvent(for: userId, event: event)
                 } else {
-                    try await LikedEventsManager.shared.addLikedEvent(for: userId, event: event)
+                    try await likedEventsManager.addLikedEvent(for: userId, event: event)
                 }
                 isFavorite.toggle()
                 LikeStatusMonitor.shared.statusChanged()
@@ -83,41 +114,44 @@ class EventDetailsViewModel: ObservableObject {
         }
     }
     
-    func checkLikeStatus() {
-        Task { [weak self] in
-            guard let self = self else { return }
-            if let userId = UserDefaultsManager.shared.getUserId() {
-                let isLiked = try? await LikedEventsManager.shared.isEventLiked(
+    private func checkLikeStatus() {
+        Task {
+            guard let userId = userDefaults.getUserId() else { return }
+            do {
+                isFavorite = try await likedEventsManager.isEventLiked(
                     eventId: event.id,
                     userId: userId
                 )
-                self.isFavorite = isLiked ?? false
+            } catch {
+                isFavorite = false
+                print("Error checking like status: \(error)")
             }
         }
     }
     
+    // MARK: - Formatting
     func formatDateRange() -> String {
-        guard let endDate = event.date.endDate else {
-            return event.date.startDate
-        }
-        return "\(event.date.startDate) \(endDate)"
+        formatter.formatDateRange(startDate: event.date.startDate, endDate: event.date.endDate)
     }
     
     func formatLocation() -> String {
-        guard let city = event.location.city else {
-            return event.location.address ?? "Unknown location"
-        }
-        return "\(city), \(event.location.address ?? "")"
+        formatter.formatLocation(city: event.location.city, address: event.location.address)
     }
     
     func formatDuration() -> String {
-        if let days = event.date.durationInDays {
-            return "\(days) " + (days == 1 ? "day" : "days")
-        }
-        return "0 days"
+        formatter.formatDuration(days: event.date.durationInDays)
     }
     
+    // MARK: - Seats Management
     func updateSeatsLocally() {
         currentSeats -= 1
+    }
+    
+    func refreshLikeStatus() {
+        checkLikeStatus()
+    }
+    
+    func updateLikeStatus() {
+        lastLikeUpdate = Date()
     }
 }
