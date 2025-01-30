@@ -124,8 +124,7 @@ struct SearchView: View {
                         ],
                         spacing: 20
                     ) {
-                        ForEach(Array(viewModel.events.enumerated()), id: \.element.id) { index, event in
-                            
+                        ForEach(Array(viewModel.events), id: \.id) { event in
                             Button {
                                 onEventSelected(event)
                             } label: {
@@ -133,28 +132,12 @@ struct SearchView: View {
                                     .environmentObject(viewModel)
                             }
                             .buttonStyle(.plain)
-                            
-                            if index == viewModel.events.count - 1 {
-                                Color.clear
-                                    .frame(height: 1)
-                                    .onAppear {
-                                        if viewModel.hasMoreData && !viewModel.isLoading {
-                                            viewModel.fetchMoreEvents()
-                                        }
-                                    }
-                            }
-                        }
-                        
-                        if viewModel.isLoading {
-                            ProgressView("Loading more...".localized())
-                                .padding(.vertical)
                         }
                     }
                     .padding(.horizontal)
                 } else {
                     LazyVStack(spacing: 30) {
-                        ForEach(Array(viewModel.events.enumerated()), id: \.element.id) { index, event in
-                            
+                        ForEach(Array(viewModel.events), id: \.id) { event in
                             Button {
                                 onEventSelected(event)
                             } label: {
@@ -162,21 +145,6 @@ struct SearchView: View {
                                     .environmentObject(viewModel)
                             }
                             .buttonStyle(.plain)
-                            
-                            if index == viewModel.events.count - 1 {
-                                Color.clear
-                                    .frame(height: 1)
-                                    .onAppear {
-                                        if viewModel.hasMoreData && !viewModel.isLoading {
-                                            viewModel.fetchMoreEvents()
-                                        }
-                                    }
-                            }
-                        }
-                        
-                        if viewModel.isLoading {
-                            ProgressView("Loading more...".localized())
-                                .padding(.vertical)
                         }
                     }
                     .padding(.horizontal)
@@ -220,4 +188,3 @@ struct SearchView: View {
 #Preview {
     SearchView { _ in }
 }
-

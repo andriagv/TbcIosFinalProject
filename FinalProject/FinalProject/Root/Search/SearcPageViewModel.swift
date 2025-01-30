@@ -63,10 +63,6 @@ final class SearchPageViewModel: ObservableObject {
     private let monitor = NWPathMonitor()
     private let databaseRef = Database.database().reference()
     
-    @Published var hasMoreData: Bool = true
-    private let pageSize: UInt = 8
-    private var lastChildKey: String? = nil
-    
     // MARK: - Init
     init() {
         setupNetworkMonitoring()
@@ -96,21 +92,10 @@ final class SearchPageViewModel: ObservableObject {
         monitor.start(queue: DispatchQueue.global())
     }
     
-    // MARK: - Main Fetch
+    // MARK: - Fetch Events
     func fetchEvents() {
         guard !isLoading else { return }
         isLoading = true
-        
-        if let category = selectedCategory {
-            fetchByCategory(category)
-        } else {
-            fetchFirstPage()
-        }
-    }
-    
-    private func fetchByCategory(_ category: EventType) {
-        hasMoreData = false
-        lastChildKey = nil
         events.removeAll()
         
         guard let userId = UserDefaultsManager.shared.getUserId() else {
@@ -123,169 +108,33 @@ final class SearchPageViewModel: ObservableObject {
                 let user = try await UserManager().getUser(by: userId)
                 let likedEventIds = user.likedEventIds
                 
-                databaseRef.child("events")
-                    .observeSingleEvent(of: .value) { [weak self] snapshot in
-                        guard let self = self else { return }
-                        defer { self.isLoading = false }
-                        
-                        if !snapshot.hasChildren() {
-                            return
-                        }
-                        
-                        var filteredEvents: [Event] = []
-                        
-                        for child in snapshot.children {
-                            if let snap = child as? DataSnapshot,
-                               let dict = snap.value as? [String: Any] {
-                                if let eventObj = self.parseEvent(dict: dict) {
-                                    // კატეგორიის მიხედვით ფილტრაცია
-                                    if eventObj.type == category {
-                                        var updatedEvent = eventObj
-                                        updatedEvent.isFavorite = likedEventIds.contains(updatedEvent.id)
-                                        filteredEvents.append(updatedEvent)
-                                    }
-                                }
-                            }
-                        }
-                        
-                        self.events = filteredEvents
-                        self.applyLocalFilters()
-                    }
-            } catch {
-                self.isLoading = false
-            }
-        }
-    }
-    
-    // MARK: - Page 1 (Unfiltered)
-    private func fetchFirstPage() {
-        hasMoreData = true
-        lastChildKey = nil
-        events.removeAll()
-        
-        guard let userId = UserDefaultsManager.shared.getUserId() else {
-            isLoading = false
-            return
-        }
-        
-        Task {
-            do {
-                let user = try await UserManager().getUser(by: userId)
-                let likedEventIds = user.likedEventIds
+                let eventsRef = databaseRef.child("events")
                 
-                let query = databaseRef
-                    .child("events")
-                    .queryOrderedByKey()
-                    .queryLimited(toFirst: pageSize)
-                
-                query.observeSingleEvent(of: .value) { [weak self] snapshot in
+                eventsRef.observeSingleEvent(of: .value) { [weak self] snapshot in
                     guard let self = self else { return }
                     defer { self.isLoading = false }
                     
-                    if !snapshot.hasChildren() {
-                        self.hasMoreData = false
-                        return
-                    }
+                    if !snapshot.hasChildren() { return }
                     
-                    var newEvents: [Event] = []
-                    var lastKeyTemp: String? = nil
+                    var fetchedEvents: [Event] = []
                     
                     for child in snapshot.children {
-                        if let snap = child as? DataSnapshot {
-                            let keyStr = snap.key
-                            lastKeyTemp = keyStr
+                        if let snap = child as? DataSnapshot,
+                           let dict = snap.value as? [String: Any],
+                           let eventObj = self.parseEvent(dict: dict) {
                             
-                            if let dict = snap.value as? [String: Any] {
-                                if let eventObj = self.parseEvent(dict: dict) {
-                                    var updated = eventObj
-                                    updated.isFavorite = likedEventIds.contains(updated.id)
-                                    newEvents.append(updated)
-                                } else {
-                                    print("parseEvent() failed for key=\(keyStr)")
-                                }
+                            // კატეგორიის ფილტრი
+                            if let category = self.selectedCategory {
+                                if eventObj.type != category { continue }
                             }
+                            
+                            var updatedEvent = eventObj
+                            updatedEvent.isFavorite = likedEventIds.contains(updatedEvent.id)
+                            fetchedEvents.append(updatedEvent)
                         }
                     }
                     
-                    self.events = newEvents
-                    
-                    if let lk = lastKeyTemp {
-                        self.lastChildKey = lk
-                    }
-                    
-                    if newEvents.count < Int(self.pageSize) {
-                        self.hasMoreData = false
-                    }
-                    
-                    self.applyLocalFilters()
-                }
-            } catch {
-                self.isLoading = false
-            }
-        }
-    }
-    
-    // MARK: - Pagination
-    func fetchMoreEvents() {
-        guard !isLoading, hasMoreData, lastChildKey != nil else { return }
-        isLoading = true
-        
-        guard selectedCategory == nil else {
-            isLoading = false
-            return
-        }
-        
-        guard let userId = UserDefaultsManager.shared.getUserId() else {
-            isLoading = false
-            return
-        }
-        
-        Task {
-            do {
-                let user = try await UserManager().getUser(by: userId)
-                let likedEventIds = user.likedEventIds
-                
-                let query = databaseRef
-                    .child("events")
-                    .queryOrderedByKey()
-                    .queryStarting(afterValue: lastChildKey)
-                    .queryLimited(toFirst: pageSize)
-                
-                query.observeSingleEvent(of: .value) { [weak self] snapshot in
-                    guard let self = self else { return }
-                    defer { self.isLoading = false }
-                    
-                    if !snapshot.hasChildren() {
-                        self.hasMoreData = false
-                        return
-                    }
-                    
-                    var newEvents: [Event] = []
-                    var lastKeyTemp: String? = nil
-                    
-                    for child in snapshot.children {
-                        if let snap = child as? DataSnapshot {
-                            let keyStr = snap.key
-                            lastKeyTemp = keyStr
-                            
-                            if let dict = snap.value as? [String: Any] {
-                                if let eventObj = self.parseEvent(dict: dict) {
-                                    var updated = eventObj
-                                    updated.isFavorite = likedEventIds.contains(updated.id)
-                                    newEvents.append(updated)
-                                }
-                            }
-                        }
-                    }
-                    
-                    if let lk = lastKeyTemp {
-                        self.lastChildKey = lk
-                    }
-                    
-                    if newEvents.count < Int(self.pageSize) {
-                        self.hasMoreData = false
-                    }
-                    self.events.append(contentsOf: newEvents)
+                    self.events = fetchedEvents
                     self.applyLocalFilters()
                 }
             } catch {
@@ -298,6 +147,7 @@ final class SearchPageViewModel: ObservableObject {
     func applyLocalFilters() {
         DispatchQueue.main.async {
             self.events = self.events.filter { event in
+                // ტექსტის ძებნის ფილტრი
                 if !self.searchText.isEmpty {
                     let lowercased = self.searchText.lowercased()
                     if !(event.name.lowercased().contains(lowercased) ||
@@ -306,6 +156,8 @@ final class SearchPageViewModel: ObservableObject {
                         return false
                     }
                 }
+                
+                // თარიღის ფილტრი
                 let dateFormatter = DateFormatter()
                 dateFormatter.dateFormat = "yyyy-MM-dd"
                 if let eventStartDate = dateFormatter.date(from: event.date.startDate) {
@@ -313,6 +165,8 @@ final class SearchPageViewModel: ObservableObject {
                         return false
                     }
                 }
+                
+                // უფასო ივენთების ფილტრი
                 if self.showFreeEventsOnly {
                     let price = event.price.discountedPrice ?? event.price.startPrice
                     if price != 0 {
@@ -323,6 +177,7 @@ final class SearchPageViewModel: ObservableObject {
                 return true
             }
             
+            // სორტირება ფასის მიხედვით
             switch self.sortOption {
             case .ascending:
                 self.events.sort { lhs, rhs in
@@ -367,4 +222,3 @@ final class SearchPageViewModel: ObservableObject {
         }
     }
 }
-
