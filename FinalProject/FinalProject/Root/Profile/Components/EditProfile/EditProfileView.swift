@@ -3,10 +3,9 @@
 //  FinalProject
 //
 //  Created by Apple on 23.01.25.
-//
+// 
 
 import SwiftUI
-
 
 struct EditProfileView: View {
     @StateObject private var viewModel = EditProfileViewModel()
@@ -18,12 +17,49 @@ struct EditProfileView: View {
     
     var body: some View {
         Form {
+            Section(header: Text("Profile Photo".localized())) {
+                HStack {
+                    if let selectedImage = viewModel.selectedImage {
+                        Image(uiImage: selectedImage)
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 100, height: 100)
+                            .clipShape(Circle())
+                    } else if let photoUrl = profileViewModel.user?.photoUrl, !photoUrl.isEmpty {
+                        AsyncImage(url: URL(string: photoUrl)) { image in
+                            image
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 100, height: 100)
+                                .clipShape(Circle())
+                        } placeholder: {
+                            Circle()
+                                .fill(Color.gray.opacity(0.3))
+                                .frame(width: 100, height: 100)
+                        }
+                    } else {
+                        Circle()
+                            .fill(Color.gray.opacity(0.3))
+                            .frame(width: 100, height: 100)
+                    }
+                    
+                    Button(action: {
+                        viewModel.showImagePicker = true
+                    }) {
+                        Text("Change Photo".localized())
+                    }
+                }
+            }
+            
             profileSection
             passwordSection
             
             Section {
                 saveButton
             }
+        }
+        .sheet(isPresented: $viewModel.showImagePicker) {
+            ImagePicker(selectedImage: $viewModel.selectedImage)
         }
         .alert("Error".localized(), isPresented: $showingAlert) {
             Button("OK", role: .cancel) {}
@@ -40,7 +76,7 @@ struct EditProfileView: View {
         .toolbar {
             ToolbarItem(placement: .navigationBarLeading) {
                 Button(action: { dismiss() }) {
-                    HStack() {
+                    HStack {
                         SmallButtonView(imageSystemName: "chevron.left", fontSize: 20)
                     }
                 }
@@ -92,7 +128,19 @@ struct EditProfileView: View {
                 }
                 
                 if await viewModel.updateProfile() {
-                    await profileViewModel.fetchUserData()
+                    if let image = viewModel.selectedImage {
+                        await profileViewModel.updateUserProfile(
+                            fullname: viewModel.fullName,
+                            username: viewModel.username,
+                            image: image
+                        )
+                    } else {
+                        await profileViewModel.updateUserProfile(
+                            fullname: viewModel.fullName,
+                            username: viewModel.username,
+                            image: nil
+                        )
+                    }
                     dismiss()
                 }
                 
