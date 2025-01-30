@@ -1,0 +1,65 @@
+//Home Page
+"Most Popular places" = "Відкрийте унікальну Грузію";
+"For you" = "Для вас";
+"Partners" = "Партнери";
+
+//Filter Page
+"Filters" = "Фільтри";
+"Close" = "Закрити";
+"Category" = "Категорія";
+"All" = "Всі";
+"Date Range" = "Діапазон дат";
+"Start Date" = "Дата початку";
+"End Date" = "Дата завершення";
+"Sort by Price" = "Сортувати за ціною";
+"Sort Option" = "Опція сортування";
+"Clear Filters" = "Очистити фільтри";
+
+//like Page
+"Favorites" = "Улюблене";
+"Favorites are empty" = "Улюблені порожні";
+"Add events to favorites" = "Додайте події до улюблених";
+
+//profile page
+"My Profile" = "Мій профіль";
+"Select Language" = "Виберіть мову";
+"English" = "Англійська";
+"Georgian" = "Грузинська";
+"Reserves" = "Резерви";
+"Dark Mode" = "Темний режим";
+"Privacy Policy" = "Політика конфіденційності";
+"Delete Account" = "Видалити обліковий запис";
+"Delete" = "Видалити";
+"Cancel" = "Скасувати";
+"Contact Us" = "Зв'яжіться з нами";
+"Rate Us" = "Оцініть нас";
+"Terms & Conditions" = "Умови та положення";
+"Version" = "Версія";
+"Logout" = "Вийти";
+"Deleted account" = "Обліковий запис видалено";
+"Loading..." = "Завантаження...";
+"ticket" = "Квиток";
+"My Tickets" = "Мої квитки";
+"Events not found" = "Події не знайдено";
+"Try another search term or filter" = "Спробуйте інший пошуковий запит або фільтр";
+"Clear filters" = "Очистити фільтри";
+"Loading data..." = "Завантаження даних...";
+"Loading more..." = "Завантаження більше...";
+"Show Free Events" = "Показати безкоштовні події";
+"Only Free Events" = "Тільки безкоштовні події";
+
+//Edit Profile
+"Error" = "Помилка";
+"OK" = "OK";
+"Profile Information" = "Інформація профілю";
+"Full Name" = "Повне ім'я";
+"Username" = "Ім'я користувача";
+"Change Password" = "Змінити пароль";
+"Current Password" = "Поточний пароль";
+"New Password" = "Новий пароль";
+"Confirm New Password" = "Підтвердьте новий пароль";
+
+//Details Page
+"About" = "Про";
+"Tags" = "Теги";
+"Book now" = "Забронювати зараз";

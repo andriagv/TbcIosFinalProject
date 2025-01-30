@@ -206,6 +206,9 @@
 		188FFCF12D42B2B40074A23B /* EditProfileViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileViewModel.swift; sourceTree = "<group>"; };
 		189121112D482836002D41BB /* CartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewModel.swift; sourceTree = "<group>"; };
 		189959A72D4AF58E00A8FE1A /* ImagePicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImagePicker.swift; sourceTree = "<group>"; };
+		189959EE2D4BA49B00A8FE1A /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
+		189959EF2D4BA5B400A8FE1A /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
+		189959F02D4BA60100A8FE1A /* zh-HK */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-HK"; path = "zh-HK.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		18FA2ED42D4A469900522C5F /* FirebaseEventsRepository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseEventsRepository.swift; sourceTree = "<group>"; };
 		18FA2ED72D4A46E900522C5F /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
 		18FA2ED92D4A484100522C5F /* EventFormatter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventFormatter.swift; sourceTree = "<group>"; };
@@ -719,6 +722,9 @@
 				en,
 				Base,
 				ka,
+				uk,
+				de,
+				"zh-HK",
 			);
 			mainGroup = 18361F5B2D33F6D8000236B1;
 			minimizedProjectReferenceProxies = 1;
@@ -899,6 +905,9 @@
 			children = (
 				18361FAF2D33FAD0000236B1 /* en */,
 				18361FB22D33FAF7000236B1 /* ka */,
+				189959EE2D4BA49B00A8FE1A /* uk */,
+				189959EF2D4BA5B400A8FE1A /* de */,
+				189959F02D4BA60100A8FE1A /* zh-HK */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
