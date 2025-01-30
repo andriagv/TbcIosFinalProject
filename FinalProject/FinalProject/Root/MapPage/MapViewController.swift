@@ -15,9 +15,18 @@ protocol MapViewProtocol: AnyObject {
 }
 
 final class MapViewController: UIViewController, MapViewProtocol {
-    private var mapView: MKMapView!
     private let viewModel: MapViewModelProtocol
     private var cancellables = Set<AnyCancellable>()
+    
+    private lazy var mapView: MKMapView = {
+        let mapView = MKMapView()
+        mapView.showsUserLocation = true
+        mapView.isZoomEnabled = true
+        mapView.isScrollEnabled = true
+        mapView.delegate = self
+        mapView.translatesAutoresizingMaskIntoConstraints = false
+        return mapView
+    }()
     
     init(viewModel: MapViewModelProtocol = MapViewModel()) {
         self.viewModel = viewModel
