@@ -60,36 +60,31 @@ final class SearchPageViewModel: ObservableObject {
     }
     
     // MARK: - Private
-    private let monitor = NWPathMonitor()
     private let databaseRef = Database.database().reference()
+    private let networkMonitor: NetworkMonitorable
     
     // MARK: - Init
-    init() {
-        setupNetworkMonitoring()
+    init(networkMonitor: NetworkMonitorable = NetworkMonitor()) {
+        self.networkMonitor = networkMonitor
+        observeNetworkChanges()
         fetchEvents()
     }
     
     deinit {
-        monitor.cancel()
         databaseRef.child("events").removeAllObservers()
         print("SearchPageViewModel deinit")
     }
     
     // MARK: - Network Monitoring
-    private func setupNetworkMonitoring() {
-        monitor.pathUpdateHandler = { [weak self] path in
+    private func observeNetworkChanges() {
+        networkMonitor.startMonitoring { [weak self] isConnected in
             DispatchQueue.main.async {
-                if path.status == .satisfied {
-                    self?.networkError = false
-                    if self?.events.isEmpty ?? true {
-                        self?.fetchEvents()
-                    }
-                } else {
-                    self?.networkError = true
+                self?.networkError = !isConnected
+                if isConnected, self?.events.isEmpty ?? true {
+                    self?.fetchEvents()
                 }
             }
         }
-        monitor.start(queue: DispatchQueue.global())
     }
     
     // MARK: - Fetch Events
