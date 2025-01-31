@@ -1,0 +1,60 @@
+// German Localization
+"Most Popular places" = "Entdecken Sie das einzigartige Georgien";
+"For you" = "Für dich";
+"Partners" = "Partner";
+
+"Filters" = "Filter";
+"Close" = "Schließen";
+"Category" = "Kategorie";
+"All" = "Alle";
+"Date Range" = "Datumsbereich";
+"Start Date" = "Anfangsdatum";
+"End Date" = "Enddatum";
+"Sort by Price" = "Nach Preis sortieren";
+"Sort Option" = "Sortieroption";
+"Clear Filters" = "Filter löschen";
+
+"Favorites" = "Favoriten";
+"Favorites are empty" = "Favoriten sind leer";
+"Add events to favorites" = "Veranstaltungen zu Favoriten hinzufügen";
+
+"My Profile" = "Mein Profil";
+"Select Language" = "Sprache auswählen";
+"English" = "Englisch";
+"Georgian" = "Georgisch";
+"Reserves" = "Reservierungen";
+"Dark Mode" = "Dunkelmodus";
+"Privacy Policy" = "Datenschutzrichtlinie";
+"Delete Account" = "Konto löschen";
+"Delete" = "Löschen";
+"Cancel" = "Abbrechen";
+"Contact Us" = "Kontaktiere uns";
+"Rate Us" = "Bewerte uns";
+"Terms & Conditions" = "Geschäftsbedingungen";
+"Version" = "Version";
+"Logout" = "Abmelden";
+"Deleted account" = "Konto gelöscht";
+"Loading..." = "Laden...";
+"ticket" = "Ticket";
+"My Tickets" = "Meine Tickets";
+"Events not found" = "Keine Veranstaltungen gefunden";
+"Try another search term or filter" = "Versuchen Sie einen anderen Suchbegriff oder Filter";
+"Clear filters" = "Filter löschen";
+"Loading data..." = "Daten werden geladen...";
+"Loading more..." = "Mehr wird geladen...";
+"Show Free Events" = "Kostenlose Veranstaltungen anzeigen";
+"Only Free Events" = "Nur kostenlose Veranstaltungen";
+
+"Error" = "Fehler";
+"OK" = "OK";
+"Profile Information" = "Profilinformationen";
+"Full Name" = "Vollständiger Name";
+"Username" = "Benutzername";
+"Change Password" = "Passwort ändern";
+"Current Password" = "Aktuelles Passwort";
+"New Password" = "Neues Passwort";
+"Confirm New Password" = "Neues Passwort bestätigen";
+
+"About" = "Über";
+"Tags" = "Tags";
+"Book now" = "Jetzt buchen";

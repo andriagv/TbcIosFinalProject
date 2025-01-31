@@ -63,7 +63,6 @@ struct SignupView: View {
                 }
             }
             
-            
             ScrollView {
                 VStack(spacing: 20) {
                     VStack(spacing: 10) {
@@ -104,11 +103,12 @@ struct SignupView: View {
                         handleSignUp()
                     }) {
                         Text("Sign Up")
+                            .frame(maxWidth: .infinity)
                     }
                     .padding(.horizontal, 20)
-                    .makeButtonStyle(tintColor: .white, backgroundColor: Color.red, width: UIScreen.main.bounds.width - 40, height: 64)
+                    .makeButtonStyle(tintColor: .white, backgroundColor: Color.blue, width: UIScreen.main.bounds.width - 40, height: 64)
                     .disabled(!formIsValid)
-                    .opacity(formIsValid ? 1.0 : 0.5)
+                    .opacity(formIsValid ? 0.9 : 0.5)
                 }
                 .padding(.bottom, 20)
             }

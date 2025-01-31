@@ -27,8 +27,9 @@ final class TabBarController: UITabBarController {
         if let vcs = viewControllers {
             vcs[0].tabBarItem.title = "Home".localized()
             vcs[1].tabBarItem.title = "Search".localized()
-            vcs[2].tabBarItem.title = "Likes".localized()
-            vcs[3].tabBarItem.title = "Profile".localized()
+            vcs[2].tabBarItem.title = "Map".localized()
+            vcs[3].tabBarItem.title = "Likes".localized()
+            vcs[4].tabBarItem.title = "Profile".localized()
         }
     }
 

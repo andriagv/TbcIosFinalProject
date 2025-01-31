@@ -19,7 +19,7 @@ final class LanguageManager: ObservableObject, LanguageManaging {
     static let shared = LanguageManager()
     
     var supportedLanguages: [String] {
-        ["en", "ka"]
+        ["en", "ka", "uk", "de", "zh-HK"]
     }
     
     @Published var selectedLanguage: String = "en" {
@@ -49,6 +49,9 @@ final class LanguageManager: ObservableObject, LanguageManaging {
         switch languageCode {
         case "en": return "English"
         case "ka": return "Georgian"
+        case "uk": return "Ukrainian"
+        case "de": return "German"
+        case "zh-HK": return "Chinese"
         default: return ""
         }
     }

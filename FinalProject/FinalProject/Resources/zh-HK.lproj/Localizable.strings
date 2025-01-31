@@ -1,0 +1,61 @@
+// Chinese (Hong Kong) Localization
+"Most Popular places" = "發現獨特的喬治亞";
+"For you" = "為您";
+"Partners" = "合作夥伴";
+
+"Filters" = "篩選";
+"Close" = "關閉";
+"Category" = "類別";
+"All" = "全部";
+"Date Range" = "日期範圍";
+"Start Date" = "開始日期";
+"End Date" = "結束日期";
+"Sort by Price" = "按價格排序";
+"Sort Option" = "排序選項";
+"Clear Filters" = "清除篩選";
+
+"Favorites" = "收藏";
+"Favorites are empty" = "收藏為空";
+"Add events to favorites" = "將活動添加到收藏";
+
+"My Profile" = "我的個人資料";
+"Select Language" = "選擇語言";
+"English" = "英語";
+"Georgian" = "格魯吉亞語";
+"Reserves" = "預訂";
+"Dark Mode" = "深色模式";
+"Privacy Policy" = "隱私政策";
+"Delete Account" = "刪除帳戶";
+"Delete" = "刪除";
+"Cancel" = "取消";
+"Contact Us" = "聯繫我們";
+"Rate Us" = "給我們評分";
+"Terms & Conditions" = "條款及細則";
+"Version" = "版本";
+"Logout" = "登出";
+"Deleted account" = "帳戶已刪除";
+"Loading..." = "載入中...";
+"ticket" = "票";
+"My Tickets" = "我的票";
+"Events not found" = "未找到活動";
+"Try another search term or filter" = "嘗試其他搜索詞或篩選器";
+"Clear filters" = "清除篩選";
+"Loading data..." = "載入數據中...";
+"Loading more..." = "載入更多...";
+"Show Free Events" = "顯示免費活動";
+"Only Free Events" = "僅顯示免費活動";
+
+"Edit Profile" = "排序選項";
+"Error" = "錯誤";
+"OK" = "確定";
+"Profile Information" = "個人資料信息";
+"Full Name" = "全名";
+"Username" = "用戶名";
+"Change Password" = "更改密碼";
+"Current Password" = "當前密碼";
+"New Password" = "新密碼";
+"Confirm New Password" = "確認新密碼";
+
+"About" = "關於";
+"Tags" = "標籤";
+"Book now" = "立即預訂";

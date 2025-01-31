@@ -15,7 +15,12 @@ struct GoogleSignInResultModel {
     let accessToken: String
 }
 
-final class LoginViewModel: ObservableObject {
+protocol LoginViewModelProtocol {
+    func signIn(email: String, password: String) async -> Bool
+    func signInGoogle() async throws
+}
+
+final class LoginViewModel: LoginViewModelProtocol, ObservableObject {
     private let authenticationManager: AuthenticationManagerProtocol
     private let userManager: UserManagerProtocol
     

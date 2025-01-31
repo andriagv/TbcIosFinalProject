@@ -60,57 +60,37 @@ final class SearchPageViewModel: ObservableObject {
     }
     
     // MARK: - Private
-    private let monitor = NWPathMonitor()
     private let databaseRef = Database.database().reference()
-    
-    @Published var hasMoreData: Bool = true
-    private let pageSize: UInt = 8
-    private var lastChildKey: String? = nil
+    private let networkMonitor: NetworkMonitorable
     
     // MARK: - Init
-    init() {
-        setupNetworkMonitoring()
+    init(networkMonitor: NetworkMonitorable = NetworkMonitor()) {
+        self.networkMonitor = networkMonitor
+        observeNetworkChanges()
         fetchEvents()
     }
     
     deinit {
-        monitor.cancel()
         databaseRef.child("events").removeAllObservers()
         print("SearchPageViewModel deinit")
     }
     
     // MARK: - Network Monitoring
-    private func setupNetworkMonitoring() {
-        monitor.pathUpdateHandler = { [weak self] path in
+    private func observeNetworkChanges() {
+        networkMonitor.startMonitoring { [weak self] isConnected in
             DispatchQueue.main.async {
-                if path.status == .satisfied {
-                    self?.networkError = false
-                    if self?.events.isEmpty ?? true {
-                        self?.fetchEvents()
-                    }
-                } else {
-                    self?.networkError = true
+                self?.networkError = !isConnected
+                if isConnected, self?.events.isEmpty ?? true {
+                    self?.fetchEvents()
                 }
             }
         }
-        monitor.start(queue: DispatchQueue.global())
     }
     
-    // MARK: - Main Fetch
+    // MARK: - Fetch Events
     func fetchEvents() {
         guard !isLoading else { return }
         isLoading = true
-        
-        if let category = selectedCategory {
-            fetchByCategory(category)
-        } else {
-            fetchFirstPage()
-        }
-    }
-    
-    private func fetchByCategory(_ category: EventType) {
-        hasMoreData = false
-        lastChildKey = nil
         events.removeAll()
         
         guard let userId = UserDefaultsManager.shared.getUserId() else {
@@ -118,178 +98,15 @@ final class SearchPageViewModel: ObservableObject {
             return
         }
         
-        Task {
-            do {
-                let user = try await UserManager().getUser(by: userId)
-                let likedEventIds = user.likedEventIds
-                
-                databaseRef.child("events")
-                    .observeSingleEvent(of: .value) { [weak self] snapshot in
-                        guard let self = self else { return }
-                        defer { self.isLoading = false }
-                        
-                        if !snapshot.hasChildren() {
-                            return
-                        }
-                        
-                        var filteredEvents: [Event] = []
-                        
-                        for child in snapshot.children {
-                            if let snap = child as? DataSnapshot,
-                               let dict = snap.value as? [String: Any] {
-                                if let eventObj = self.parseEvent(dict: dict) {
-                                    // კატეგორიის მიხედვით ფილტრაცია
-                                    if eventObj.type == category {
-                                        var updatedEvent = eventObj
-                                        updatedEvent.isFavorite = likedEventIds.contains(updatedEvent.id)
-                                        filteredEvents.append(updatedEvent)
-                                    }
-                                }
-                            }
-                        }
-                        
-                        self.events = filteredEvents
-                        self.applyLocalFilters()
-                    }
-            } catch {
-                self.isLoading = false
-            }
-        }
-    }
-    
-    // MARK: - Page 1 (Unfiltered)
-    private func fetchFirstPage() {
-        hasMoreData = true
-        lastChildKey = nil
-        events.removeAll()
-        
-        guard let userId = UserDefaultsManager.shared.getUserId() else {
-            isLoading = false
-            return
-        }
-        
-        Task {
-            do {
-                let user = try await UserManager().getUser(by: userId)
-                let likedEventIds = user.likedEventIds
-                
-                let query = databaseRef
-                    .child("events")
-                    .queryOrderedByKey()
-                    .queryLimited(toFirst: pageSize)
-                
-                query.observeSingleEvent(of: .value) { [weak self] snapshot in
-                    guard let self = self else { return }
-                    defer { self.isLoading = false }
-                    
-                    if !snapshot.hasChildren() {
-                        self.hasMoreData = false
-                        return
-                    }
-                    
-                    var newEvents: [Event] = []
-                    var lastKeyTemp: String? = nil
-                    
-                    for child in snapshot.children {
-                        if let snap = child as? DataSnapshot {
-                            let keyStr = snap.key
-                            lastKeyTemp = keyStr
-                            
-                            if let dict = snap.value as? [String: Any] {
-                                if let eventObj = self.parseEvent(dict: dict) {
-                                    var updated = eventObj
-                                    updated.isFavorite = likedEventIds.contains(updated.id)
-                                    newEvents.append(updated)
-                                } else {
-                                    print("parseEvent() failed for key=\(keyStr)")
-                                }
-                            }
-                        }
-                    }
-                    
-                    self.events = newEvents
-                    
-                    if let lk = lastKeyTemp {
-                        self.lastChildKey = lk
-                    }
-                    
-                    if newEvents.count < Int(self.pageSize) {
-                        self.hasMoreData = false
-                    }
-                    
-                    self.applyLocalFilters()
-                }
-            } catch {
-                self.isLoading = false
-            }
-        }
-    }
-    
-    // MARK: - Pagination
-    func fetchMoreEvents() {
-        guard !isLoading, hasMoreData, lastChildKey != nil else { return }
-        isLoading = true
-        
-        guard selectedCategory == nil else {
-            isLoading = false
-            return
-        }
-        
-        guard let userId = UserDefaultsManager.shared.getUserId() else {
-            isLoading = false
-            return
-        }
-        
-        Task {
-            do {
-                let user = try await UserManager().getUser(by: userId)
-                let likedEventIds = user.likedEventIds
-                
-                let query = databaseRef
-                    .child("events")
-                    .queryOrderedByKey()
-                    .queryStarting(afterValue: lastChildKey)
-                    .queryLimited(toFirst: pageSize)
-                
-                query.observeSingleEvent(of: .value) { [weak self] snapshot in
-                    guard let self = self else { return }
-                    defer { self.isLoading = false }
-                    
-                    if !snapshot.hasChildren() {
-                        self.hasMoreData = false
-                        return
-                    }
-                    
-                    var newEvents: [Event] = []
-                    var lastKeyTemp: String? = nil
-                    
-                    for child in snapshot.children {
-                        if let snap = child as? DataSnapshot {
-                            let keyStr = snap.key
-                            lastKeyTemp = keyStr
-                            
-                            if let dict = snap.value as? [String: Any] {
-                                if let eventObj = self.parseEvent(dict: dict) {
-                                    var updated = eventObj
-                                    updated.isFavorite = likedEventIds.contains(updated.id)
-                                    newEvents.append(updated)
-                                }
-                            }
-                        }
-                    }
-                    
-                    if let lk = lastKeyTemp {
-                        self.lastChildKey = lk
-                    }
-                    
-                    if newEvents.count < Int(self.pageSize) {
-                        self.hasMoreData = false
-                    }
-                    self.events.append(contentsOf: newEvents)
-                    self.applyLocalFilters()
-                }
-            } catch {
-                self.isLoading = false
+        SearchPageFetchEvents.fetchEvents(
+            userId: userId,
+            selectedCategory: selectedCategory,
+            databaseRef: databaseRef
+        ) { [weak self] fetchedEvents in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                self?.events = fetchedEvents
+                self?.applyLocalFilters()
             }
         }
     }
@@ -297,48 +114,14 @@ final class SearchPageViewModel: ObservableObject {
     // MARK: - Local Filters
     func applyLocalFilters() {
         DispatchQueue.main.async {
-            self.events = self.events.filter { event in
-                if !self.searchText.isEmpty {
-                    let lowercased = self.searchText.lowercased()
-                    if !(event.name.lowercased().contains(lowercased) ||
-                         event.description.lowercased().contains(lowercased) ||
-                         (event.location.city?.lowercased().contains(lowercased) ?? false)) {
-                        return false
-                    }
-                }
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd"
-                if let eventStartDate = dateFormatter.date(from: event.date.startDate) {
-                    if !(eventStartDate >= self.startDate && eventStartDate <= self.endDate) {
-                        return false
-                    }
-                }
-                if self.showFreeEventsOnly {
-                    let price = event.price.discountedPrice ?? event.price.startPrice
-                    if price != 0 {
-                        return false
-                    }
-                }
-                
-                return true
-            }
-            
-            switch self.sortOption {
-            case .ascending:
-                self.events.sort { lhs, rhs in
-                    let lhsPrice = lhs.price.discountedPrice ?? lhs.price.startPrice
-                    let rhsPrice = rhs.price.discountedPrice ?? rhs.price.startPrice
-                    return lhsPrice < rhsPrice
-                }
-            case .descending:
-                self.events.sort { lhs, rhs in
-                    let lhsPrice = lhs.price.discountedPrice ?? lhs.price.startPrice
-                    let rhsPrice = rhs.price.discountedPrice ?? rhs.price.startPrice
-                    return lhsPrice > rhsPrice
-                }
-            case .none:
-                break
-            }
+            self.events = SearchPageLocalFilters.applyFilters(
+                events: self.events,
+                searchText: self.searchText,
+                startDate: self.startDate,
+                endDate: self.endDate,
+                showFreeEventsOnly: self.showFreeEventsOnly,
+                sortOption: self.sortOption
+            )
         }
     }
     
@@ -367,4 +150,3 @@ final class SearchPageViewModel: ObservableObject {
         }
     }
 }
-
