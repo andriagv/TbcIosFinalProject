@@ -98,59 +98,32 @@ final class SearchPageViewModel: ObservableObject {
             return
         }
         
-        Task {
-            do {
-                let user = try await UserManager().getUser(by: userId)
-                let likedEventIds = user.likedEventIds
-                
-                let eventsRef = databaseRef.child("events")
-                
-                eventsRef.observeSingleEvent(of: .value) { [weak self] snapshot in
-                    guard let self = self else { return }
-                    defer { self.isLoading = false }
-                    
-                    if !snapshot.hasChildren() { return }
-                    
-                    var fetchedEvents: [Event] = []
-                    
-                    for child in snapshot.children {
-                        if let snap = child as? DataSnapshot,
-                           let dict = snap.value as? [String: Any],
-                           let eventObj = self.parseEvent(dict: dict) {
-                            
-                            // კატეგორიის ფილტრი
-                            if let category = self.selectedCategory {
-                                if eventObj.type != category { continue }
-                            }
-                            
-                            var updatedEvent = eventObj
-                            updatedEvent.isFavorite = likedEventIds.contains(updatedEvent.id)
-                            fetchedEvents.append(updatedEvent)
-                        }
-                    }
-                    
-                    self.events = fetchedEvents
-                    self.applyLocalFilters()
-                }
-            } catch {
-                self.isLoading = false
+        SearchPageFetchEvents.fetchEvents(
+            userId: userId,
+            selectedCategory: selectedCategory,
+            databaseRef: databaseRef
+        ) { [weak self] fetchedEvents in
+            DispatchQueue.main.async {
+                self?.isLoading = false
+                self?.events = fetchedEvents
+                self?.applyLocalFilters()
             }
         }
     }
     
     // MARK: - Local Filters
     func applyLocalFilters() {
-            DispatchQueue.main.async {
-                self.events = SearchPageLocalFilters.applyFilters(
-                    events: self.events,
-                    searchText: self.searchText,
-                    startDate: self.startDate,
-                    endDate: self.endDate,
-                    showFreeEventsOnly: self.showFreeEventsOnly,
-                    sortOption: self.sortOption
-                )
-            }
+        DispatchQueue.main.async {
+            self.events = SearchPageLocalFilters.applyFilters(
+                events: self.events,
+                searchText: self.searchText,
+                startDate: self.startDate,
+                endDate: self.endDate,
+                showFreeEventsOnly: self.showFreeEventsOnly,
+                sortOption: self.sortOption
+            )
         }
+    }
     
     // MARK: - Filter Reset
     func clearFilters() {
