@@ -145,57 +145,17 @@ final class SearchPageViewModel: ObservableObject {
     
     // MARK: - Local Filters
     func applyLocalFilters() {
-        DispatchQueue.main.async {
-            self.events = self.events.filter { event in
-                // ტექსტის ძებნის ფილტრი
-                if !self.searchText.isEmpty {
-                    let lowercased = self.searchText.lowercased()
-                    if !(event.name.lowercased().contains(lowercased) ||
-                         event.description.lowercased().contains(lowercased) ||
-                         (event.location.city?.lowercased().contains(lowercased) ?? false)) {
-                        return false
-                    }
-                }
-                
-                // თარიღის ფილტრი
-                let dateFormatter = DateFormatter()
-                dateFormatter.dateFormat = "yyyy-MM-dd"
-                if let eventStartDate = dateFormatter.date(from: event.date.startDate) {
-                    if !(eventStartDate >= self.startDate && eventStartDate <= self.endDate) {
-                        return false
-                    }
-                }
-                
-                // უფასო ივენთების ფილტრი
-                if self.showFreeEventsOnly {
-                    let price = event.price.discountedPrice ?? event.price.startPrice
-                    if price != 0 {
-                        return false
-                    }
-                }
-                
-                return true
-            }
-            
-            // სორტირება ფასის მიხედვით
-            switch self.sortOption {
-            case .ascending:
-                self.events.sort { lhs, rhs in
-                    let lhsPrice = lhs.price.discountedPrice ?? lhs.price.startPrice
-                    let rhsPrice = rhs.price.discountedPrice ?? rhs.price.startPrice
-                    return lhsPrice < rhsPrice
-                }
-            case .descending:
-                self.events.sort { lhs, rhs in
-                    let lhsPrice = lhs.price.discountedPrice ?? lhs.price.startPrice
-                    let rhsPrice = rhs.price.discountedPrice ?? rhs.price.startPrice
-                    return lhsPrice > rhsPrice
-                }
-            case .none:
-                break
+            DispatchQueue.main.async {
+                self.events = SearchPageLocalFilters.applyFilters(
+                    events: self.events,
+                    searchText: self.searchText,
+                    startDate: self.startDate,
+                    endDate: self.endDate,
+                    showFreeEventsOnly: self.showFreeEventsOnly,
+                    sortOption: self.sortOption
+                )
             }
         }
-    }
     
     // MARK: - Filter Reset
     func clearFilters() {
