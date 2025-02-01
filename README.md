@@ -165,6 +165,26 @@ git clone https://github.com/andriagv/TbcIosFinalProject.git
 
 ---
 
+## Photos:
+
+![cvsd](https://github.com/user-attachments/assets/f281e523-ea4a-44e6-8750-3f7169912803)
+![ppp](https://github.com/user-attachments/assets/b739a54c-f9e4-446e-82a9-7904568ac468)
+
+![wda](https://github.com/user-attachments/assets/bacf50b1-1532-4c6c-9537-a490c9b3c8ad)
+
+![123453](https://github.com/user-attachments/assets/91281051-a5db-4c46-a6fd-fb4f208696df)
+
+![3](https://github.com/user-attachments/assets/4332c98a-770a-42a0-9e1a-f7e82eb7624e)
+
+https://github.com/user-attachments/assets/2ea40949-37fb-40c6-9f9f-fed16786100d
+
+
+
+
+
+
+
+
 ## 👨‍💻 **Author**  
 👤 **Andria Gvaramia**  
 📧 **gvaramiaandria1@gmail.com**  
