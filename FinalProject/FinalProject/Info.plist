@@ -2,12 +2,6 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>&quot;We need your location even in background&quot;</string>
-	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>&quot;we need location to show it on the map&quot;</string>
-	<key>GIDClientID</key>
-	<string>1033401469121-kfqt1fa14rp566n4r6okqt5jvk7i4d77.apps.googleusercontent.com</string>
 	<key>CFBundleURLTypes</key>
 	<array>
 		<dict>
@@ -21,6 +15,8 @@
 			</array>
 		</dict>
 	</array>
+	<key>GIDClientID</key>
+	<string>1033401469121-kfqt1fa14rp566n4r6okqt5jvk7i4d77.apps.googleusercontent.com</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>SourGummy.ttf</string>
